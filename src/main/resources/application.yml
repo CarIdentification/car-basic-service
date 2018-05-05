@@ -7,3 +7,24 @@ server:
 spring:
   application:
     name: basic_servic
+#默认使用配置
+spring:
+  profiles:
+    active: dev
+
+#公共配置与profiles选择无关 mapperLocations指的路径是src/main/resources
+mybatis:
+  typeAliasesPackage: com.discern.car.entity
+  mapperLocations: classpath:mapper/*.xml
+
+#开发配置
+spring:
+  profiles: dev
+
+  datasource:
+    url: jdbc:mysql://119.29.208.119:3306/car
+    username: xiaoxu
+    password: xiaoxu
+    driver-class-name: com.mysql.jdbc.Driver
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
