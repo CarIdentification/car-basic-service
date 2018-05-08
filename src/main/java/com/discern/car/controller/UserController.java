@@ -39,6 +39,7 @@ public class UserController {
 
     @RequestMapping("/sendUserCode")
     public Map sendUserCode(String code){
+        System.out.println(22);
         System.out.println(code);
 //        System.out.println(OpenIdUtil.oauth2GetOpenid(code));
         return OpenIdUtil.oauth2GetOpenid(code);
