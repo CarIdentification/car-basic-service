@@ -47,6 +47,7 @@ public class UserController {
     @RequestMapping("/signUp")
     public ResultDto signUp(@RequestParam User user){
         userService.insert(user);
+        System.out.println(111);
         return new ResultDto("success",user);
     }
 
