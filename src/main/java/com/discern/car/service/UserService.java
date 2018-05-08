@@ -5,7 +5,7 @@ import com.discern.car.entity.User;
 /**
  * Created by Keben on 2018-05-04.
  */
-public interface UserService {
+public interface UserService{
     int deleteByPrimaryKey(Integer id);
 
     int insert(User record);

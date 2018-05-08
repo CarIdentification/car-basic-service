@@ -1,8 +1,10 @@
 package com.discern.car.dao;
 
 import com.discern.car.entity.User;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface UserMapper {
+@Mapper
+public interface UserMapper{
     int deleteByPrimaryKey(Integer id);
 
     int insert(User record);

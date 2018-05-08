@@ -1,5 +1,7 @@
 package com.discern.car.service.impl;
 
+//import com.discern.car.dao.BaseDao;
+import com.discern.car.dao.CommonDao;
 import com.discern.car.dao.UserMapper;
 import com.discern.car.entity.User;
 import com.discern.car.service.UserService;
@@ -11,9 +13,10 @@ import javax.annotation.Resource;
  * Created by Keben on 2018-05-04.
  */
 @Service("userService")
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
+
     @Override
     public int deleteByPrimaryKey(Integer id) {
         return userMapper.deleteByPrimaryKey(id);
