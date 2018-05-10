@@ -1,7 +1,6 @@
 package com.discern.car.service.impl;
 
-//import com.discern.car.dao.BaseDao;
-import com.discern.car.dao.CommonDao;
+
 import com.discern.car.dao.UserMapper;
 import com.discern.car.entity.User;
 import com.discern.car.service.UserService;
