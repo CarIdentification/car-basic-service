@@ -1,12 +1,13 @@
-package com.discern.car.dao;
+package com.discern.car.service;
 
 import com.discern.car.entity.Tag;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Mapper
-public interface TagMapper {
+/**
+ * Created by Keben on 2018-05-12.
+ */
+public interface TagService {
     int deleteByPrimaryKey(Integer tagId);
 
     int insert(Tag record);

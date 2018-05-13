@@ -1,10 +1,13 @@
-package com.discern.car.dao;
+package com.discern.car.service;
 
 import com.discern.car.entity.SearchHistory;
 
 import java.util.List;
 
-public interface SearchHistoryMapper {
+/**
+ * Created by Keben on 2018-05-11.
+ */
+public interface SearchHistoryService {
     int deleteByPrimaryKey(Integer id);
 
     int insert(SearchHistory record);

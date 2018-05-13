@@ -45,4 +45,9 @@ public class UserServiceImpl implements UserService {
     public int updateByPrimaryKey(User record) {
         return userMapper.updateByPrimaryKey(record);
     }
+
+    @Override
+    public User selectByOpenId(String openId) {
+        return userMapper.selectByOpenId(openId);
+    }
 }

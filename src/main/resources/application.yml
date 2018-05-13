@@ -22,7 +22,9 @@ spring:
 #  profiles: dev
 
   datasource:
-    url: jdbc:mysql://119.29.208.119:3306/car
+    url: jdbc:mysql://119.29.208.119:3306/car?useUnicode=true&rewriteBatchedStatements=true&useSSL=false&characterEncoding=utf8
+#    url: jdbc:mysql://119.29.208.119:3306/car?useUnicode=true&characterEncoding=utf8mb4&rewriteBatchedStatements=true&useSSL=false
     username: xiaoxu
     password: xiaoxu
     driver-class-name: com.mysql.jdbc.Driver
+

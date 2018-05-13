@@ -110,4 +110,19 @@ public class User {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", openid='" + openid + '\'' +
+                ", sex='" + sex + '\'' +
+                ", headimg='" + headimg + '\'' +
+                ", phone='" + phone + '\'' +
+                ", createTime=" + createTime +
+                ", searchCount=" + searchCount +
+                ", nickname='" + nickname + '\'' +
+                '}';
+    }
 }

@@ -1,7 +1,9 @@
 package com.discern.car.dao;
 
 import com.discern.car.entity.ServiceShopInfo;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface ServiceShopInfoMapper {
     int deleteByPrimaryKey(Integer id);
 

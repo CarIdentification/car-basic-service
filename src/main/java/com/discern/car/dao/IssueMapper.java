@@ -1,7 +1,9 @@
 package com.discern.car.dao;
 
 import com.discern.car.entity.Issue;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface IssueMapper {
     int deleteByPrimaryKey(Integer id);
 

@@ -1,7 +1,9 @@
 package com.discern.car.dao;
 
 import com.discern.car.entity.Collection;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface CollectionMapper {
     int deleteByPrimaryKey(Integer id);
 

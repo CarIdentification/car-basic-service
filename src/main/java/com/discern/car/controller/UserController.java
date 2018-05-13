@@ -1,18 +1,21 @@
 package com.discern.car.controller;
 
 import com.discern.car.dto.ResultDto;
-//import com.discern.car.entity.MapMarkers;
+
+import com.discern.car.entity.Tag;
 import com.discern.car.entity.User;
+import com.discern.car.service.TagService;
 import com.discern.car.service.UserService;
 import com.discern.car.util.OpenIdUtil;
-import org.codehaus.jettison.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,12 +23,15 @@ import java.util.Map;
  */
 
 @RestController
+@RequestMapping("/personal")
 public class UserController {
 
     @Resource
-    UserService userService;
+    private UserService userService;
+    @Resource
+    private TagService tagService;
     @Value("${server.port}")
-    String port;
+    private String port;
 
 //    @RequestMapping("/getMarkers")
 //    public ArrayList<MapMarkers> getMarkers(){
@@ -38,12 +44,49 @@ public class UserController {
 //    }
 
     @RequestMapping("/sendUserCode")
-    public Map sendUserCode(String code){
-        System.out.println(22);
+    public ResultDto sendUserCode(String code,User user,HttpSession session){
         System.out.println(code);
 //        System.out.println(OpenIdUtil.oauth2GetOpenid(code));
-        return OpenIdUtil.oauth2GetOpenid(code);
+        Map map = OpenIdUtil.oauth2GetOpenid(code);
+        User u = userService.selectByOpenId(map.get("openid" ).toString());
+        System.out.println(u);
+
+        //如果还没登陆过，则将用户信息存入数据库
+        if (u==null){
+            user.setOpenid(map.get("openid" ).toString());
+            userService.insertSelective(user);
+        }
+        u = userService.selectByOpenId(map.get("openid" ).toString());
+
+        System.out.println(u.toString());
+        //在session中保存用户登陆状态
+        session.setAttribute("user",u);
+        System.out.println("sessionId      " + session.getId());
+        return new ResultDto("success",u);
     }
+
+    /**
+     * 查询tag
+     * @param
+     * @return
+     */
+    @RequestMapping(value="/tag",method= RequestMethod.GET)
+    public ResultDto tag(HttpSession session){
+        System.out.println("sessionId      " + session.getId());
+        User user = (User)session.getAttribute("user");
+        System.out.println(user.getId());
+        List<Tag> list = tagService.selectByUserId(user.getId());
+        return new ResultDto("success",list);
+    }
+
+    @RequestMapping(value="/tag/{brandName}",method= RequestMethod.POST)
+    public ResultDto tag(@PathVariable("brandName") String brandName){
+        Tag tag = new Tag();
+        tag.setBrandName(brandName);
+        tagService.insertSelective(tag);
+        return new ResultDto("success",tag);
+    }
+
 
     @RequestMapping("/signUp")
     public ResultDto signUp(@RequestParam User user){
