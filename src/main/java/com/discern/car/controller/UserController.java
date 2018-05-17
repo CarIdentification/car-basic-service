@@ -1,5 +1,6 @@
 package com.discern.car.controller;
 
+import com.discern.car.config.RedisService;
 import com.discern.car.dto.ResultDto;
 
 import com.discern.car.entity.Tag;
@@ -30,6 +31,8 @@ public class UserController {
     private UserService userService;
     @Resource
     private TagService tagService;
+    @Resource
+    private RedisService redisService ;
     @Value("${server.port}")
     private String port;
 
@@ -44,8 +47,9 @@ public class UserController {
 //    }
 
     @RequestMapping("/sendUserCode")
-    public ResultDto sendUserCode(String code,User user,HttpSession session){
+    public ResultDto sendUserCode(String code,User user){
         System.out.println(code);
+        System.out.println(user.getNickname());
 //        System.out.println(OpenIdUtil.oauth2GetOpenid(code));
         Map map = OpenIdUtil.oauth2GetOpenid(code);
         User u = userService.selectByOpenId(map.get("openid" ).toString());
@@ -59,9 +63,6 @@ public class UserController {
         u = userService.selectByOpenId(map.get("openid" ).toString());
 
         System.out.println(u.toString());
-        //在session中保存用户登陆状态
-        session.setAttribute("user",u);
-        System.out.println("sessionId      " + session.getId());
         return new ResultDto("success",u);
     }
 
@@ -71,12 +72,8 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/tag",method= RequestMethod.GET)
-    public ResultDto tag(HttpSession session){
-        System.out.println("sessionId      " + session.getId());
-        User user = (User)session.getAttribute("user");
-        System.out.println(user.getId());
-        List<Tag> list = tagService.selectByUserId(user.getId());
-        return new ResultDto("success",list);
+    public ResultDto tag(){
+        return new ResultDto("fail",1);
     }
 
     @RequestMapping(value="/tag/{brandName}",method= RequestMethod.POST)

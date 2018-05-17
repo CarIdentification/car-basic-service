@@ -4,13 +4,7 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 server:
   port: 8763
-spring:
-  application:
-    name: basic_servic
-#默认使用配置
-spring:
-  profiles:
-    active: dev
+
 
 #公共配置与profiles选择无关 mapperLocations指的路径是src/main/resources
 mybatis:
@@ -20,11 +14,35 @@ mybatis:
 #开发配置
 spring:
 #  profiles: dev
-
+  profiles:
+    active: dev
   datasource:
-    url: jdbc:mysql://119.29.208.119:3306/car?useUnicode=true&rewriteBatchedStatements=true&useSSL=false&characterEncoding=utf8
+    url: jdbc:mysql://119.29.208.119:3306/car?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useSSL=false
 #    url: jdbc:mysql://119.29.208.119:3306/car?useUnicode=true&characterEncoding=utf8mb4&rewriteBatchedStatements=true&useSSL=false
     username: xiaoxu
     password: xiaoxu
     driver-class-name: com.mysql.jdbc.Driver
-
+    hikari:
+          connection-init-sql: set names utf8mb4
+  application:
+    name: basic_servic
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器地址
+    host: localhost
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password:
+    # 连接池最大连接数（使用负值表示没有限制）
+    pool:
+#      max-active: 8
+    # 连接池最大阻塞等待时间（使用负值表示没有限制）
+#      max-wait: -1
+    # 连接池中的最大空闲连接
+#      max-idle: 8
+    # 连接池中的最小空闲连接
+#      min-idle: 0
+    # 连接超时时间（毫秒）
+    timeout: 0
