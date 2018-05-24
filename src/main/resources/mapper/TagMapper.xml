@@ -16,10 +16,10 @@
     from tag
     where tag_id = #{tagId,jdbcType=INTEGER}
   </select>
-  <select id="selectByUserId" resultType="com.discern.car.entity.Tag">
+  <select id="selectByUserId" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
-    FROM user_tag
+    tag.tag_id tag_id, brand_name, create_time, hot
+    FROM user_tag LEFT JOIN tag on user_tag.tag_id = tag.tag_id
     WHERE user_id = #{userId,jdbcType=INTEGER}
     limit 0,5
   </select>
@@ -64,7 +64,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.discern.car.entity.Tag">
+    <insert id="insertTagWithUserId" >
+      insert into user_tag (tag_id, user_id)
+    values (#{1,jdbcType=INTEGER}, #{0,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.discern.car.entity.Tag">
     update tag
     <set>
       <if test="brandName != null">

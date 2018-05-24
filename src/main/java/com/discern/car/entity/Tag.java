@@ -12,6 +12,16 @@ public class Tag {
     */
     private Date createTime;
 
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "tagId=" + tagId +
+                ", brandName='" + brandName + '\'' +
+                ", createTime=" + createTime +
+                ", hot=" + hot +
+                '}';
+    }
+
     /**
     * 该tag的热度
     */

@@ -7,6 +7,7 @@ import com.discern.car.entity.Tag;
 import com.discern.car.entity.User;
 import com.discern.car.service.TagService;
 import com.discern.car.service.UserService;
+import com.discern.car.util.LoginUtil;
 import com.discern.car.util.OpenIdUtil;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,8 @@ public class UserController {
     private TagService tagService;
     @Resource
     private RedisService redisService ;
+    @Resource
+    private LoginUtil loginUtil;
     @Value("${server.port}")
     private String port;
 
@@ -46,24 +49,41 @@ public class UserController {
 //
 //    }
 
+    /**
+     *
+     * @param code 用于获取openid与sessionKey
+     * @param user 用户个人信息
+     * @param signature 校验签名
+     * @param rawData 不包含敏感信息的个人信息，用于结合sessionKey校验签名，与signature比较
+     * @return
+     */
     @RequestMapping("/sendUserCode")
-    public ResultDto sendUserCode(String code,User user){
-        System.out.println(code);
+    public ResultDto sendUserCode(String code,User user,String signature,String rawData){
+        System.out.println("/sendUserCode\ncode :"+code);
+        System.out.println("signature :"+signature);
         System.out.println(user.getNickname());
 //        System.out.println(OpenIdUtil.oauth2GetOpenid(code));
         Map map = OpenIdUtil.oauth2GetOpenid(code);
         User u = userService.selectByOpenId(map.get("openid" ).toString());
-        System.out.println(u);
+//        System.out.println(u);
 
-        //如果还没登陆过，则将用户信息存入数据库
+        //数据库没有用户信息，为第一次使用小程序的用户
         if (u==null){
             user.setOpenid(map.get("openid" ).toString());
             userService.insertSelective(user);
-        }
-        u = userService.selectByOpenId(map.get("openid" ).toString());
 
-        System.out.println(u.toString());
-        return new ResultDto("success",u);
+        }
+        //数据库中已有用户信息
+//        u = userService.selectByOpenId(map.get("openid" ).toString());
+
+        //从redis数据库中查看用户是否登陆过
+        if (loginUtil.cheakLogin(signature)==null){
+            System.out.println("未登录");
+            //如果用户未登录，记录下登陆状态
+            System.out.println(redisService.set(signature,u));
+        }
+//        System.out.println(u.toString());
+        return new ResultDto("success",signature);
     }
 
     /**
@@ -72,16 +92,36 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/tag",method= RequestMethod.GET)
-    public ResultDto tag(){
-        return new ResultDto("fail",1);
+    public ResultDto tag(String signature){
+        User user = loginUtil.cheakLogin(signature);
+        if (user==null){
+            return new ResultDto("fail","需要授予用户权限！");
+        }
+        List<Tag> list = tagService.selectByUserId(user.getId());
+        for (int i = 0 ; i < list.size() ; i++ ){
+            System.out.println(list.get(i));
+        }
+        return new ResultDto("success",list);
     }
 
-    @RequestMapping(value="/tag/{brandName}",method= RequestMethod.POST)
-    public ResultDto tag(@PathVariable("brandName") String brandName){
-        Tag tag = new Tag();
-        tag.setBrandName(brandName);
-        tagService.insertSelective(tag);
-        return new ResultDto("success",tag);
+    /**
+     * 用户添加tag
+     * @param tagId
+     * @param signature
+     * @return
+     */
+    @RequestMapping(value="/tag/{tagId}",method= RequestMethod.POST)
+    public ResultDto tag(@PathVariable("tagId") Integer tagId,String signature){
+        User user = loginUtil.cheakLogin(signature);
+        if (user==null){
+            return new ResultDto("fail","需要授予用户权限！");
+        }
+        int mark = tagService.insertTagWithUserId(user.getId(),tagId);
+        if (mark==0){
+            return new ResultDto("fail","添加失败");
+        }
+
+        return new ResultDto("success","添加成功");
     }
 
 

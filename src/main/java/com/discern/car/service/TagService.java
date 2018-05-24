@@ -21,4 +21,6 @@ public interface TagService {
     int updateByPrimaryKey(Tag record);
 
     List<Tag> selectByUserId(Integer userId);
+
+    int insertTagWithUserId(Integer userId,Integer TagId);
 }

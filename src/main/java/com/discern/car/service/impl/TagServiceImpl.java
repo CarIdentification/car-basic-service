@@ -51,4 +51,9 @@ public class TagServiceImpl implements TagService {
     public List<Tag> selectByUserId(Integer userId) {
         return mapper.selectByUserId(userId);
     }
+
+    @Override
+    public int insertTagWithUserId(Integer userId, Integer tagId) {
+        return mapper.insertTagWithUserId(userId,tagId);
+    }
 }

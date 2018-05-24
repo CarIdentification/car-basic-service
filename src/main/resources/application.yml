@@ -22,27 +22,46 @@ spring:
     username: xiaoxu
     password: xiaoxu
     driver-class-name: com.mysql.jdbc.Driver
+
     hikari:
+
           connection-init-sql: set names utf8mb4
+          minimum-idle : 2
+          maximum-pool-size : 4
+          auto-commit : true
+#         指定连接多久没被使用时，被设置为空闲，默认为10ms
+          idle-timeout: 30000
+          pool-name: DatebookHikariCP
+#          指定连接池中连接的最大生存时间，毫秒单位.
+
+          max-lifetime: 1000
+#          指定连接的超时时间，毫秒单位.
+          connection-timeout: 30000
+          connection-test-query: SELECT 1;
+
   application:
     name: basic_servic
   redis:
     # Redis数据库索引（默认为0）
     database: 0
     # Redis服务器地址
-    host: localhost
+    host: 119.29.208.119
     # Redis服务器连接端口
     port: 6379
     # Redis服务器连接密码（默认为空）
     password:
-    # 连接池最大连接数（使用负值表示没有限制）
-    pool:
-#      max-active: 8
-    # 连接池最大阻塞等待时间（使用负值表示没有限制）
-#      max-wait: -1
-    # 连接池中的最大空闲连接
-#      max-idle: 8
-    # 连接池中的最小空闲连接
-#      min-idle: 0
+   # 连接池最大连接数（使用负值表示没有限制）
+
+    jedis:
+      pool:
+        max-active: 8
+   # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1
+   # 连接池中的最大空闲连接
+        max-idle: 60
+   # 连接池中的最小空闲连接
+        min-idle: 30
     # 连接超时时间（毫秒）
-    timeout: 0
+#    timeout: 5000
+
+
