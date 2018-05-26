@@ -3,6 +3,8 @@ package com.discern.car.dao;
 import com.discern.car.entity.Issue;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface IssueMapper {
     int deleteByPrimaryKey(Integer id);
@@ -18,4 +20,6 @@ public interface IssueMapper {
     int updateByPrimaryKeyWithBLOBs(Issue record);
 
     int updateByPrimaryKey(Issue record);
+
+    List<Issue> selectByHot();
 }

@@ -35,6 +35,9 @@ public class Issue {
     */
     private String content;
 
+    private String introduce;
+
+
     public Integer getId() {
         return id;
     }
@@ -89,5 +92,13 @@ public class Issue {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
     }
 }

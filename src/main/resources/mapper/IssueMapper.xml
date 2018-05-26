@@ -8,15 +8,17 @@
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="topic_pic" property="topicPic" jdbcType="VARCHAR" />
     <result column="view_count" property="viewCount" jdbcType="INTEGER" />
+
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.discern.car.entity.Issue" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="introduce" property="introduce" jdbcType="LONGVARCHAR"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, author, create_time, title, topic_pic, view_count
   </sql>
   <sql id="Blob_Column_List" >
-    content
+    content,introduce
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
@@ -130,4 +132,11 @@
       view_count = #{viewCount,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByHot" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    FROM issue i ORDER BY view_count DESC ;
+  </select>
 </mapper>
