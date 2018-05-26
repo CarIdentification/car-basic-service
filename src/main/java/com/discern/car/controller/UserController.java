@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -104,24 +105,116 @@ public class UserController {
         return new ResultDto("success",list);
     }
 
+
     /**
-     * 用户添加tag
-     * @param tagId
+     * 未选择的tag
      * @param signature
      * @return
      */
-    @RequestMapping(value="/tag/{tagId}",method= RequestMethod.POST)
-    public ResultDto tag(@PathVariable("tagId") Integer tagId,String signature){
+    @RequestMapping(value="/noTags",method= RequestMethod.GET)
+    public ResultDto noTags(String signature){
         User user = loginUtil.cheakLogin(signature);
         if (user==null){
             return new ResultDto("fail","需要授予用户权限！");
         }
-        int mark = tagService.insertTagWithUserId(user.getId(),tagId);
-        if (mark==0){
-            return new ResultDto("fail","添加失败");
+        List<Tag> list = tagService.selectNoHasByUserId(user.getId());
+        int count = tagService.selectCount();
+        List<Boolean> booleans = new ArrayList<>();
+        for (int i = 0 ; i < count ; i++ ){
+            booleans.add(false);
         }
 
-        return new ResultDto("success","添加成功");
+        List<Object> lists = new ArrayList<>();
+        lists.add(list);
+        lists.add(booleans);
+        return new ResultDto("success",lists);
+    }
+
+
+
+    /**
+     * 已选择的tag
+     * @param signature
+     * @return
+     */
+    @RequestMapping(value="/tags",method= RequestMethod.GET)
+    public ResultDto tags(String signature){
+        User user = loginUtil.cheakLogin(signature);
+        if (user==null){
+            return new ResultDto("fail","需要授予用户权限！");
+        }
+        List<Tag> list = tagService.selectByUserId(user.getId());
+        int count = tagService.selectCount();
+        List<Boolean> booleans = new ArrayList<>();
+        for (int i = 0 ; i < count ; i++ ){
+            booleans.add(false);
+        }
+
+        List<Object> lists = new ArrayList<>();
+        lists.add(list);
+        lists.add(booleans);
+        return new ResultDto("success",lists);
+    }
+
+
+    /**
+     * 添加tag
+     * @param add
+     * @return
+     */
+    @RequestMapping(value="/addTag",method= RequestMethod.POST)
+    @ResponseBody
+    public ResultDto addTag(@RequestBody String[] add){
+        String signature = add[add.length-1];
+//        System.out.println(add);
+        User user = loginUtil.cheakLogin(signature);
+        if (user==null){
+            return new ResultDto("fail","需要授予用户权限！");
+        }
+        String process = "success";
+        for ( int i = 0 ; i < add.length-1 ; i++ ){
+
+                int a = tagService.insertTagWithUserId(user.getId(),Integer.parseInt(add[i]));
+//                if (a == 0){
+//                    return new ResultDto("fail","操作失败！");
+//                }
+
+
+
+        }
+        return new ResultDto(process,"操作成功！");
+
+
+    }
+
+
+    /**
+     * 删除tag
+     * @param remove
+     * @return
+     */
+    @RequestMapping(value="/removeTag",method= RequestMethod.POST)
+    @ResponseBody
+    public ResultDto removeTag(@RequestBody String[] remove){
+        String signature = remove[remove.length-1];
+        User user = loginUtil.cheakLogin(signature);
+        if (user==null){
+            return new ResultDto("fail","需要授予用户权限！");
+        }
+        String process = "success";
+        for ( int i = 0 ; i < remove.length-1 ; i++ ){
+
+                int a = tagService.removeTagWithUserId(user.getId(),Integer.parseInt(remove[i]));
+//                if (a == 0){
+//                    return new ResultDto("fail","操作失败！");
+//                }
+
+
+
+        }
+        return new ResultDto(process,"操作成功！");
+
+
     }
 
 
@@ -134,7 +227,7 @@ public class UserController {
 
 
     @RequestMapping("/hi")
-    public String home(@RequestParam String name) {
-        return "hi "+name+",i am from port:" +port;
+    public ResultDto home(@RequestParam String name) {
+        return new ResultDto("success",userService.selectByPrimaryKey(3));
     }
 }

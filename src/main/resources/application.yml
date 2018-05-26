@@ -17,28 +17,26 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://119.29.208.119:3306/car?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useSSL=false
+    url: jdbc:mysql://119.29.208.119:3306/car?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useSSL=false&autoReconnect=true
 #    url: jdbc:mysql://119.29.208.119:3306/car?useUnicode=true&characterEncoding=utf8mb4&rewriteBatchedStatements=true&useSSL=false
     username: xiaoxu
     password: xiaoxu
     driver-class-name: com.mysql.jdbc.Driver
-
     hikari:
 
-          connection-init-sql: set names utf8mb4
+          connection-init-sql: set names utf8mb4;
           minimum-idle : 2
           maximum-pool-size : 4
           auto-commit : true
 #         指定连接多久没被使用时，被设置为空闲，默认为10ms
-          idle-timeout: 30000
+          idle-timeout: 10000
           pool-name: DatebookHikariCP
 #          指定连接池中连接的最大生存时间，毫秒单位.
 
-          max-lifetime: 1000
+          max-lifetime: 1800000
 #          指定连接的超时时间，毫秒单位.
-          connection-timeout: 30000
+          connection-timeout: 5000
           connection-test-query: SELECT 1;
-
   application:
     name: basic_servic
   redis:

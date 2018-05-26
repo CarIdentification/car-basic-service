@@ -23,9 +23,20 @@
     WHERE user_id = #{userId,jdbcType=INTEGER}
     limit 0,5
   </select>
+    <select id="selectNoHasByUserId" resultMap="BaseResultMap" resultType="java.lang.Integer">
+      select
+      <include refid="Base_Column_List" />
+       from tag where tag.tag_id not in (select tag_id from user_tag where user_id = #{userId,jdbcType=INTEGER});
+    </select>
+  <select id="selectCount" resultType="java.lang.Integer" >
+    select COUNT(*) from tag;
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tag
     where tag_id = #{tagId,jdbcType=INTEGER}
+  </delete>
+  <delete id="removeTagWithUserId" parameterType="java.lang.Integer">
+    DELETE FROM user_tag WHERE user_id = #{userId} AND tag_id = #{tagId};
   </delete>
   <insert id="insert" parameterType="com.discern.car.entity.Tag">
     insert into tag (tag_id, brand_name, create_time, 
@@ -64,9 +75,9 @@
       </if>
     </trim>
   </insert>
-    <insert id="insertTagWithUserId" >
+    <insert id="insertTagWithUserId" parameterType="java.lang.Integer">
       insert into user_tag (tag_id, user_id)
-    values (#{1,jdbcType=INTEGER}, #{0,jdbcType=INTEGER})
+    values (#{tagId}, #{userId})
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.discern.car.entity.Tag">
     update tag
