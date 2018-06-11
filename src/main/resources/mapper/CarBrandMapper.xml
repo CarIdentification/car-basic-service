@@ -7,14 +7,40 @@
     <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
     <result column="pid" jdbcType="INTEGER" property="pid" />
   </resultMap>
+
+  <resultMap id="CarResultMap" type="com.discern.car.entity.Car" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cover_pic" property="coverPic" jdbcType="VARCHAR" />
+    <result column="car_name" property="carName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="SonBrandMap" type="com.discern.car.dto.BrandDto">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <collection property="sonBrands" column="id" javaType="ArrayList" ofType="com.discern.car.entity.CarBrand" select="selectCarByBrand"></collection>
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, name, img_url, pid
   </sql>
+
+  <select id="selectCarByBrand" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select * from car_brand where pid = #{id}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from car_brand
     where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectFatherBrands" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from car_brand
+      where pid = 0;
+    </select>
+  <select id="selectSonBrands" resultMap="SonBrandMap" parameterType="java.lang.Integer">
+    select * from car_brand where pid = #{id};
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from car_brand

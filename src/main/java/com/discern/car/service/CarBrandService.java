@@ -1,13 +1,15 @@
-package com.discern.car.dao;
+package com.discern.car.service;
 
 import com.discern.car.dto.BrandDto;
 import com.discern.car.entity.CarBrand;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Mapper
-public interface CarBrandMapper {
+/**
+ * Created by Keben on 2018-06-06.
+ */
+public interface CarBrandService {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(CarBrand record);
@@ -23,4 +25,5 @@ public interface CarBrandMapper {
     List<CarBrand> selectFatherBrands();
 
     List<BrandDto> selectSonBrands(Integer id);
+
 }

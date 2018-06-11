@@ -1,11 +1,15 @@
-package com.discern.car.dao;
+package com.discern.car.service;
 
 import com.discern.car.dto.CarDto;
 import com.discern.car.entity.Car;
 
 import java.util.List;
 
-public interface CarMapper {
+/**
+ * Created by Keben on 2018-06-09.
+ */
+public interface CarService {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(Car record);

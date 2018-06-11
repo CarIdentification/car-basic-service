@@ -5,19 +5,52 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cover_pic" property="coverPic" jdbcType="VARCHAR" />
     <result column="car_name" property="carName" jdbcType="VARCHAR" />
-    <result column="car_brand" property="carBrand" jdbcType="VARCHAR" />
+    <result column="car_brand" property="carBrand" jdbcType="INTEGER" />
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="begin_price" property="beginPrice" jdbcType="REAL" />
+    <result column="end_price" property="endPrice" jdbcType="REAL" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="country" property="country" jdbcType="INTEGER" />
+    <result column="structure" property="structure" jdbcType="INTEGER" />
+    <result column="displacement" property="displacement" jdbcType="REAL" />
+    <result column="seat" property="seat" jdbcType="INTEGER" />
+    <result column="air_intake" property="airIntake" jdbcType="INTEGER" />
+    <result column="energy" property="energy" jdbcType="INTEGER" />
+    <result column="driving_method" property="drivingMethod" jdbcType="INTEGER" />
+    <result column="transmission" property="transmission" jdbcType="INTEGER" />
+    <result column="production_methods" property="productionMethods" jdbcType="INTEGER" />
   </resultMap>
+
+
   <resultMap id="ResultMapWithBLOBs" type="com.discern.car.entity.Car" extends="BaseResultMap" >
     <result column="detail" property="detail" jdbcType="LONGVARCHAR" />
   </resultMap>
+
+
+  <resultMap id="CarPic" type="com.discern.car.entity.CarPic" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="car_id" property="carId" jdbcType="INTEGER" />
+    <result column="img_src" property="imgSrc" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <resultMap id="CarMap" type="com.discern.car.dto.CarDto" extends="ResultMapWithBLOBs">
+    <collection property="carPic" column="id" javaType="ArrayList" ofType="com.discern.car.entity.CarPic" select="selectCarPic">
+    </collection>
+  </resultMap>
+
+  <select id="selectCarPic" parameterType="integer" resultMap="CarPic">
+    select * from car_pic where car_id = #{id}
+  </select>
+
   <sql id="Base_Column_List" >
-    id, cover_pic, car_name, car_brand, category_id
+    id, cover_pic, car_name, car_brand, category_id, price, level, country, structure, 
+    displacement, seat, air_intake, energy, driving_method, transmission, production_methods
   </sql>
   <sql id="Blob_Column_List" >
     detail
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="CarMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     ,
@@ -25,17 +58,26 @@
     from car
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByBrandId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT id,car_name,cover_pic,begin_price,end_price from car where car_brand = #{id}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from car
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.discern.car.entity.Car" >
     insert into car (id, cover_pic, car_name, 
-      car_brand, category_id, detail
-      )
+      car_brand, category_id, price, 
+      level, country, structure, 
+      displacement, seat, air_intake, 
+      energy, driving_method, transmission, 
+      production_methods, detail)
     values (#{id,jdbcType=INTEGER}, #{coverPic,jdbcType=VARCHAR}, #{carName,jdbcType=VARCHAR}, 
-      #{carBrand,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, #{detail,jdbcType=LONGVARCHAR}
-      )
+      #{carBrand,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{price,jdbcType=REAL}, 
+      #{level,jdbcType=INTEGER}, #{country,jdbcType=INTEGER}, #{structure,jdbcType=INTEGER}, 
+      #{displacement,jdbcType=REAL}, #{seat,jdbcType=INTEGER}, #{airIntake,jdbcType=INTEGER}, 
+      #{energy,jdbcType=INTEGER}, #{drivingMethod,jdbcType=INTEGER}, #{transmission,jdbcType=INTEGER}, 
+      #{productionMethods,jdbcType=INTEGER}, #{detail,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.discern.car.entity.Car" >
     insert into car
@@ -55,6 +97,39 @@
       <if test="categoryId != null" >
         category_id,
       </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="structure != null" >
+        structure,
+      </if>
+      <if test="displacement != null" >
+        displacement,
+      </if>
+      <if test="seat != null" >
+        seat,
+      </if>
+      <if test="airIntake != null" >
+        air_intake,
+      </if>
+      <if test="energy != null" >
+        energy,
+      </if>
+      <if test="drivingMethod != null" >
+        driving_method,
+      </if>
+      <if test="transmission != null" >
+        transmission,
+      </if>
+      <if test="productionMethods != null" >
+        production_methods,
+      </if>
       <if test="detail != null" >
         detail,
       </if>
@@ -70,10 +145,43 @@
         #{carName,jdbcType=VARCHAR},
       </if>
       <if test="carBrand != null" >
-        #{carBrand,jdbcType=VARCHAR},
+        #{carBrand,jdbcType=INTEGER},
       </if>
       <if test="categoryId != null" >
         #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=INTEGER},
+      </if>
+      <if test="structure != null" >
+        #{structure,jdbcType=INTEGER},
+      </if>
+      <if test="displacement != null" >
+        #{displacement,jdbcType=REAL},
+      </if>
+      <if test="seat != null" >
+        #{seat,jdbcType=INTEGER},
+      </if>
+      <if test="airIntake != null" >
+        #{airIntake,jdbcType=INTEGER},
+      </if>
+      <if test="energy != null" >
+        #{energy,jdbcType=INTEGER},
+      </if>
+      <if test="drivingMethod != null" >
+        #{drivingMethod,jdbcType=INTEGER},
+      </if>
+      <if test="transmission != null" >
+        #{transmission,jdbcType=INTEGER},
+      </if>
+      <if test="productionMethods != null" >
+        #{productionMethods,jdbcType=INTEGER},
       </if>
       <if test="detail != null" >
         #{detail,jdbcType=LONGVARCHAR},
@@ -90,10 +198,43 @@
         car_name = #{carName,jdbcType=VARCHAR},
       </if>
       <if test="carBrand != null" >
-        car_brand = #{carBrand,jdbcType=VARCHAR},
+        car_brand = #{carBrand,jdbcType=INTEGER},
       </if>
       <if test="categoryId != null" >
         category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=INTEGER},
+      </if>
+      <if test="structure != null" >
+        structure = #{structure,jdbcType=INTEGER},
+      </if>
+      <if test="displacement != null" >
+        displacement = #{displacement,jdbcType=REAL},
+      </if>
+      <if test="seat != null" >
+        seat = #{seat,jdbcType=INTEGER},
+      </if>
+      <if test="airIntake != null" >
+        air_intake = #{airIntake,jdbcType=INTEGER},
+      </if>
+      <if test="energy != null" >
+        energy = #{energy,jdbcType=INTEGER},
+      </if>
+      <if test="drivingMethod != null" >
+        driving_method = #{drivingMethod,jdbcType=INTEGER},
+      </if>
+      <if test="transmission != null" >
+        transmission = #{transmission,jdbcType=INTEGER},
+      </if>
+      <if test="productionMethods != null" >
+        production_methods = #{productionMethods,jdbcType=INTEGER},
       </if>
       <if test="detail != null" >
         detail = #{detail,jdbcType=LONGVARCHAR},
@@ -105,8 +246,19 @@
     update car
     set cover_pic = #{coverPic,jdbcType=VARCHAR},
       car_name = #{carName,jdbcType=VARCHAR},
-      car_brand = #{carBrand,jdbcType=VARCHAR},
+      car_brand = #{carBrand,jdbcType=INTEGER},
       category_id = #{categoryId,jdbcType=INTEGER},
+      price = #{price,jdbcType=REAL},
+      level = #{level,jdbcType=INTEGER},
+      country = #{country,jdbcType=INTEGER},
+      structure = #{structure,jdbcType=INTEGER},
+      displacement = #{displacement,jdbcType=REAL},
+      seat = #{seat,jdbcType=INTEGER},
+      air_intake = #{airIntake,jdbcType=INTEGER},
+      energy = #{energy,jdbcType=INTEGER},
+      driving_method = #{drivingMethod,jdbcType=INTEGER},
+      transmission = #{transmission,jdbcType=INTEGER},
+      production_methods = #{productionMethods,jdbcType=INTEGER},
       detail = #{detail,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -114,8 +266,19 @@
     update car
     set cover_pic = #{coverPic,jdbcType=VARCHAR},
       car_name = #{carName,jdbcType=VARCHAR},
-      car_brand = #{carBrand,jdbcType=VARCHAR},
-      category_id = #{categoryId,jdbcType=INTEGER}
+      car_brand = #{carBrand,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      price = #{price,jdbcType=REAL},
+      level = #{level,jdbcType=INTEGER},
+      country = #{country,jdbcType=INTEGER},
+      structure = #{structure,jdbcType=INTEGER},
+      displacement = #{displacement,jdbcType=REAL},
+      seat = #{seat,jdbcType=INTEGER},
+      air_intake = #{airIntake,jdbcType=INTEGER},
+      energy = #{energy,jdbcType=INTEGER},
+      driving_method = #{drivingMethod,jdbcType=INTEGER},
+      transmission = #{transmission,jdbcType=INTEGER},
+      production_methods = #{productionMethods,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

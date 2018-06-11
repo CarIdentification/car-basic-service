@@ -1,87 +1,104 @@
-package com.discern.car.entity;
+package com.discern.car.dto;
 
-public class Car {
+import com.discern.car.entity.CarPic;
+
+import java.util.List;
+
+/**
+ * Created by Keben on 2018-06-10.
+ */
+public class CarDto {
     private Integer id;
 
     /**
-    * 汽车封面图
-    */
+     * 汽车封面图
+     */
     private String coverPic;
 
     /**
-    * 汽车名字
-    */
+     * 汽车名字
+     */
     private String carName;
 
     /**
-    * 汽车品牌名字
-    */
+     * 汽车品牌名字
+     */
     private Integer carBrand;
 
     /**
-    * 分类id
-    */
+     * 分类id
+     */
     private Integer categoryId;
 
     /**
-    * 汽车价格
-    */
-    private Float beginPrice;
-    private Float endPrice;
+     * 汽车价格
+     */
+    private Float price;
+
     /**
-    * 汽车级别
-    */
+     * 汽车级别
+     */
     private Integer level;
 
     /**
-    * 汽车国别
-    */
+     * 汽车国别
+     */
     private Integer country;
 
     /**
-    * 结构
-    */
+     * 结构
+     */
     private Integer structure;
 
     /**
-    * 排量
-    */
+     * 排量
+     */
     private Float displacement;
 
     /**
-    * 座位数
-    */
+     * 座位数
+     */
     private Integer seat;
 
     /**
-    * 进气形式
-    */
+     * 进气形式
+     */
     private Integer airIntake;
 
     /**
-    * 能源
-    */
+     * 能源
+     */
     private Integer energy;
 
     /**
-    * 驱动方式
-    */
+     * 驱动方式
+     */
     private Integer drivingMethod;
 
     /**
-    * 变速箱
-    */
+     * 变速箱
+     */
     private Integer transmission;
 
     /**
-    * 生产方式
-    */
+     * 生产方式
+     */
     private Integer productionMethods;
 
     /**
-    * 汽车详细信息
-    */
+     * 汽车详细信息
+     */
     private String detail;
+
+    private List<CarPic> carPic;
+
+    public List<CarPic> getCarPic() {
+        return carPic;
+    }
+
+    public void setCarPic(List<CarPic> carPic) {
+        this.carPic = carPic;
+    }
 
     public Integer getId() {
         return id;
@@ -123,20 +140,12 @@ public class Car {
         this.categoryId = categoryId;
     }
 
-    public Float getBeginPrice() {
-        return beginPrice;
+    public Float getPrice() {
+        return price;
     }
 
-    public void setBeginPrice(Float beginPrice) {
-        this.beginPrice = beginPrice;
-    }
-
-    public Float getEndPrice() {
-        return endPrice;
-    }
-
-    public void setEndPrice(Float endPrice) {
-        this.endPrice = endPrice;
+    public void setPrice(Float price) {
+        this.price = price;
     }
 
     public Integer getLevel() {
