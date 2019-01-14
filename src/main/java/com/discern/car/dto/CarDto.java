@@ -33,8 +33,8 @@ public class CarDto {
     /**
      * 汽车价格
      */
-    private Float price;
-
+    private Float beginPrice;
+    private Float endPrice;
     /**
      * 汽车级别
      */
@@ -92,9 +92,11 @@ public class CarDto {
 
     private List<CarPic> carPic;
 
+    private List<SalesmanDto> salesman;
     public List<CarPic> getCarPic() {
         return carPic;
     }
+
 
     public void setCarPic(List<CarPic> carPic) {
         this.carPic = carPic;
@@ -140,12 +142,20 @@ public class CarDto {
         this.categoryId = categoryId;
     }
 
-    public Float getPrice() {
-        return price;
+    public Float getBeginPrice() {
+        return beginPrice;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
+    public void setBeginPrice(Float beginPrice) {
+        this.beginPrice = beginPrice;
+    }
+
+    public Float getEndPrice() {
+        return endPrice;
+    }
+
+    public void setEndPrice(Float endPrice) {
+        this.endPrice = endPrice;
     }
 
     public Integer getLevel() {
@@ -234,5 +244,13 @@ public class CarDto {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public List<SalesmanDto> getSalesman() {
+        return salesman;
+    }
+
+    public void setSalesman(List<SalesmanDto> salesman) {
+        this.salesman = salesman;
     }
 }

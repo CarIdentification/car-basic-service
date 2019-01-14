@@ -64,21 +64,14 @@ public class UserController {
         System.out.println("/sendUserCode\ncode :"+code);
         System.out.println("signature :"+signature);
         System.out.println(user.getNickname());
-//        System.out.println(OpenIdUtil.oauth2GetOpenid(code));
         Map map = OpenIdUtil.oauth2GetOpenid(code);
         User u = userService.selectByOpenId(map.get("openid" ).toString());
-//        System.out.println(u);
-
         //数据库没有用户信息，为第一次使用小程序的用户
         if (u==null){
             user.setOpenid(map.get("openid" ).toString());
             userService.insertSelective(user);
-
         }
-        //数据库中已有用户信息
-//        u = userService.selectByOpenId(map.get("openid" ).toString());
-
-        //从redis数据库中查看用户是否登陆过
+        //从redis数据库中查看用户是否登陆过,signature会因为session_key的改变而改变，但我们只需要第一次登陆的signature
         if (loginUtil.cheakLogin(signature)==null){
             System.out.println("未登录");
             //如果用户未登录，记录下登陆状态
@@ -228,7 +221,7 @@ public class UserController {
 
 
     @RequestMapping("/hi")
-    public ResultDto home(@RequestParam String name) {
+    public ResultDto home(@RequestParam int id) {
         return new ResultDto("success",userService.selectByPrimaryKey(3));
     }
 }

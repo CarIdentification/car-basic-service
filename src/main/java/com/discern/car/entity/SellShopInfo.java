@@ -1,12 +1,14 @@
 package com.discern.car.entity;
 
+import java.math.BigDecimal;
+
 public class SellShopInfo {
     private Integer id;
 
     /**
     * 经度
     */
-    private Integer latitute;
+    private BigDecimal latitute;
 
     /**
     * 地点详细名字
@@ -21,12 +23,23 @@ public class SellShopInfo {
     /**
     * 纬度
     */
-    private Integer longitute;
+    private BigDecimal longitute;
 
     /**
     * 车店的图片
     */
     private String shopPic;
+
+    /**
+    * 车店的名字
+    */
+    private String shopName;
+
+    private String brand;
+
+    private String type;
+
+    private String tel;
 
     public Integer getId() {
         return id;
@@ -36,11 +49,11 @@ public class SellShopInfo {
         this.id = id;
     }
 
-    public Integer getLatitute() {
+    public BigDecimal getLatitute() {
         return latitute;
     }
 
-    public void setLatitute(Integer latitute) {
+    public void setLatitute(BigDecimal latitute) {
         this.latitute = latitute;
     }
 
@@ -60,11 +73,11 @@ public class SellShopInfo {
         this.brandId = brandId;
     }
 
-    public Integer getLongitute() {
+    public BigDecimal getLongitute() {
         return longitute;
     }
 
-    public void setLongitute(Integer longitute) {
+    public void setLongitute(BigDecimal longitute) {
         this.longitute = longitute;
     }
 
@@ -74,5 +87,37 @@ public class SellShopInfo {
 
     public void setShopPic(String shopPic) {
         this.shopPic = shopPic;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 }

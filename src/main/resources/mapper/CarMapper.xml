@@ -33,18 +33,51 @@
     <result column="img_src" property="imgSrc" jdbcType="VARCHAR" />
   </resultMap>
 
+  <resultMap id="CarSaleman" type="com.discern.car.entity.Salesman" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="personal_pic" property="personalPic" jdbcType="VARCHAR" />
+  </resultMap>
 
   <resultMap id="CarMap" type="com.discern.car.dto.CarDto" extends="ResultMapWithBLOBs">
     <collection property="carPic" column="id" javaType="ArrayList" ofType="com.discern.car.entity.CarPic" select="selectCarPic">
     </collection>
+    <collection property="salesman" column="car_brand" javaType="ArrayList" ofType="com.discern.car.dto.SalesmanDto" select="selectCarSaleman">
+    </collection>
+  </resultMap>
+
+  <resultMap id="SellShopMap" type="com.discern.car.entity.SellShopInfo" >
+    <id column="shop_id" property="id" jdbcType="INTEGER" />
+    <result column="latitute" property="latitute" jdbcType="DECIMAL" />
+    <result column="location_detail" property="locationDetail" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="longitute" property="longitute" jdbcType="DECIMAL" />
+    <result column="shop_pic" property="shopPic" jdbcType="VARCHAR" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="salesmanShop" type="com.discern.car.dto.SalesmanDto" extends="CarSaleman">
+    <association property="sellShopInfo" resultMap="SellShopMap"></association>
   </resultMap>
 
   <select id="selectCarPic" parameterType="integer" resultMap="CarPic">
     select * from car_pic where car_id = #{id}
   </select>
 
+  <select id="selectCarSaleman" parameterType="integer" resultMap="salesmanShop">
+    select s.tel,s.name,s.sex,s.email,s.personal_pic,ss.location_detail,ss.shop_name,ss.id as shop_id,ss.latitute,ss.longitude from sell_shop_info ss,salesman_brand sb LEFT JOIN salesman s on sb.salesman_id = s.id where sb.brand_id = #{id}
+ and s.shop_id = ss.id;
+  </select>
+
   <sql id="Base_Column_List" >
-    id, cover_pic, car_name, car_brand, category_id, price, level, country, structure, 
+    id, cover_pic, car_name, car_brand, category_id, begin_price,end_price, level, country, structure,
     displacement, seat, air_intake, energy, driving_method, transmission, production_methods
   </sql>
   <sql id="Blob_Column_List" >
@@ -58,8 +91,12 @@
     from car
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByBrandId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    SELECT id,car_name,cover_pic,begin_price,end_price from car where car_brand = #{id}
+  <select id="selectByBrandId" resultMap="CarMap" parameterType="java.lang.Integer">
+    SELECT
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from car where car_brand = #{id}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from car
@@ -67,13 +104,13 @@
   </delete>
   <insert id="insert" parameterType="com.discern.car.entity.Car" >
     insert into car (id, cover_pic, car_name, 
-      car_brand, category_id, price, 
+      car_brand, category_id, begin_price,end_price,
       level, country, structure, 
       displacement, seat, air_intake, 
       energy, driving_method, transmission, 
       production_methods, detail)
     values (#{id,jdbcType=INTEGER}, #{coverPic,jdbcType=VARCHAR}, #{carName,jdbcType=VARCHAR}, 
-      #{carBrand,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{price,jdbcType=REAL}, 
+      #{carBrand,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{beginPrice,jdbcType=REAL},#{endPrice,jdbcType=REAL},
       #{level,jdbcType=INTEGER}, #{country,jdbcType=INTEGER}, #{structure,jdbcType=INTEGER}, 
       #{displacement,jdbcType=REAL}, #{seat,jdbcType=INTEGER}, #{airIntake,jdbcType=INTEGER}, 
       #{energy,jdbcType=INTEGER}, #{drivingMethod,jdbcType=INTEGER}, #{transmission,jdbcType=INTEGER}, 
@@ -97,8 +134,11 @@
       <if test="categoryId != null" >
         category_id,
       </if>
-      <if test="price != null" >
-        price,
+      <if test="beginPrice != null" >
+        beginPrice,
+      </if>
+      <if test="endPrice != null" >
+        endPrice,
       </if>
       <if test="level != null" >
         level,
@@ -150,8 +190,11 @@
       <if test="categoryId != null" >
         #{categoryId,jdbcType=INTEGER},
       </if>
-      <if test="price != null" >
-        #{price,jdbcType=REAL},
+      <if test="beginPrice != null" >
+        beginPrice,
+      </if>
+      <if test="endPrice != null" >
+        endPrice,
       </if>
       <if test="level != null" >
         #{level,jdbcType=INTEGER},
@@ -203,8 +246,10 @@
       <if test="categoryId != null" >
         category_id = #{categoryId,jdbcType=INTEGER},
       </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=REAL},
+      <if test="beginPrice != null" >
+        beginPrice,</if>
+      <if test="endPrice != null" >
+        endPrice,
       </if>
       <if test="level != null" >
         level = #{level,jdbcType=INTEGER},
@@ -248,7 +293,7 @@
       car_name = #{carName,jdbcType=VARCHAR},
       car_brand = #{carBrand,jdbcType=INTEGER},
       category_id = #{categoryId,jdbcType=INTEGER},
-      price = #{price,jdbcType=REAL},
+      begin_price = #{beginPrice,jdbcType=REAL},end_price = #{endPrice,jdbcType=REAL},
       level = #{level,jdbcType=INTEGER},
       country = #{country,jdbcType=INTEGER},
       structure = #{structure,jdbcType=INTEGER},
@@ -268,7 +313,7 @@
       car_name = #{carName,jdbcType=VARCHAR},
       car_brand = #{carBrand,jdbcType=INTEGER},
       category_id = #{categoryId,jdbcType=INTEGER},
-      price = #{price,jdbcType=REAL},
+      begin_price = #{beginPrice,jdbcType=REAL},end_price = #{endPrice,jdbcType=REAL},
       level = #{level,jdbcType=INTEGER},
       country = #{country,jdbcType=INTEGER},
       structure = #{structure,jdbcType=INTEGER},
@@ -281,4 +326,116 @@
       production_methods = #{productionMethods,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="advancedSelect" resultMap="BaseResultMap">
+    select * from car
+    <where>
+      <if test="be_price != null and be_price >= 0">
+        begin_price <![CDATA[ >= ]]> #{be_price,jdbcType=REAL}
+      </if>
+      <if test="en_price != null and en_price >= 0 ">
+        and end_price <![CDATA[ <= ]]> #{en_price,jdbcType=REAL}
+      </if>
+      <if test="displacement != null and displacement.length != 0">
+        and
+        <foreach collection="displacement" item="displacementItem" index="index" separator="or">
+          displacement
+          <if test="displacementItem == 0">
+            <![CDATA[ <= ]]> 1.0
+          </if>
+          <if test="displacementItem == 1">
+            between 1.1 and 1.6
+          </if>
+          <if test="displacementItem == 2">
+            between 1.7 and 2.0
+          </if>
+          <if test="displacementItem == 3">
+            between 2.1 and 2.5
+          </if>
+          <if test="displacementItem == 4">
+            between 2.6 and 3.0
+          </if>
+          <if test="displacementItem == 5">
+            between 2.1 and 4.0
+          </if>
+          <if test="displacementItem == 6">
+            <![CDATA[ > ]]> 4.0
+          </if>
+        </foreach>
+      </if>
+      <if test="structure != null and structure.length != 0 ">
+        and structure in
+        <foreach collection="structure" item="structureItem" index="index" separator="," open="(" close=")">
+          #{structureItem,jdbcType=INTEGER}
+        </foreach>
+      </if>
+
+      <if test="level != null and level.length != 0 ">
+        and level in
+        <foreach collection="level" item="levelItem" index="index" separator="," open="(" close=")">
+          #{levelItem,jdbcType=INTEGER}
+        </foreach>
+      </if>
+
+      <if test="transmission != null and transmission.length != 0 ">
+        and transmission in
+        <foreach collection="transmission" item="transmissionItem" index="index" separator="," open="(" close=")">
+          #{transmissionItem,jdbcType=INTEGER}
+        </foreach>
+      </if>
+
+      <if test="country != null and country.length != 0 ">
+        and country in
+        <foreach collection="country" item="countryItem" index="index" separator="," open="(" close=")">
+          #{countryItem,jdbcType=INTEGER}
+        </foreach>
+      </if>
+
+      <if test="production_methods != null and production_methods.length != 0 ">
+        and production_methods in
+        <foreach collection="attribute" item="production_methods_Item" index="index" separator="," open="(" close=")">
+          #{production_methods_Item,jdbcType=INTEGER}
+        </foreach>
+      </if>
+
+      <if test="energy != null and energy.length != 0 ">
+        and energy in
+        <foreach collection="energy" item="energyItem" index="index" separator="," open="(" close=")">
+          #{energyItem,jdbcType=INTEGER}
+        </foreach>
+      </if>
+
+      <if test="driving_method != null and driving_method.length != 0 ">
+        and driving_method in
+        <foreach collection="driving_method" item="driving_methodItem" index="index" separator="," open="(" close=")">
+          #{driving_methodItem,jdbcType=INTEGER}
+        </foreach>
+      </if>
+
+      <if test="seat != null and seat.length != 0">
+        and
+        <foreach collection="seat" item="seatItem" index="index" separator="or">
+          seat
+          <if test="seatItem == 0">
+            <![CDATA[ = ]]> 2
+          </if>
+          <if test="seatItem == 1">
+            <![CDATA[ = ]]> 4
+          </if>
+          <if test="seatItem == 2">
+            <![CDATA[ = ]]> 5
+          </if>
+          <if test="seatItem == 3">
+            <![CDATA[ = ]]> 6
+          </if>
+          <if test="seatItem == 4">
+            <![CDATA[ = ]]> 7
+          </if>
+          <if test="seatItem == 5">
+            <![CDATA[ > ]]> 7
+          </if>
+        </foreach>
+      </if>
+    </where>
+
+  </select>
 </mapper>

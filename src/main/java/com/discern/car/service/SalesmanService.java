@@ -1,13 +1,14 @@
-package com.discern.car.dao;
+package com.discern.car.service;
 
 import com.discern.car.dto.SalesmanDto;
 import com.discern.car.entity.Salesman;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Mapper
-public interface SalesmanMapper {
+/**
+ * Created by Keben on 2018-06-12.
+ */
+public interface SalesmanService {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Salesman record);

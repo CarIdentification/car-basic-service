@@ -5,16 +5,20 @@ import com.discern.car.dao.CarBrandMapper;
 import com.discern.car.dto.BrandDto;
 import com.discern.car.dto.CarDto;
 import com.discern.car.dto.ResultDto;
+import com.discern.car.dto.SalesmanDto;
 import com.discern.car.entity.*;
-import com.discern.car.service.CarBrandService;
-import com.discern.car.service.CarService;
-import com.discern.car.service.SearchHistoryService;
+import com.discern.car.service.*;
 import com.discern.car.util.ChineseCharToEn;
+import com.discern.car.util.ImageUtil;
 import com.discern.car.util.LoginUtil;
 import com.discern.car.util.OpenIdUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.sql.Array;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +32,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/search")
 public class searchController {
-
 
 
     @Resource
@@ -45,6 +48,63 @@ public class searchController {
 
     @Resource
     private CarService carService;
+
+    @Resource
+    private SalesmanService salesmanService;
+
+    @Resource
+    private RedisService redisService ;
+
+    @Resource
+    private SearchHistoryPicService searchHistoryPicService;
+
+    @Value("${img.location}")
+    private String location;
+
+    @RequestMapping(value = "/pictureDiscern",method = RequestMethod.POST)
+    public ResultDto pictureDiscern(@RequestParam("file") MultipartFile multipartFile, String signature, int serial, int last){
+        User user = loginUtil.cheakLogin(signature);
+        if (multipartFile.isEmpty()) {
+            return new ResultDto("fail","图片不存在！");
+        }else {
+            try {
+                String filePath = new ImageUtil().saveImg(multipartFile,location);
+                SearchHistoryPic searchHistoryPic = null;
+                switch (serial){
+                    case 0:
+                        searchHistoryPic = new SearchHistoryPic();
+                        searchHistoryPic.setUserId(user.getId());
+                        searchHistoryPic.setPic1(location+"\\"+filePath);
+                        redisService.set(signature+"Pic",searchHistoryPic);
+                        System.out.println("first pic");
+                        break;
+                    case 1:
+                        searchHistoryPic = (SearchHistoryPic)redisService.get(signature+"Pic");
+                        searchHistoryPic.setPic2(location+"\\"+filePath);
+                        System.out.println("second pic");
+                        break;
+                    case 2:
+                        searchHistoryPic = (SearchHistoryPic)redisService.get(signature+"Pic");
+                        searchHistoryPic.setPic3(location+"\\"+filePath);
+                        System.out.println("third pic");
+                        break;
+                }
+                if (last==1){
+                    searchHistoryPicService.insertSelective(searchHistoryPic);
+                    System.out.println("discern!");
+                    //调用图像识别api，将图片路径作为参数
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            List<CarDto> carList = null;
+            carList = carService.selectByBrandId(9);
+            return new ResultDto("success",carList);
+        }
+
+
+    }
     /**
      * 文字搜索
      * @param searchContext
@@ -60,9 +120,12 @@ public class searchController {
         if (user == null){
             return new ResultDto("fail","需要授予用户权限！");
         }
+        //添加搜索记录
         searchHistory.setUserId(user.getId());
         searchHistory.setContent(searchContext);
         searchHistoryService.insertSelective(searchHistory);
+        //获取搜索结果
+
         return new ResultDto("success","搜索记录添加成功");
     }
 
@@ -97,10 +160,12 @@ public class searchController {
      * @return
      */
     @RequestMapping(value = "/advancedSearch",method = RequestMethod.POST)
-    public ResultDto advancedSearch(@RequestParam(value = "displacement") Integer[] displacement,@RequestParam(value = "structure") Integer[] structure,@RequestParam(value = "level") Integer[] level,@RequestParam(value = "be_price") Integer be_price,@RequestParam(value = "en_price") Integer en_price){
+    public ResultDto advancedSearch(@RequestParam(value = "displacement",required = false) Integer[] displacement,@RequestParam(value = "structure",required = false) Integer[] structure,@RequestParam(value = "level",required = false) Integer[] level,@RequestParam(value = "Transmission",required = false) Integer[] transmission,@RequestParam(value = "country",required = false) Integer[] country,@RequestParam(value = "production_methods",required = false) Integer[] production_methods,@RequestParam(value = "energy",required = false) Integer[] energy,@RequestParam(value = "driving_method",required = false) Integer[] driving_method,@RequestParam(value = "seat",required = false) Integer[] seat,@RequestParam(value = "be_price",required = false) Float be_price,@RequestParam(value = "en_price",required = false) Float en_price){
         System.out.println(level);
         System.out.println(structure);
-        return new ResultDto("success",1);
+        List<Car> list = carService.advancedSelect(displacement, structure, level, transmission, country, production_methods,  energy,  driving_method, seat,  be_price, en_price);
+
+        return new ResultDto("success",list);
     }
 
     /**
@@ -157,7 +222,7 @@ public class searchController {
     @RequestMapping(value = "/getCars",method = RequestMethod.GET)
     public ResultDto getCars(Integer id){
         System.out.println("/getCars : ");
-        List<Car> list = carService.selectByBrandId(id);
+        List<CarDto> list = carService.selectByBrandId(id);
         return new ResultDto("success",list);
     }
 
@@ -168,5 +233,16 @@ public class searchController {
     public ResultDto getCar(Integer id){
         CarDto car = carService.selectByPrimaryKey(id);
         return new ResultDto("success",car);
+    }
+
+    /**
+     * 获取指定车型的销售人员
+     * @param brandId
+     * @return
+     */
+    @RequestMapping(value = "/getSalesman",method = RequestMethod.GET)
+    public ResultDto getSalesman(Integer brandId){
+        List<SalesmanDto> list = salesmanService.selectByBrandId(brandId);
+        return new ResultDto("success",list);
     }
 }

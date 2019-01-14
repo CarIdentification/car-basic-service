@@ -3,14 +3,19 @@
 <mapper namespace="com.discern.car.dao.SellShopInfoMapper" >
   <resultMap id="BaseResultMap" type="com.discern.car.entity.SellShopInfo" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="latitute" property="latitute" jdbcType="INTEGER" />
+    <result column="latitute" property="latitute" jdbcType="DECIMAL" />
     <result column="location_detail" property="locationDetail" jdbcType="VARCHAR" />
     <result column="brand_id" property="brandId" jdbcType="INTEGER" />
-    <result column="longitute" property="longitute" jdbcType="INTEGER" />
+    <result column="longitute" property="longitute" jdbcType="DECIMAL" />
     <result column="shop_pic" property="shopPic" jdbcType="VARCHAR" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, latitute, location_detail, brand_id, longitute, shop_pic
+    id, latitute, location_detail, brand_id, longitute, shop_pic, shop_name, brand, type, 
+    tel
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,11 +29,13 @@
   </delete>
   <insert id="insert" parameterType="com.discern.car.entity.SellShopInfo" >
     insert into sell_shop_info (id, latitute, location_detail, 
-      brand_id, longitute, shop_pic
-      )
-    values (#{id,jdbcType=INTEGER}, #{latitute,jdbcType=INTEGER}, #{locationDetail,jdbcType=VARCHAR}, 
-      #{brandId,jdbcType=INTEGER}, #{longitute,jdbcType=INTEGER}, #{shopPic,jdbcType=VARCHAR}
-      )
+      brand_id, longitute, shop_pic, 
+      shop_name, brand, type, 
+      tel)
+    values (#{id,jdbcType=INTEGER}, #{latitute,jdbcType=DECIMAL}, #{locationDetail,jdbcType=VARCHAR}, 
+      #{brandId,jdbcType=INTEGER}, #{longitute,jdbcType=DECIMAL}, #{shopPic,jdbcType=VARCHAR}, 
+      #{shopName,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.discern.car.entity.SellShopInfo" >
     insert into sell_shop_info
@@ -51,13 +58,25 @@
       <if test="shopPic != null" >
         shop_pic,
       </if>
+      <if test="shopName != null" >
+        shop_name,
+      </if>
+      <if test="brand != null" >
+        brand,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
       <if test="latitute != null" >
-        #{latitute,jdbcType=INTEGER},
+        #{latitute,jdbcType=DECIMAL},
       </if>
       <if test="locationDetail != null" >
         #{locationDetail,jdbcType=VARCHAR},
@@ -66,10 +85,22 @@
         #{brandId,jdbcType=INTEGER},
       </if>
       <if test="longitute != null" >
-        #{longitute,jdbcType=INTEGER},
+        #{longitute,jdbcType=DECIMAL},
       </if>
       <if test="shopPic != null" >
         #{shopPic,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null" >
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -77,7 +108,7 @@
     update sell_shop_info
     <set >
       <if test="latitute != null" >
-        latitute = #{latitute,jdbcType=INTEGER},
+        latitute = #{latitute,jdbcType=DECIMAL},
       </if>
       <if test="locationDetail != null" >
         location_detail = #{locationDetail,jdbcType=VARCHAR},
@@ -86,21 +117,37 @@
         brand_id = #{brandId,jdbcType=INTEGER},
       </if>
       <if test="longitute != null" >
-        longitute = #{longitute,jdbcType=INTEGER},
+        longitute = #{longitute,jdbcType=DECIMAL},
       </if>
       <if test="shopPic != null" >
         shop_pic = #{shopPic,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null" >
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.discern.car.entity.SellShopInfo" >
     update sell_shop_info
-    set latitute = #{latitute,jdbcType=INTEGER},
+    set latitute = #{latitute,jdbcType=DECIMAL},
       location_detail = #{locationDetail,jdbcType=VARCHAR},
       brand_id = #{brandId,jdbcType=INTEGER},
-      longitute = #{longitute,jdbcType=INTEGER},
-      shop_pic = #{shopPic,jdbcType=VARCHAR}
+      longitute = #{longitute,jdbcType=DECIMAL},
+      shop_pic = #{shopPic,jdbcType=VARCHAR},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      brand = #{brand,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

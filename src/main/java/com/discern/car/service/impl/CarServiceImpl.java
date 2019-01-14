@@ -54,7 +54,12 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<Car> selectByBrandId(Integer id) {
+    public List<CarDto> selectByBrandId(Integer id) {
         return carMapper.selectByBrandId(id);
+    }
+
+    @Override
+    public List<Car> advancedSelect(Integer[] displacement, Integer[] structure, Integer[] level, Integer[] transmission, Integer[] country, Integer[] production_methods, Integer[] energy, Integer[] driving_method, Integer []seat, Float be_price, Float en_price) {
+        return carMapper.advancedSelect(displacement, structure, level, transmission, country, production_methods,  energy,  driving_method, seat,  be_price, en_price);
     }
 }
