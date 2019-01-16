@@ -75,17 +75,19 @@ public class searchController {
                         searchHistoryPic = new SearchHistoryPic();
                         searchHistoryPic.setUserId(user.getId());
                         searchHistoryPic.setPic1(location+"\\"+filePath);
-                        redisService.set(signature+"Pic",searchHistoryPic);
+                        redisService.set(signature+"Pic",searchHistoryPic,new Long(1800));
                         System.out.println("first pic");
                         break;
                     case 1:
                         searchHistoryPic = (SearchHistoryPic)redisService.get(signature+"Pic");
                         searchHistoryPic.setPic2(location+"\\"+filePath);
+                        redisService.set(signature+"Pic",searchHistoryPic,new Long(1800));
                         System.out.println("second pic");
                         break;
                     case 2:
                         searchHistoryPic = (SearchHistoryPic)redisService.get(signature+"Pic");
                         searchHistoryPic.setPic3(location+"\\"+filePath);
+                        redisService.set(signature+"Pic",searchHistoryPic,new Long(1800));
                         System.out.println("third pic");
                         break;
                 }

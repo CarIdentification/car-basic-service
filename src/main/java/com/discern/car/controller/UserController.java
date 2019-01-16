@@ -75,7 +75,7 @@ public class UserController {
         if (loginUtil.cheakLogin(signature)==null){
             System.out.println("未登录");
             //如果用户未登录，记录下登陆状态
-            System.out.println(redisService.set(signature,u));
+            System.out.println(redisService.set(signature,u,new Long(86400)));
         }
 //        System.out.println(u.toString());
         return new ResultDto("success",signature);
