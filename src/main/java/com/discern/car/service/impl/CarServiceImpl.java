@@ -54,8 +54,8 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<CarDto> selectByBrandId(Integer id) {
-        return carMapper.selectByBrandId(id);
+    public List<CarDto> selectByBrandId(Integer id,Integer pageNum) {
+        return carMapper.selectByBrandId(id,pageNum*10);
     }
 
     @Override

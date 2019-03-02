@@ -24,7 +24,7 @@ public interface CarService {
 
     int updateByPrimaryKey(Car record);
 
-    List<CarDto> selectByBrandId(Integer id);
+    List<CarDto> selectByBrandId(Integer id,Integer pageNum);
     List<Car> advancedSelect(Integer[] displacement,Integer[] structure,Integer[] level,Integer[] transmission,Integer[] country,Integer[] production_methods,Integer[] energy,Integer[] driving_method,Integer []seat,Float be_price,Float en_price);
 
 }

@@ -101,7 +101,7 @@ public class searchController {
             }
 
             List<CarDto> carList = null;
-            carList = carService.selectByBrandId(9);
+            carList = carService.selectByBrandId(9,1);
             return new ResultDto("success",carList);
         }
 
@@ -222,10 +222,18 @@ public class searchController {
      * @return
      */
     @RequestMapping(value = "/getCars",method = RequestMethod.GET)
-    public ResultDto getCars(Integer id){
+    public ResultDto getCars(Integer id,Integer pageNum){
         System.out.println("/getCars : ");
-        List<CarDto> list = carService.selectByBrandId(id);
-        return new ResultDto("success",list);
+        List<CarDto> list = carService.selectByBrandId(id,pageNum);
+        Map<String,Object> map = new HashMap<>();
+        map.put("cars",list);
+        if (list.size()!=0){
+            pageNum++;
+        }else {
+            pageNum=-1;
+        }
+        map.put("pageNum",pageNum);
+        return new ResultDto("success",map);
     }
 
     /**

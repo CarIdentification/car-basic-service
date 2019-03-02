@@ -21,7 +21,7 @@ public interface CarMapper {
 
     int updateByPrimaryKey(Car record);
 
-    List<CarDto> selectByBrandId(Integer id);
+    List<CarDto> selectByBrandId(@Param("id") Integer id,@Param("pageNum") Integer pageNum);
 
     List<Car> advancedSelect(@Param("displacement") Integer[] displacement,@Param("structure") Integer[] structure, @Param("level") Integer[] level,@Param("transmission")Integer[] transmission, @Param("country")Integer[] country,@Param("production_methods") Integer[] production_methods, @Param("energy")Integer[] energy, @Param("driving_method")Integer[] driving_method,@Param("seat") Integer[] seat, @Param("be_price") Float be_price,@Param("en_price") Float en_price);
 
