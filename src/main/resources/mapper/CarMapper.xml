@@ -247,9 +247,10 @@
         category_id = #{categoryId,jdbcType=INTEGER},
       </if>
       <if test="beginPrice != null" >
-        beginPrice,</if>
+        begin_price = #{beginPrice,jdbcType=REAL},
+      </if>
       <if test="endPrice != null" >
-        endPrice,
+        end_price = #{endPrice,jdbcType=REAL},
       </if>
       <if test="level != null" >
         level = #{level,jdbcType=INTEGER},
@@ -438,4 +439,10 @@
     </where>
 
   </select>
+  <select id="textSearch" resultMap="BaseResultMap">
+    select c.* from car c LEFT JOIN car_brand b on c.car_brand = b.id where c.car_name like #{searchText,jdbcType=VARCHAR} or b.`name` like #{searchText,jdbcType=VARCHAR};
+  </select>
+    <select id="selectList" resultMap="BaseResultMap">
+        select * from car where id;
+    </select>
 </mapper>

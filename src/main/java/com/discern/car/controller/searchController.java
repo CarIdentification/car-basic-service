@@ -12,6 +12,7 @@ import com.discern.car.util.ChineseCharToEn;
 import com.discern.car.util.ImageUtil;
 import com.discern.car.util.LoginUtil;
 import com.discern.car.util.OpenIdUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +34,9 @@ import java.util.Map;
 @RequestMapping("/search")
 public class searchController {
 
+
+    @Autowired
+    private IssueService issueService;
 
     @Resource
     private SearchHistoryService searchHistoryService;
@@ -127,8 +131,11 @@ public class searchController {
         searchHistory.setContent(searchContext);
         searchHistoryService.insertSelective(searchHistory);
         //获取搜索结果
-
-        return new ResultDto("success","搜索记录添加成功");
+        List<Car> list = carService.textSearch(searchContext);
+        Map<String ,Object> map = new HashMap<>();
+        map.put("carList",list);
+        map.put("issue",issueService.selectByTextSearch(searchContext));
+        return new ResultDto("success",map);
     }
 
     /**

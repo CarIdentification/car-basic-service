@@ -48,4 +48,14 @@ public class IssueServiceImpl implements IssueService{
     public List<Issue> selectByHot(){
         return issueMapper.selectByHot();
     }
+
+    @Override
+    public List<Issue> selectRecommendIssue(Integer userId) {
+        return issueMapper.selectRecommendIssue(userId);
+    }
+
+    @Override
+    public List<Issue> selectByTextSearch(String textSearch) {
+        return issueMapper.selectByTextSearch("%"+textSearch+"%");
+    }
 }

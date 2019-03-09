@@ -139,4 +139,14 @@
     <include refid="Blob_Column_List" />
     FROM issue i ORDER BY view_count DESC ;
   </select>
+  <select id="selectRecommendIssue" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    FROM issue i LEFT JOIN issue_tag it on i.id = it.issue_id LEFT JOIN user_tag ut on it.tag_id = ut.tag_id where ut.user_id  = #{userId,jdbcType=INTEGER};
+  </select>
+  <select id="selectByTextSearch" resultMap="BaseResultMap">
+    select * from issue i where  i.title like #{textSearch,jdbcType=VARCHAR} or i.content like #{textSearch,jdbcType=VARCHAR}
+  </select>
 </mapper>

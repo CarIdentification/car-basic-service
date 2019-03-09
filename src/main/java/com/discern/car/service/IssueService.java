@@ -23,4 +23,8 @@ public interface IssueService {
     int updateByPrimaryKey(Issue record);
 
     List<Issue> selectByHot();
+
+    List<Issue> selectRecommendIssue(Integer userId);
+
+    List<Issue> selectByTextSearch(String textSearch);
 }

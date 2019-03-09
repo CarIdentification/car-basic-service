@@ -2,6 +2,8 @@ package com.discern.car.service;
 
 import com.discern.car.entity.SellShopInfo;
 
+import java.util.List;
+
 /**
  * Created by Keben on 2018-05-10.
  */
@@ -17,4 +19,6 @@ public interface SellShopInfoService {
     int updateByPrimaryKeySelective(SellShopInfo record);
 
     int updateByPrimaryKey(SellShopInfo record);
+
+    List<SellShopInfo> selectAroundSellShop(double latitude,double longitude);
 }
