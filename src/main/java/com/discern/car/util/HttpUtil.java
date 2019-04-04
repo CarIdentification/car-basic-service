@@ -1,16 +1,31 @@
 package com.discern.car.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.Consts;
+import org.apache.http.util.EntityUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.ParseException;
 
 /**
  * Created by Keben on 2018-04-18.
  */
 public class HttpUtil {
+    private static final CloseableHttpClient httpclient = HttpClients.createDefault();
     /**
      * 向指定URL发送GET方法的请求
      *
@@ -62,6 +77,36 @@ public class HttpUtil {
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
+        }
+        return result;
+    }
+
+    /**
+     * 发送HttpPost请求，参数为map
+     * @param url
+     * @param map
+     * @return
+     */
+    public static String post(String url, Map<String, String> map) {
+        List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+        }
+        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
+        HttpPost httppost = new HttpPost(url);
+        httppost.setEntity(entity);
+        CloseableHttpResponse response = null;
+        try {
+            response = httpclient.execute(httppost);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        HttpEntity entity1 = response.getEntity();
+        String result = null;
+        try {
+            result = EntityUtils.toString(entity1);
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
         }
         return result;
     }

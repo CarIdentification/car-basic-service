@@ -247,7 +247,7 @@ public class searchController {
      * 获取车信息
      */
     @RequestMapping(value = "/getCar",method = RequestMethod.GET)
-    public ResultDto getCar(Integer id){
+    public ResultDto getCar(@RequestParam(name = "id", required = true) Integer id){
         CarDto car = carService.selectByPrimaryKey(id);
         return new ResultDto("success",car);
     }
