@@ -10,6 +10,7 @@ import com.discern.car.service.UserService;
 import com.discern.car.util.LoginUtil;
 import com.discern.car.util.OpenIdUtil;
 
+import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -60,16 +61,19 @@ public class UserController {
      * @return
      */
     @RequestMapping("/sendUserCode")
-    public ResultDto sendUserCode(String code,User user,String signature,String rawData){
+    public HashMap<String, Object> sendUserCode(String code,User user,String signature,String rawData){
         System.out.println("/sendUserCode\ncode :"+code);
         System.out.println("signature :"+signature);
         System.out.println(user.getNickname());
         Map map = OpenIdUtil.oauth2GetOpenid(code);
-        User u = userService.selectByOpenId(map.get("openid" ).toString());
+        String openid = map.get("openid").toString();
+
+        User u = userService.selectByOpenId(openid);
         //数据库没有用户信息，为第一次使用小程序的用户
         if (u==null){
-            user.setOpenid(map.get("openid" ).toString());
+            user.setOpenid(openid);
             userService.insertSelective(user);
+            u = userService.selectByOpenId(openid);
         }
         //从redis数据库中查看用户是否登陆过,signature会因为session_key的改变而改变，但我们只需要第一次登陆的signature
         if (loginUtil.cheakLogin(signature)==null){
@@ -78,7 +82,12 @@ public class UserController {
             System.out.println(redisService.set(signature,u,new Long(86400)));
         }
 //        System.out.println(u.toString());
-        return new ResultDto("success",signature);
+        HashMap<String,Object> rsDto = new HashMap<>();
+        rsDto.put("stateInfo","success");
+        rsDto.put("entity",signature);
+        rsDto.put("uid",u.getId());
+
+        return rsDto;
     }
 
     /**
