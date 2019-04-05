@@ -17,6 +17,7 @@ public interface CarService {
     int insertSelective(Car record);
 
     CarDto selectByPrimaryKey(Integer id);
+    List<CarDto> selectByPrimaryKeys(List<Integer> ids);
 
     int updateByPrimaryKeySelective(Car record);
 

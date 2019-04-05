@@ -1,5 +1,7 @@
 package com.discern.car.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.discern.car.config.RedisService;
 import com.discern.car.dao.CarBrandMapper;
 import com.discern.car.dto.BrandDto;
@@ -247,9 +249,15 @@ public class searchController {
      * 获取车信息
      */
     @RequestMapping(value = "/getCar",method = RequestMethod.GET)
-    public ResultDto getCar(@RequestParam(name = "id", required = true) Integer id){
-        CarDto car = carService.selectByPrimaryKey(id);
-        return new ResultDto("success",car);
+    public ResultDto getCar(@RequestParam(name = "ids", required = true) String idArrayString){
+        JSONArray jsonArray = JSON.parseArray(idArrayString);
+        List<CarDto> carDtoArrayList;
+        List<Integer> ids = new ArrayList<>();
+        for(int i = 0;i < jsonArray.size();i++){
+            ids.add(jsonArray.getIntValue(i));
+        }
+        carDtoArrayList = carService.selectByPrimaryKeys(ids);
+        return new ResultDto("success",carDtoArrayList);
     }
 
     /**

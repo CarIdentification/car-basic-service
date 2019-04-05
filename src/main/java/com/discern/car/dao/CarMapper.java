@@ -2,6 +2,7 @@ package com.discern.car.dao;
 
 import com.discern.car.dto.CarDto;
 import com.discern.car.entity.Car;
+import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public interface CarMapper {
     int insertSelective(Car record);
 
     CarDto selectByPrimaryKey(Integer id);
+    ArrayList<CarDto> selectByPrimaryKeys(List<Integer> ids);
 
     int updateByPrimaryKeySelective(Car record);
 

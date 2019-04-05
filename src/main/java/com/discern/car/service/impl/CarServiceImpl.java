@@ -39,6 +39,11 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public List<CarDto> selectByPrimaryKeys(List<Integer> ids) {
+        return carMapper.selectByPrimaryKeys(ids);
+    }
+
+    @Override
     public int updateByPrimaryKeySelective(Car record) {
         return carMapper.updateByPrimaryKeySelective(record);
     }

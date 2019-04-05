@@ -91,6 +91,18 @@
     from car
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByPrimaryKeys" resultMap="CarMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from car
+    where id in
+    <foreach item="item" index="index" collection="ids"
+      open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
   <select id="selectByBrandId" resultMap="CarMap">
     SELECT
     <include refid="Base_Column_List" />
