@@ -4,6 +4,10 @@ eureka:
       defaultZone: http://119.29.208.119:8761/eureka/
 server:
   port: 8763
+  ssl:
+      key-store: classpath:www.kebencool.cn.jks
+      key-store-password: 1464q178c0lp330
+      keyStoreType: JKS
 
 img:
   location: /data/classified_img
