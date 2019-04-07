@@ -6,7 +6,7 @@ server:
   port: 8763
 
 img:
-  location: D:\img
+  location: /data/classified_img
 
 multipart:
   maxFileSize: 10Mb
