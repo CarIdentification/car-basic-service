@@ -16,9 +16,19 @@
     from collection
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+
+<!--  先不分页了-->
+  <select id="selectIssueInfoByUserCollected" resultType="map"
+    parameterType="java.lang.Integer" >
+    SELECT
+        issue.title,issue.topic_pic
+    FROM collection LEFT JOIN issue ON issue.id = collection.issue_id
+    where collection.user_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByUserIdAndIssueId" >
     delete from collection
-    where id = #{id,jdbcType=INTEGER}
+    where user_id = #{userId} and issue_id = #{issueId}
   </delete>
   <insert id="insert" parameterType="com.discern.car.entity.Collection" >
     insert into collection (id, issue_id, user_id, 

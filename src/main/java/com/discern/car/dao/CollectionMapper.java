@@ -1,19 +1,25 @@
 package com.discern.car.dao;
 
 import com.discern.car.entity.Collection;
+import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface CollectionMapper {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(Collection record);
+  int deleteByUserIdAndIssueId(@Param("userId") Integer userId, @Param("issueId") Integer issueId);
 
-    int insertSelective(Collection record);
+  int insert(Collection record);
 
-    Collection selectByPrimaryKey(Integer id);
+  int insertSelective(Collection record);
 
-    int updateByPrimaryKeySelective(Collection record);
+  Collection selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKey(Collection record);
+  int updateByPrimaryKeySelective(Collection record);
+
+  int updateByPrimaryKey(Collection record);
+
+  List<Map<String, String>> selectIssueInfoByUserCollected(Integer userId);
 }
