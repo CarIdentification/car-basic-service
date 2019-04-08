@@ -1,7 +1,7 @@
 package com.discern.car.util;
 
 
-import com.amazonaws.util.json.Jackson;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;

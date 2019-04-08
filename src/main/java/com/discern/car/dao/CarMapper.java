@@ -15,7 +15,7 @@ public interface CarMapper {
     int insertSelective(Car record);
 
     CarDto selectByPrimaryKey(Integer id);
-    ArrayList<CarDto> selectByPrimaryKeys(List<Integer> ids);
+    ArrayList<CarDto> selectByPrimaryKeys(@Param("ids") List<Integer> ids);
 
     int updateByPrimaryKeySelective(Car record);
 
