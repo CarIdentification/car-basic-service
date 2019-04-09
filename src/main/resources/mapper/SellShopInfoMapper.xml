@@ -18,7 +18,7 @@
     <result column="latitute" property="latitute" jdbcType="DECIMAL" />
     <result column="location_detail" property="locationDetail" jdbcType="VARCHAR" />
     <result column="brand_id" property="brandId" jdbcType="INTEGER" />
-    <result column="longitute" property="longitute" jdbcType="DECIMAL" />
+    <result column="longitude" property="longitute" jdbcType="DECIMAL" />
     <result column="shop_pic" property="shopPic" jdbcType="VARCHAR" />
     <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
     <result column="brand" property="brand" jdbcType="VARCHAR" />
@@ -26,10 +26,10 @@
     <result column="tel" property="tel" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, latitute, location_detail, brand_id, longitute, shop_pic, shop_name, brand, type, 
+    id, latitute, location_detail, brand_id, longitude, shop_pic, shop_name, brand, type,
     tel
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="shopInfoDto" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from sell_shop_info
@@ -168,6 +168,18 @@
     FROM sell_shop_info
     WHERE brand_id = #{brandId}
       AND latitute BETWEEN #{latitude} - 300 and #{latitude} + 300
+      AND longitude BETWEEN #{longitude} - 300 and #{longitude} + 300
+    ORDER BY ACOS(SIN((#{latitude} * 3.1415) / 180) * SIN((latitute * 3.1415) / 180) +
+                  COS((#{latitude} * 3.1415) / 180) * COS((latitute * 3.1415) / 180) *
+                  COS((#{longitude} * 3.1415) / 180 - (longitude * 3.1415) / 180)) * 6380 ASC
+    LIMIT 10;
+  </select>
+
+  <select id="selectAroundSellShopByLocation" resultMap="shopInfoDto">
+    SELECT *
+    FROM sell_shop_info
+    WHERE
+    latitute BETWEEN #{latitude} - 300 and #{latitude} + 300
       AND longitude BETWEEN #{longitude} - 300 and #{longitude} + 300
     ORDER BY ACOS(SIN((#{latitude} * 3.1415) / 180) * SIN((latitute * 3.1415) / 180) +
                   COS((#{latitude} * 3.1415) / 180) * COS((latitute * 3.1415) / 180) *

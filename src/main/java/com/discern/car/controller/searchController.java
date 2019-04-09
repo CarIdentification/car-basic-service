@@ -3,10 +3,7 @@ package com.discern.car.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.discern.car.config.RedisService;
-import com.discern.car.dto.BrandDto;
-import com.discern.car.dto.CarDto;
-import com.discern.car.dto.ResultDto;
-import com.discern.car.dto.SalesmanDto;
+import com.discern.car.dto.*;
 import com.discern.car.entity.Car;
 import com.discern.car.entity.CarBrand;
 import com.discern.car.entity.SearchHistory;
@@ -327,6 +324,19 @@ public class searchController {
     }
 
     /**
+     * 获取附近的所有商店
+     * @param latitude
+     * @param longitude
+     * @return
+     */
+    @RequestMapping(value = "/getAroundShop", method = RequestMethod.GET)
+    public ResultDto getNearbyShops(double latitude,double longitude) {
+        List<SaleShopDto> saleShopDtos = sellShopInfoService.selectAroundSellShopByLocation(latitude,longitude);
+        return new ResultDto("success", saleShopDtos);
+
+    }
+
+    /**
      * 获取指定车型的销售人员
      *
      * @param brandId
@@ -336,5 +346,16 @@ public class searchController {
     public ResultDto getSalesman(Integer brandId){
         List<SalesmanDto> list = salesmanService.selectByBrandId(brandId);
         return new ResultDto("success",list);
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/getShopInfo", method = RequestMethod.GET)
+    public ResultDto getShopInfoById(Integer id){
+        SaleShopDto shopDto = sellShopInfoService.selectByPrimaryKey(id);
+        return new ResultDto("success",shopDto);
     }
 }

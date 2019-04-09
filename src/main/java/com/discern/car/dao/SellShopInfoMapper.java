@@ -12,7 +12,7 @@ public interface SellShopInfoMapper {
 
     int insertSelective(SellShopInfo record);
 
-    SellShopInfo selectByPrimaryKey(Integer id);
+    SaleShopDto selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(SellShopInfo record);
 
@@ -20,4 +20,7 @@ public interface SellShopInfoMapper {
 
     List<SaleShopDto> selectAroundSellShopByBrandId(@Param("latitude") double latitude,@Param("longitude") double longitude,
         @Param("brandId") Integer brandId);
+
+    List<SaleShopDto> selectAroundSellShopByLocation(@Param("latitude") double latitude,@Param("longitude") double longitude);
+
 }

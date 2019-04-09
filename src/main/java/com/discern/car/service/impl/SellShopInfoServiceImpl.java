@@ -3,8 +3,11 @@ package com.discern.car.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.discern.car.dao.SalesmanMapper;
 import com.discern.car.dao.SellShopInfoMapper;
 import com.discern.car.dto.SaleShopDto;
+import com.discern.car.dto.SalesmanDto;
+import com.discern.car.entity.Salesman;
 import com.discern.car.entity.SellShopInfo;
 import com.discern.car.service.SellShopInfoService;
 import org.apache.http.HttpStatus;
@@ -31,6 +34,9 @@ public class SellShopInfoServiceImpl implements SellShopInfoService {
     @Resource
     private SellShopInfoMapper sellShopInfoMapper;
 
+    @Resource
+    private SalesmanMapper salesmanMapper;
+
     @Override
     public int deleteByPrimaryKey(Integer id) {
         return sellShopInfoMapper.deleteByPrimaryKey(id);
@@ -47,8 +53,11 @@ public class SellShopInfoServiceImpl implements SellShopInfoService {
     }
 
     @Override
-    public SellShopInfo selectByPrimaryKey(Integer id) {
-        return sellShopInfoMapper.selectByPrimaryKey(id);
+    public SaleShopDto selectByPrimaryKey(Integer id) {
+        SaleShopDto shopDto = sellShopInfoMapper.selectByPrimaryKey(id);
+        List<SalesmanDto> salesmen = salesmanMapper.selectByShopId(shopDto.getId());
+        shopDto.setSalesMan(salesmen);
+        return shopDto;
     }
 
     @Override
@@ -65,5 +74,15 @@ public class SellShopInfoServiceImpl implements SellShopInfoService {
     public List<SaleShopDto> selectAroundSellShopByBrandId(double latitude, double longitude,
         Integer brandId) {
         return sellShopInfoMapper.selectAroundSellShopByBrandId(latitude, longitude, brandId);
+    }
+
+    @Override
+    public List<SaleShopDto> selectAroundSellShopByLocation(double latitude, double longitude) {
+        List<SaleShopDto> shops = sellShopInfoMapper.selectAroundSellShopByLocation(latitude,longitude);
+        for (SaleShopDto shop : shops) {
+            List<SalesmanDto> salesmen = salesmanMapper.selectByShopId(shop.getId());
+            shop.setSalesMan(salesmen);
+        }
+        return shops;
     }
 }

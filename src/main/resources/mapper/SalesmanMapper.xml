@@ -40,7 +40,10 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByBrandId" resultMap="salesmanShop">
-    select s.tel,s.name,s.sex,s.email,s.personal_pic,ss.* from sell_shop_info ss,salesman_brand sb LEFT JOIN salesman s on sb.salesman_id = s.id where sb.brand_id = #{id} and s.shop_id = ss.id;
+    select s.tel,s.name,s.sex,s.email,s.personal_pic,ss.* from sell_shop_info ss,salesman_brand sb LEFT JOIN salesman s on sb.salesman_id = s.id where sb.brand_id = #{brandId} and s.shop_id = ss.id;
+  </select>
+  <select id="selectByShopId" resultMap="salesmanShop">
+    select s.tel,s.name,s.sex,s.email,s.personal_pic,ss.* from sell_shop_info ss LEFT JOIN salesman s ON s.shop_id=ss.id WHERE s.shop_id = #{shopId};
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from salesman
