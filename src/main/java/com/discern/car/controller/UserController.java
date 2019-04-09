@@ -6,32 +6,24 @@ import com.discern.car.dao.UserMapper;
 import com.discern.car.dto.CarDto;
 import com.discern.car.dto.OwnCarDto;
 import com.discern.car.dto.ResultDto;
-
 import com.discern.car.entity.Tag;
 import com.discern.car.entity.User;
 import com.discern.car.service.TagService;
 import com.discern.car.service.UserService;
 import com.discern.car.util.LoginUtil;
 import com.discern.car.util.OpenIdUtil;
-
-import java.lang.reflect.Array;
-import java.util.HashMap;
-
-import com.netflix.discovery.converters.Auto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import sun.jvm.hotspot.jdi.IntegerTypeImpl;
-
-import javax.annotation.Resource;
-import javax.annotation.Resources;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by Keben on 2018-05-04.
