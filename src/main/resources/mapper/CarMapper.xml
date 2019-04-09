@@ -46,8 +46,6 @@
   <resultMap id="CarMap" type="com.discern.car.dto.CarDto" extends="ResultMapWithBLOBs">
     <collection property="carPic" column="id" javaType="ArrayList" ofType="com.discern.car.entity.CarPic" select="selectCarPic">
     </collection>
-    <collection property="salesman" column="car_brand" javaType="ArrayList" ofType="com.discern.car.dto.SalesmanDto" select="selectCarSaleman">
-    </collection>
   </resultMap>
 
   <resultMap id="SellShopMap" type="com.discern.car.entity.SellShopInfo" >

@@ -1,117 +1,124 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.discern.car.dao.ServiceShopInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.discern.car.entity.ServiceShopInfo" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="service_shop_name" property="serviceShopName" jdbcType="VARCHAR" />
-    <result column="latitute" property="latitute" jdbcType="DOUBLE" />
-    <result column="logitute" property="logitute" jdbcType="DOUBLE" />
-    <result column="location_detail" property="locationDetail" jdbcType="VARCHAR" />
-    <result column="contract" property="contract" jdbcType="VARCHAR" />
-    <result column="service_shop_pic" property="serviceShopPic" jdbcType="VARCHAR" />
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.discern.car.dao.ServiceShopInfoMapper">
+
+  <resultMap id="BaseResultMap" type="com.discern.car.entity.ServiceShopInfo">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="service_shop_name" property="serviceShopName" jdbcType="VARCHAR"/>
+    <result column="latitute" property="latitute" jdbcType="DOUBLE"/>
+    <result column="logitute" property="logitute" jdbcType="DOUBLE"/>
+    <result column="location_detail" property="locationDetail" jdbcType="VARCHAR"/>
+    <result column="contract" property="contract" jdbcType="VARCHAR"/>
+    <result column="service_shop_pic" property="serviceShopPic" jdbcType="VARCHAR"/>
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     id, service_shop_name, latitute, logitute, location_detail, contract, service_shop_pic
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
     from service_shop_info
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from service_shop_info
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete
+    from service_shop_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.discern.car.entity.ServiceShopInfo" >
-    insert into service_shop_info (id, service_shop_name, latitute, 
-      logitute, location_detail, contract, 
-      service_shop_pic)
-    values (#{id,jdbcType=INTEGER}, #{serviceShopName,jdbcType=VARCHAR}, #{latitute,jdbcType=DOUBLE}, 
-      #{logitute,jdbcType=DOUBLE}, #{locationDetail,jdbcType=VARCHAR}, #{contract,jdbcType=VARCHAR}, 
-      #{serviceShopPic,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.discern.car.entity.ServiceShopInfo">
+    insert into service_shop_info (id, service_shop_name, latitute,
+                                   logitute, location_detail, contract,
+                                   service_shop_pic)
+    values (#{id,jdbcType=INTEGER}, #{serviceShopName,jdbcType=VARCHAR},
+            #{latitute,jdbcType=DOUBLE},
+            #{logitute,jdbcType=DOUBLE}, #{locationDetail,jdbcType=VARCHAR},
+            #{contract,jdbcType=VARCHAR},
+            #{serviceShopPic,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.discern.car.entity.ServiceShopInfo" >
+  <insert id="insertSelective" parameterType="com.discern.car.entity.ServiceShopInfo">
     insert into service_shop_info
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="serviceShopName != null" >
+      <if test="serviceShopName != null">
         service_shop_name,
       </if>
-      <if test="latitute != null" >
+      <if test="latitute != null">
         latitute,
       </if>
-      <if test="logitute != null" >
+      <if test="logitute != null">
         logitute,
       </if>
-      <if test="locationDetail != null" >
+      <if test="locationDetail != null">
         location_detail,
       </if>
-      <if test="contract != null" >
+      <if test="contract != null">
         contract,
       </if>
-      <if test="serviceShopPic != null" >
+      <if test="serviceShopPic != null">
         service_shop_pic,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="serviceShopName != null" >
+      <if test="serviceShopName != null">
         #{serviceShopName,jdbcType=VARCHAR},
       </if>
-      <if test="latitute != null" >
+      <if test="latitute != null">
         #{latitute,jdbcType=DOUBLE},
       </if>
-      <if test="logitute != null" >
+      <if test="logitute != null">
         #{logitute,jdbcType=DOUBLE},
       </if>
-      <if test="locationDetail != null" >
+      <if test="locationDetail != null">
         #{locationDetail,jdbcType=VARCHAR},
       </if>
-      <if test="contract != null" >
+      <if test="contract != null">
         #{contract,jdbcType=VARCHAR},
       </if>
-      <if test="serviceShopPic != null" >
+      <if test="serviceShopPic != null">
         #{serviceShopPic,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.discern.car.entity.ServiceShopInfo" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.discern.car.entity.ServiceShopInfo">
     update service_shop_info
-    <set >
-      <if test="serviceShopName != null" >
+    <set>
+      <if test="serviceShopName != null">
         service_shop_name = #{serviceShopName,jdbcType=VARCHAR},
       </if>
-      <if test="latitute != null" >
+      <if test="latitute != null">
         latitute = #{latitute,jdbcType=DOUBLE},
       </if>
-      <if test="logitute != null" >
+      <if test="logitute != null">
         logitute = #{logitute,jdbcType=DOUBLE},
       </if>
-      <if test="locationDetail != null" >
+      <if test="locationDetail != null">
         location_detail = #{locationDetail,jdbcType=VARCHAR},
       </if>
-      <if test="contract != null" >
+      <if test="contract != null">
         contract = #{contract,jdbcType=VARCHAR},
       </if>
-      <if test="serviceShopPic != null" >
+      <if test="serviceShopPic != null">
         service_shop_pic = #{serviceShopPic,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.discern.car.entity.ServiceShopInfo" >
+  <update id="updateByPrimaryKey" parameterType="com.discern.car.entity.ServiceShopInfo">
     update service_shop_info
     set service_shop_name = #{serviceShopName,jdbcType=VARCHAR},
-      latitute = #{latitute,jdbcType=DOUBLE},
-      logitute = #{logitute,jdbcType=DOUBLE},
-      location_detail = #{locationDetail,jdbcType=VARCHAR},
-      contract = #{contract,jdbcType=VARCHAR},
-      service_shop_pic = #{serviceShopPic,jdbcType=VARCHAR}
+        latitute          = #{latitute,jdbcType=DOUBLE},
+        logitute          = #{logitute,jdbcType=DOUBLE},
+        location_detail   = #{locationDetail,jdbcType=VARCHAR},
+        contract          = #{contract,jdbcType=VARCHAR},
+        service_shop_pic  = #{serviceShopPic,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
 </mapper>

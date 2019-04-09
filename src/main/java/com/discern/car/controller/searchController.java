@@ -59,6 +59,9 @@ public class searchController {
     private SalesmanService salesmanService;
 
     @Resource
+    private SellShopInfoService sellShopInfoService;
+
+    @Resource
     private RedisService redisService ;
 
     @Resource
@@ -249,15 +252,34 @@ public class searchController {
      * 获取车信息
      */
     @RequestMapping(value = "/getCar",method = RequestMethod.GET)
-    public ResultDto getCar(@RequestParam(name = "ids", required = true) String idArrayString){
-        JSONArray jsonArray = JSON.parseArray(idArrayString);
-        List<CarDto> carDtoArrayList;
-        List<Integer> ids = new ArrayList<>();
-        for(int i = 0;i < jsonArray.size();i++){
-            ids.add(jsonArray.getIntValue(i));
+    public ResultDto getCar(@RequestParam(name = "ids",required = false) String idArrayString,
+        @RequestParam(name = "id",required = false) Integer id,
+        double latitude,double longitude){
+        if(idArrayString == null && id == null){
+            return ResultDto.ERR_PARAM;
         }
-        carDtoArrayList = carService.selectByPrimaryKeys(ids);
-        return new ResultDto("success",carDtoArrayList);
+        if(idArrayString != null){
+            JSONArray jsonArray = JSON.parseArray(idArrayString);
+            List<CarDto> carDtoArrayList;
+            List<Integer> ids = new ArrayList<>();
+            for(int i = 0;i < jsonArray.size();i++){
+                ids.add(jsonArray.getIntValue(i));
+            }
+            carDtoArrayList = carService.selectByPrimaryKeys(ids);
+
+            for (CarDto tmpDto : carDtoArrayList){
+                //TODO: 查询根brandId
+                tmpDto.setSaleShops(sellShopInfoService.selectAroundSellShopByBrandId(latitude,longitude,
+                    tmpDto.getCarBrand()));
+            }
+            return new ResultDto("success",carDtoArrayList);
+        }else{
+            CarDto car = carService.selectByPrimaryKey(id);
+            //TODO: 查询根brandId
+            car.setSaleShops(sellShopInfoService.selectAroundSellShopByBrandId(latitude,longitude,
+                car.getCarBrand()));
+            return new ResultDto("success",car);
+        }
     }
 
     /**

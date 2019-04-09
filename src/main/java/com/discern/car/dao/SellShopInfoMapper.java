@@ -1,6 +1,9 @@
 package com.discern.car.dao;
 
+import com.discern.car.dto.SaleShopDto;
 import com.discern.car.entity.SellShopInfo;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface SellShopInfoMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,7 @@ public interface SellShopInfoMapper {
     int updateByPrimaryKeySelective(SellShopInfo record);
 
     int updateByPrimaryKey(SellShopInfo record);
+
+    List<SaleShopDto> selectAroundSellShopByBrandId(@Param("latitude") double latitude,@Param("longitude") double longitude,
+        @Param("brandId") Integer brandId);
 }

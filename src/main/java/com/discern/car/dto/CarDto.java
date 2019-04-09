@@ -92,11 +92,19 @@ public class CarDto {
 
     private List<CarPic> carPic;
 
-    private List<SalesmanDto> salesman;
+    private List<SaleShopDto> saleShops;
+
+    public List<SaleShopDto> getSaleShops() {
+        return saleShops;
+    }
+
+    public void setSaleShops(List<SaleShopDto> saleShops) {
+        this.saleShops = saleShops;
+    }
+
     public List<CarPic> getCarPic() {
         return carPic;
     }
-
 
     public void setCarPic(List<CarPic> carPic) {
         this.carPic = carPic;
@@ -246,11 +254,9 @@ public class CarDto {
         this.detail = detail;
     }
 
-    public List<SalesmanDto> getSalesman() {
-        return salesman;
-    }
 
-    public void setSalesman(List<SalesmanDto> salesman) {
-        this.salesman = salesman;
-    }
+
+
+
+
 }

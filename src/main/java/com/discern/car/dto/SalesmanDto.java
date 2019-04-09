@@ -7,11 +7,6 @@ import com.discern.car.entity.SellShopInfo;
  */
 public class SalesmanDto {
 
-    /**
-     * 4s店信息
-     */
-    private SellShopInfo sellShopInfo;
-
     private Integer id;
 
     private String tel;
@@ -93,13 +88,5 @@ public class SalesmanDto {
 
     public void setPersonalPic(String personalPic) {
         this.personalPic = personalPic;
-    }
-
-    public SellShopInfo getSellShopInfo() {
-        return sellShopInfo;
-    }
-
-    public void setSellShopInfo(SellShopInfo sellShopInfo) {
-        this.sellShopInfo = sellShopInfo;
     }
 }

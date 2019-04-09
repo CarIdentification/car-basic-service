@@ -1,5 +1,6 @@
 package com.discern.car.service;
 
+import com.discern.car.dto.SaleShopDto;
 import com.discern.car.entity.SellShopInfo;
 
 import java.util.List;
@@ -20,5 +21,6 @@ public interface SellShopInfoService {
 
     int updateByPrimaryKey(SellShopInfo record);
 
-    List<SellShopInfo> selectAroundSellShop(double latitude,double longitude);
+    List<SaleShopDto> selectAroundSellShopByBrandId(double latitude, double longitude,
+        Integer brandId);
 }

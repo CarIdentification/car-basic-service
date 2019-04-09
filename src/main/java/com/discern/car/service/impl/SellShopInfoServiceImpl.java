@@ -4,6 +4,7 @@ package com.discern.car.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.discern.car.dao.SellShopInfoMapper;
+import com.discern.car.dto.SaleShopDto;
 import com.discern.car.entity.SellShopInfo;
 import com.discern.car.service.SellShopInfoService;
 import org.apache.http.HttpStatus;
@@ -61,26 +62,8 @@ public class SellShopInfoServiceImpl implements SellShopInfoService {
     }
 
     @Override
-    public List<SellShopInfo> selectAroundSellShop(double latitude, double longitude) {
-        List<SellShopInfo> list = new ArrayList<>();
-        String param = "?query=汽车&tag=汽车销售&location="+latitude+","+longitude+"&radius=2000&output=json&ak=6uQBsdD4q2Qa1VBr37pXhLfxcoGg7B43";
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet httpGet = new HttpGet("http://api.map.baidu.com/place/v2/search");
-        CloseableHttpResponse httpResponse = null;
-        try {
-           httpResponse =  httpClient.execute(httpGet);
-            if(httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
-                String result = EntityUtils.toString(httpResponse.getEntity());// 返回json格式：
-                JSONObject resultJson = JSON.parseObject(result);
-                if (0==(resultJson.getInteger("status"))){
-
-                }else {
-
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public List<SaleShopDto> selectAroundSellShopByBrandId(double latitude, double longitude,
+        Integer brandId) {
+        return sellShopInfoMapper.selectAroundSellShopByBrandId(latitude, longitude, brandId);
     }
 }
