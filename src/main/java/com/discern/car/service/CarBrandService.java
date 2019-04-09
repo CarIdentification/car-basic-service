@@ -26,4 +26,6 @@ public interface CarBrandService {
 
     List<BrandDto> selectSonBrands(Integer id);
 
+    List<CarBrand> selectAncestorsById(Integer id);
+
 }

@@ -166,7 +166,7 @@
   <select id="selectAroundSellShopByBrandId" resultMap="shopInfoDto">
     SELECT *
     FROM sell_shop_info
-    WHERE brand_id = 4
+    WHERE brand_id = #{brandId}
       AND latitute BETWEEN #{latitude} - 300 and #{latitude} + 300
       AND longitude BETWEEN #{longitude} - 300 and #{longitude} + 300
     ORDER BY ACOS(SIN((#{latitude} * 3.1415) / 180) * SIN((latitute * 3.1415) / 180) +

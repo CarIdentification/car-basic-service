@@ -40,4 +40,14 @@ public class CarBrand {
     public void setPid(Integer pid) {
         this.pid = pid;
     }
+
+    @Override
+    public String toString() {
+        return "CarBrand{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", pid=" + pid +
+                '}';
+    }
 }

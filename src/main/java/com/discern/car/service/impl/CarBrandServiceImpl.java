@@ -7,6 +7,7 @@ import com.discern.car.service.CarBrandService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,4 +59,32 @@ public class CarBrandServiceImpl implements CarBrandService {
     public List<BrandDto> selectSonBrands(Integer id) {
         return carBrandMapper.selectSonBrands(id);
     }
+
+    @Override
+    public List<CarBrand> selectAncestorsById(Integer id) {
+        List<CarBrand> ancestors = new ArrayList<>();
+        int currId = id;
+        for (;true;){
+            CarBrand carBrand = carBrandMapper.selectByPrimaryKey(currId);
+            ancestors.add(carBrand);
+            if (carBrand.getPid()==0) {
+                break;
+            }
+            currId = carBrand.getPid();
+        }
+
+        if (ancestors.size()>0){
+            for (int i=ancestors.size();i<3;i++){
+                ancestors.add(0,ancestors.get(0));
+            }
+        }
+
+        // swap
+        CarBrand temp = ancestors.get(0);
+        ancestors.set(0,ancestors.get(2));
+        ancestors.set(2,temp);
+
+        return ancestors;
+    }
+
 }
