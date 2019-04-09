@@ -18,4 +18,11 @@ public interface UserMapper{
     int updateByPrimaryKey(User record);
 
     User selectByOpenId(String openId);
+
+    // 添加拥有车型
+    int addOwnCar();
+
+    // 删除拥有车型
+
+    // 获取拥有车型
 }
