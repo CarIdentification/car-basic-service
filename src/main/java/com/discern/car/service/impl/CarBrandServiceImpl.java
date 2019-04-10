@@ -57,7 +57,18 @@ public class CarBrandServiceImpl implements CarBrandService {
 
     @Override
     public List<BrandDto> selectSonBrands(Integer id) {
-        return carBrandMapper.selectSonBrands(id);
+        List<BrandDto> brands = carBrandMapper.selectSonBrands(id);
+        for (BrandDto brand : brands) {
+            List<CarBrand> sons = brand.getSonBrands();
+            if (sons.size()==0){
+                CarBrand brand1 = new CarBrand();
+                brand1.setId(brand.getId());
+                brand1.setName(brand.getName());
+                sons.add(brand1);
+            }
+            brand.setSonBrands(sons);
+        }
+        return brands;
     }
 
     @Override
