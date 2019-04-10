@@ -79,23 +79,29 @@
     displacement, seat, air_intake, energy, driving_method, transmission, production_methods
   </sql>
   <sql id="Blob_Column_List" >
-    detail
+    car.detail
+  </sql>
+  <sql id="With_Brand_Name_Column_List" >
+    car.id, car.cover_pic, car.car_brand, car.category_id, car.begin_price,end_price, car.level,
+    car.country, car.structure,
+    car.displacement, car.seat, car.air_intake, car.energy, car.driving_method, car.transmission,
+    car.production_methods,CONCAT(car_brand.name,car.car_name) AS car_name
   </sql>
   <select id="selectByPrimaryKey" resultMap="CarMap" parameterType="java.lang.Integer" >
     select 
-    <include refid="Base_Column_List" />
+    <include refid="With_Brand_Name_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from car
-    where id = #{id,jdbcType=INTEGER}
+    from car LEFT JOIN car_brand ON car_brand.id = car.car_brand
+    where car.id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByPrimaryKeys" resultMap="CarMap" parameterType="java.lang.Integer" >
     select
-    <include refid="Base_Column_List" />
+    <include refid="With_Brand_Name_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from car
-    where id in
+    from car  LEFT JOIN car_brand ON car_brand.id = car.car_brand
+    where car.id in
     <foreach item="item" index="index" collection="ids"
       open="(" separator="," close=")">
       #{item}
@@ -103,10 +109,11 @@
   </select>
   <select id="selectByBrandId" resultMap="CarMap">
     SELECT
-    <include refid="Base_Column_List" />
+    <include refid="With_Brand_Name_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from car where car_brand = #{id,jdbcType=INTEGER} limit #{pageNum,jdbcType=INTEGER},10
+    from car LEFT JOIN car_brand ON car_brand.id = car.car_brand
+    where car.car_brand = #{id,jdbcType=INTEGER} limit #{pageNum,jdbcType=INTEGER},10
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from car
