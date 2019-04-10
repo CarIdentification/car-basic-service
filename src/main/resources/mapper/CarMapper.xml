@@ -345,18 +345,20 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="advancedSelect" resultMap="BaseResultMap">
-    select * from car
+    select
+        <include refid="With_Brand_Name_Column_List" />
+    from car LEFT JOIN car_brand ON car_brand.id = car.car_brand
     <where>
       <if test="be_price != null and be_price >= 0">
-        begin_price <![CDATA[ >= ]]> #{be_price,jdbcType=REAL}
+        car.begin_price <![CDATA[ >= ]]> #{be_price,jdbcType=REAL}
       </if>
       <if test="en_price != null and en_price >= 0 ">
-        and end_price <![CDATA[ <= ]]> #{en_price,jdbcType=REAL}
+        and car.end_price <![CDATA[ <= ]]> #{en_price,jdbcType=REAL}
       </if>
       <if test="displacement != null and displacement.length != 0">
         and
         <foreach collection="displacement" item="displacementItem" index="index" separator="or">
-          displacement
+          car.displacement
           <if test="displacementItem == 0">
             <![CDATA[ <= ]]> 1.0
           </if>
@@ -381,49 +383,49 @@
         </foreach>
       </if>
       <if test="structure != null and structure.length != 0 ">
-        and structure in
+        and car.structure in
         <foreach collection="structure" item="structureItem" index="index" separator="," open="(" close=")">
           #{structureItem,jdbcType=INTEGER}
         </foreach>
       </if>
 
       <if test="level != null and level.length != 0 ">
-        and level in
+        and car.level in
         <foreach collection="level" item="levelItem" index="index" separator="," open="(" close=")">
           #{levelItem,jdbcType=INTEGER}
         </foreach>
       </if>
 
       <if test="transmission != null and transmission.length != 0 ">
-        and transmission in
+        and car.transmission in
         <foreach collection="transmission" item="transmissionItem" index="index" separator="," open="(" close=")">
           #{transmissionItem,jdbcType=INTEGER}
         </foreach>
       </if>
 
       <if test="country != null and country.length != 0 ">
-        and country in
+        and car.country in
         <foreach collection="country" item="countryItem" index="index" separator="," open="(" close=")">
           #{countryItem,jdbcType=INTEGER}
         </foreach>
       </if>
 
       <if test="production_methods != null and production_methods.length != 0 ">
-        and production_methods in
+        and car.production_methods in
         <foreach collection="attribute" item="production_methods_Item" index="index" separator="," open="(" close=")">
           #{production_methods_Item,jdbcType=INTEGER}
         </foreach>
       </if>
 
       <if test="energy != null and energy.length != 0 ">
-        and energy in
+        and car.energy in
         <foreach collection="energy" item="energyItem" index="index" separator="," open="(" close=")">
           #{energyItem,jdbcType=INTEGER}
         </foreach>
       </if>
 
       <if test="driving_method != null and driving_method.length != 0 ">
-        and driving_method in
+        and car.driving_method in
         <foreach collection="driving_method" item="driving_methodItem" index="index" separator="," open="(" close=")">
           #{driving_methodItem,jdbcType=INTEGER}
         </foreach>
@@ -432,7 +434,7 @@
       <if test="seat != null and seat.length != 0">
         and
         <foreach collection="seat" item="seatItem" index="index" separator="or">
-          seat
+          car.seat
           <if test="seatItem == 0">
             <![CDATA[ = ]]> 2
           </if>
