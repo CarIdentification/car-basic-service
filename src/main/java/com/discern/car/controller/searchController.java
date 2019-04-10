@@ -295,7 +295,19 @@ public class searchController {
     @RequestMapping(value = "/getCar",method = RequestMethod.GET)
     public ResultDto getCar(@RequestParam(name = "ids",required = false) String idArrayString,
         @RequestParam(name = "id",required = false) Integer id,
-        double latitude,double longitude){
+        @RequestParam(name = "latitude",required = false) String latitude,
+        @RequestParam(name = "longitude",required = false) String longitude){
+        double lat,lon;
+        if(latitude == null||latitude.isEmpty()){
+          lat = 0;
+        }else{
+          lat = Double.parseDouble(latitude);
+        }
+        if(longitude==null||longitude.isEmpty()){
+          lon = 0;
+        }else{
+          lon = Double.parseDouble(longitude);
+        }
         if(idArrayString == null && id == null){
             return ResultDto.ERR_PARAM;
         }
@@ -310,14 +322,15 @@ public class searchController {
 
             for (CarDto tmpDto : carDtoArrayList){
                 int ancestorBrandId = carBrandService.selectAncestorsById(tmpDto.getCarBrand()).get(0).getId();
-                tmpDto.setSaleShops(sellShopInfoService.selectAroundSellShopByBrandId(latitude,longitude,
+                tmpDto.setSaleShops(sellShopInfoService.selectAroundSellShopByBrandId(lat,
+                    lon,
                         ancestorBrandId));
             }
             return new ResultDto("success",carDtoArrayList);
         }else{
             CarDto car = carService.selectByPrimaryKey(id);
             int ancestorBrandId = carBrandService.selectAncestorsById(car.getCarBrand()).get(0).getId();
-            car.setSaleShops(sellShopInfoService.selectAroundSellShopByBrandId(latitude,longitude,
+            car.setSaleShops(sellShopInfoService.selectAroundSellShopByBrandId(lat,lon,
                     ancestorBrandId));
             return new ResultDto("success",car);
         }
