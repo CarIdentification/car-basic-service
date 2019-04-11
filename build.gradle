@@ -38,7 +38,7 @@ docker {
 	baseImage 'store/oracle/serverjre:8'
 	maintainer 'kebencool kebencool@keben'
 	registry 'car'
-	
+
 }
 
 //taskBuilder 的任务配置
@@ -91,6 +91,7 @@ dependencies {
 	compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-server')
 //	compile('com.alibaba:druid-spring-boot-starter:1.1.9')
 	compile('com.alibaba:druid:1.1.10')
+	compile ('com.esotericsoftware:reflectasm:1.11.3')
 	compile('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 //	compile('org.springframework.cloud:spring-cloud-starter-config')
