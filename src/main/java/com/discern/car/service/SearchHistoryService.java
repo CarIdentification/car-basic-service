@@ -21,4 +21,6 @@ public interface SearchHistoryService {
     int updateByPrimaryKey(SearchHistory record);
 
     List<SearchHistory> selectByUserId(Integer id);
+
+    List<SearchHistory> select(SearchHistory searchHistory);
 }

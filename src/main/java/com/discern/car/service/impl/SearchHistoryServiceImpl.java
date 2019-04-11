@@ -52,4 +52,9 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
     public List<SearchHistory> selectByUserId(Integer id) {
         return searchHistoryMapper.selectByUserId(id);
     }
+
+    @Override
+    public List<SearchHistory> select(SearchHistory searchHistory) {
+        return null;
+    }
 }

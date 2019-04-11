@@ -28,11 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by Keben on 2018-05-04.
  */
-
 @RestController
 @RequestMapping("/personal")
 public class UserController {
-
     @Resource
     private UserService userService;
     @Resource
@@ -43,14 +41,12 @@ public class UserController {
     private LoginUtil loginUtil;
     @Value("${server.port}")
     private String port;
-
     @Resource
     private UserMapper userMapper;
-
     @Resource
     private CarMapper carMapper;
 
-//    @RequestMapping("/getMarkers")
+    //    @RequestMapping("/getMarkers")
 //    public ArrayList<MapMarkers> getMarkers(){
 //        System.out.println("hhhhh");
 //        ArrayList<MapMarkers> markers = new ArrayList<>();
@@ -59,13 +55,29 @@ public class UserController {
 //        return markers;
 //
 //    }
+    @RequestMapping("/add")
+    public ResultDto add(User user) {
+        userService.insert(user);
+        return ResultDto.OK;
+    }
+
+    @RequestMapping("/delete")
+    public ResultDto delete(Integer id) {
+        userService.deleteByPrimaryKey(id);
+        return ResultDto.OK;
+    }
+
+    @RequestMapping("/update")
+    public ResultDto update(User user) {
+        userService.updateByPrimaryKey(user);
+        return ResultDto.OK;
+    }
 
     /**
-     * @param code      用于获取openid与sessionKey
-     * @param user      用户个人信息
+     * @param code 用于获取openid与sessionKey
+     * @param user 用户个人信息
      * @param signature 校验签名
-     * @param rawData   不包含敏感信息的个人信息，用于结合sessionKey校验签名，与signature比较
-     * @return
+     * @param rawData 不包含敏感信息的个人信息，用于结合sessionKey校验签名，与signature比较
      */
     @RequestMapping("/sendUserCode")
     public HashMap<String, Object> sendUserCode(String code, User user, String signature, String rawData) {
@@ -99,9 +111,6 @@ public class UserController {
 
     /**
      * 查询tag
-     *
-     * @param
-     * @return
      */
     @RequestMapping(value = "/tag", method = RequestMethod.GET)
     public ResultDto tag(String signature) {
@@ -116,12 +125,8 @@ public class UserController {
         return new ResultDto("success", list);
     }
 
-
     /**
      * 未选择的tag
-     *
-     * @param signature
-     * @return
      */
     @RequestMapping(value = "/noTags", method = RequestMethod.GET)
     public ResultDto noTags(String signature) {
@@ -142,12 +147,8 @@ public class UserController {
         return new ResultDto("success", lists);
     }
 
-
     /**
      * 已选择的tag
-     *
-     * @param signature
-     * @return
      */
     @RequestMapping(value = "/tags", method = RequestMethod.GET)
     public ResultDto tags(String signature) {
@@ -168,12 +169,8 @@ public class UserController {
         return new ResultDto("success", lists);
     }
 
-
     /**
      * 添加tag
-     *
-     * @param add
-     * @return
      */
     @RequestMapping(value = "/addTag", method = RequestMethod.POST)
     @ResponseBody
@@ -192,19 +189,12 @@ public class UserController {
 //                    return new ResultDto("fail","操作失败！");
 //                }
 
-
         }
         return new ResultDto(process, "操作成功！");
-
-
     }
-
 
     /**
      * 删除tag
-     *
-     * @param remove
-     * @return
      */
     @RequestMapping(value = "/removeTag", method = RequestMethod.POST)
     @ResponseBody
@@ -222,13 +212,9 @@ public class UserController {
 //                    return new ResultDto("fail","操作失败！");
 //                }
 
-
         }
         return new ResultDto(process, "操作成功！");
-
-
     }
-
 
     @RequestMapping("/signUp")
     public ResultDto signUp(@RequestParam User user) {
@@ -237,18 +223,17 @@ public class UserController {
         return new ResultDto("success", user);
     }
 
-
     @RequestMapping("/hi")
     public ResultDto home(@RequestParam int id) {
         return new ResultDto("success", userService.selectByPrimaryKey(3));
     }
 
-    @RequestMapping(value = "/addOwnCar",method = RequestMethod.POST)
+    @RequestMapping(value = "/addOwnCar", method = RequestMethod.POST)
     public ResultDto addOwnCar(@RequestParam(name = "userId") int userId, @RequestParam(name = "carId") int carId) {
         return new ResultDto("success", userMapper.addOwnCar(carId, userId));
     }
 
-    @RequestMapping(value = "/delOwnCar",method = RequestMethod.POST)
+    @RequestMapping(value = "/delOwnCar", method = RequestMethod.POST)
     public ResultDto delOwnCar(@RequestParam(name = "userId") int userId, @RequestParam(name = "carId") int carId) {
         return new ResultDto("success", userMapper.delOwnCar(carId, userId));
     }
@@ -258,14 +243,13 @@ public class UserController {
         List<Integer> carIds = userMapper.getOwnCar(userId);
         List<CarDto> carInfos = carMapper.selectByPrimaryKeys(carIds);
         ArrayList<OwnCarDto> data = new ArrayList<>();
-        for (CarDto carInfo : carInfos
-        ) {
+        for (CarDto carInfo : carInfos) {
             OwnCarDto info = new OwnCarDto();
             info.setCarName(carInfo.getCarName());
             info.setCoverPic(carInfo.getCoverPic());
             info.setId(carInfo.getId());
             data.add(info);
         }
-        return new ResultDto("success",data);
+        return new ResultDto("success", data);
     }
 }
