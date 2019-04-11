@@ -167,8 +167,8 @@
     SELECT *
     FROM sell_shop_info
     WHERE brand_id = #{brandId}
-      AND latitute BETWEEN #{latitude} - 300 and #{latitude} + 300
-      AND longitude BETWEEN #{longitude} - 300 and #{longitude} + 300
+      AND latitute BETWEEN #{latitude} - 1 and #{latitude} + 1
+      AND longitude BETWEEN #{longitude} - 1 and #{longitude} + 1
     ORDER BY ACOS(SIN((#{latitude} * 3.1415) / 180) * SIN((latitute * 3.1415) / 180) +
                   COS((#{latitude} * 3.1415) / 180) * COS((latitute * 3.1415) / 180) *
                   COS((#{longitude} * 3.1415) / 180 - (longitude * 3.1415) / 180)) * 6380 ASC
@@ -179,8 +179,8 @@
     SELECT *
     FROM sell_shop_info
     WHERE
-    latitute BETWEEN #{latitude} - 300 and #{latitude} + 300
-      AND longitude BETWEEN #{longitude} - 300 and #{longitude} + 300
+    latitute BETWEEN #{latitude} - 1 and #{latitude} + 1
+      AND longitude BETWEEN #{longitude} - 1 and #{longitude} + 1
     ORDER BY ACOS(SIN((#{latitude} * 3.1415) / 180) * SIN((latitute * 3.1415) / 180) +
                   COS((#{latitude} * 3.1415) / 180) * COS((latitute * 3.1415) / 180) *
                   COS((#{longitude} * 3.1415) / 180 - (longitude * 3.1415) / 180)) * 6380 ASC
