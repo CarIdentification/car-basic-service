@@ -2,6 +2,7 @@ package com.discern.car.util;
 
 import com.discern.car.config.RedisService;
 import com.discern.car.entity.User;
+import com.discern.car.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,6 +15,9 @@ public class LoginUtil {
 
     @Resource
     private RedisService redisService ;
+
+    @Resource
+    private UserService userService;
 
     public User cheakLogin(String signature){
         Object loginSign = redisService.get(signature);

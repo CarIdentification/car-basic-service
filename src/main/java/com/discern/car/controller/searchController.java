@@ -77,53 +77,6 @@ public class searchController implements InitializingBean {
   @Value("${img.location}")
   private String location;
 
-  @RequestMapping(value = "/pictureDiscern", method = RequestMethod.POST)
-  public ResultDto pictureDiscern(@RequestParam("file") MultipartFile multipartFile,
-      String signature, int serial, int last) {
-    User user = loginUtil.cheakLogin(signature);
-    if (multipartFile.isEmpty()) {
-      return new ResultDto("fail", "图片不存在！");
-    } else {
-      try {
-        String filePath = new ImageUtil().saveImg(multipartFile, location);
-        SearchHistoryPic searchHistoryPic = null;
-        switch (serial) {
-          case 0:
-            searchHistoryPic = new SearchHistoryPic();
-            searchHistoryPic.setUserId(user.getId());
-            searchHistoryPic.setPic1(location + "\\" + filePath);
-            redisService.set(signature + "Pic", searchHistoryPic, new Long(1800));
-            System.out.println("first pic");
-            break;
-          case 1:
-            searchHistoryPic = (SearchHistoryPic) redisService.get(signature + "Pic");
-            searchHistoryPic.setPic2(location + "\\" + filePath);
-            redisService.set(signature + "Pic", searchHistoryPic, new Long(1800));
-            System.out.println("second pic");
-            break;
-          case 2:
-            searchHistoryPic = (SearchHistoryPic) redisService.get(signature + "Pic");
-            searchHistoryPic.setPic3(location + "\\" + filePath);
-            redisService.set(signature + "Pic", searchHistoryPic, new Long(1800));
-            System.out.println("third pic");
-            break;
-        }
-        if (last == 1) {
-          searchHistoryPicService.insertSelective(searchHistoryPic);
-          System.out.println("discern!");
-          //调用图像识别api，将图片路径作为参数
-        }
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-
-      List<CarDto> carList = null;
-      carList = carService.selectByBrandId(9, 1);
-      return new ResultDto("success", carList);
-    }
-
-
-  }
 
   /**
    * 文字搜索
