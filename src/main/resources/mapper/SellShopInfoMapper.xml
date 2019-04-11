@@ -171,7 +171,7 @@
       AND longitude BETWEEN #{longitude} - 1 and #{longitude} + 1
     ORDER BY ACOS(SIN((#{latitude} * 3.1415) / 180) * SIN((latitute * 3.1415) / 180) +
                   COS((#{latitude} * 3.1415) / 180) * COS((latitute * 3.1415) / 180) *
-                  COS((#{longitude} * 3.1415) / 180 - (longitude * 3.1415) / 180)) * 6380 ASC
+                  COS((#{longitude} * 3.1415) / 180 - (longitude * 3.1415) / 180)) * 6380 DESC
     LIMIT 10;
   </select>
 
@@ -183,7 +183,7 @@
       AND longitude BETWEEN #{longitude} - 1 and #{longitude} + 1
     ORDER BY ACOS(SIN((#{latitude} * 3.1415) / 180) * SIN((latitute * 3.1415) / 180) +
                   COS((#{latitude} * 3.1415) / 180) * COS((latitute * 3.1415) / 180) *
-                  COS((#{longitude} * 3.1415) / 180 - (longitude * 3.1415) / 180)) * 6380 ASC
+                  COS((#{longitude} * 3.1415) / 180 - (longitude * 3.1415) / 180)) * 6380 DESC
     LIMIT 10;
   </select>
 </mapper>
