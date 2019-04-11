@@ -144,4 +144,18 @@
       nickname = #{nickname,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <insert id="addOwnCar">
+    insert  into user_car (car_id,user_id)
+    values (#{carId},#{userId})
+  </insert>
+
+  <delete id="delOwnCar">
+    delete from user_car where user_id = #{userId} AND car_id = #{carId}
+  </delete>
+
+  <select id="getOwnCar" resultType="java.lang.String">
+    select car_id from user_car where user_id = #{userId}
+  </select>
 </mapper>

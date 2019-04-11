@@ -33,6 +33,8 @@ public class SalesmanDto {
      */
     private String personalPic;
 
+    private SellShopInfo sellShopInfo;
+
 
     public Integer getId() {
         return id;
@@ -88,5 +90,13 @@ public class SalesmanDto {
 
     public void setPersonalPic(String personalPic) {
         this.personalPic = personalPic;
+    }
+
+    public SellShopInfo getSellShopInfo() {
+        return sellShopInfo;
+    }
+
+    public void setSellShopInfo(SellShopInfo sellShopInfo) {
+        this.sellShopInfo = sellShopInfo;
     }
 }

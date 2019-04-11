@@ -15,7 +15,7 @@ public interface SellShopInfoService {
 
     int insertSelective(SellShopInfo record);
 
-    SellShopInfo selectByPrimaryKey(Integer id);
+    SaleShopDto selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(SellShopInfo record);
 
@@ -23,4 +23,6 @@ public interface SellShopInfoService {
 
     List<SaleShopDto> selectAroundSellShopByBrandId(double latitude, double longitude,
         Integer brandId);
+
+    List<SaleShopDto> selectAroundSellShopByLocation(double latitude, double longitude);
 }

@@ -20,5 +20,7 @@ public interface SalesmanMapper {
 
     int updateByPrimaryKey(Salesman record);
 
-    List<SalesmanDto> selectByBrandId(Integer id);
+    List<SalesmanDto> selectByBrandId(Integer brandId);
+
+    List<SalesmanDto> selectByShopId(Integer shopId);
 }

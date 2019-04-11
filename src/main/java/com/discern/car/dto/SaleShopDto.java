@@ -10,7 +10,6 @@ public class SaleShopDto {
 
   private List<SalesmanDto> salesMan;
 
-
   public float getLatitute() {
     return latitute;
   }
@@ -89,5 +88,13 @@ public class SaleShopDto {
 
   public void setId(Integer id) {
     this.id = id;
+  }
+
+  public List<SalesmanDto> getSalesMan() {
+    return salesMan;
+  }
+
+  public void setSalesMan(List<SalesmanDto> salesMan) {
+    this.salesMan = salesMan;
   }
 }
