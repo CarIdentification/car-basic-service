@@ -95,6 +95,7 @@ dependencies {
 	compile ('com.esotericsoftware:reflectasm:1.11.3')
 	compile('mysql:mysql-connector-java')
 	compile('org.apache.commons:commons-collections4:4.3')
+	compile('org.apache.commons:commons-collections:3.2.2')
 
 
 
