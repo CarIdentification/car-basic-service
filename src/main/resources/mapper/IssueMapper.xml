@@ -149,4 +149,13 @@
   <select id="selectByTextSearch" resultMap="BaseResultMap">
     select * from issue i where  i.title like #{textSearch,jdbcType=VARCHAR} or i.content like #{textSearch,jdbcType=VARCHAR}
   </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+    select COUNT(*) from issue;
+  </select>
+  <select id="list" resultMap="BaseResultMap">
+    select
+    *
+    FROM issue
+    limit #{offset,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+  </select>
 </mapper>

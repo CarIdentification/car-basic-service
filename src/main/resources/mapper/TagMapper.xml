@@ -26,7 +26,7 @@
     select
     tag_id, brand_name, create_time, hot
     FROM tag
-    limit #{page.offset,jdbcType=INTEGER},#{page.limit,jdbcType=INTEGER}
+    limit #{offset,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
   </select>
   <select id="selectNoHasByUserId" resultMap="BaseResultMap" resultType="java.lang.Integer">
     select

@@ -23,8 +23,6 @@ public interface TagMapper {
 
     List<Tag> selectByUserId(Integer userId);
 
-    List<Tag> list(@Param("page") Page page);
-
     int insertTagWithUserId(@Param("userId") Integer userId, @Param("tagId") Integer tagId);
 
     List<Tag> selectNoHasByUserId(Integer userId);
@@ -33,5 +31,5 @@ public interface TagMapper {
 
     int removeTagWithUserId(@Param("userId") Integer userId, @Param("tagId") Integer tagId);
 
-
+    List<Tag> list(@Param("offset") int offset,@Param("limit") Integer limit);
 }

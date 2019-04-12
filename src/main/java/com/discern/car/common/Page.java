@@ -9,15 +9,24 @@ import java.io.Serializable;
  * @Time 12/04/2019
  */
 public class Page implements Serializable {
-    private Integer offset;
     private Integer limit;
+    private Integer page;
     private Integer count;
-    public Integer getOffset() {
-        return offset;
+
+    public Integer getLimit() {
+        return limit;
     }
 
-    public void setOffset(Integer offset) {
-        this.offset = offset;
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
     }
 
     public Integer getCount() {
@@ -29,11 +38,4 @@ public class Page implements Serializable {
         this.count = count;
     }
 
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public void setLimit(Integer limit) {
-        this.limit = limit;
-    }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -30,12 +31,10 @@ public class IssueController {
         return issues;
     }
 
-    @RequestMapping("/list")
-    public PageResult<Issue> list() {
-        List<Issue> issues = issueService.selectByHot();
-        Page page = new Page();
-        page.setCount(issues.size());
-        return PageResult.newSuccess(page, issues);
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public PageResult<Issue> list(Page page) {
+        PageResult<Issue> result = issueService.list(page);
+        return result;
     }
 
     @RequestMapping("/getIssue")

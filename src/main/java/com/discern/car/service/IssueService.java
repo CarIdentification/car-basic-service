@@ -1,8 +1,11 @@
 package com.discern.car.service;
 
+import com.discern.car.common.Page;
+import com.discern.car.common.PageResult;
 import com.discern.car.entity.Issue;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Created by a on 2018/5/17.
@@ -27,4 +30,6 @@ public interface IssueService {
     List<Issue> selectRecommendIssue(Integer userId);
 
     List<Issue> selectByTextSearch(String textSearch);
+
+    PageResult<Issue> list(@Param("page") Page page);
 }
