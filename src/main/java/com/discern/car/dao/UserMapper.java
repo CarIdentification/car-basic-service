@@ -30,4 +30,7 @@ public interface UserMapper{
 
     // 获取拥有车型
     List<Integer> getOwnCar(@Param("userId")int userId);
+
+    // 某辆车是否在车库里
+    int haveCar(@Param("carId")int carId, @Param("userId")int userId);
 }
