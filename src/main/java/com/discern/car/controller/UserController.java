@@ -252,4 +252,9 @@ public class UserController {
         }
         return new ResultDto("success", data);
     }
+
+    @RequestMapping("/haveCar")
+    public ResultDto haveCar(@RequestParam(name = "userId")int userId, @RequestParam(name = "carId") int carId){
+        return new ResultDto("success",userMapper.haveCar(carId,userId));
+    }
 }
