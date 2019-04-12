@@ -30,4 +30,6 @@ public interface UserMapper{
 
     // 获取拥有车型
     List<Integer> getOwnCar(@Param("userId")int userId);
+
+    int updateSexByUserId(@Param("userId")int userId,@Param("sex")String sex);
 }

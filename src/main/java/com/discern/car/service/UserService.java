@@ -19,4 +19,6 @@ public interface UserService{
     int updateByPrimaryKey(User record);
 
     User selectByOpenId(String openId);
+
+    int updateSexByUserId(int userId,String sex);
 }

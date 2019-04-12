@@ -158,4 +158,13 @@
   <select id="getOwnCar" resultType="java.lang.String">
     select car_id from user_car where user_id = #{userId}
   </select>
+
+  <select id="updateSexByUserId">
+    update
+        `user`
+    set
+        sex = #{sex}
+    where
+        id = #{userId}
+  </select>
 </mapper>

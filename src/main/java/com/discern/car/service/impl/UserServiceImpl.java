@@ -50,4 +50,9 @@ public class UserServiceImpl implements UserService {
     public User selectByOpenId(String openId) {
         return userMapper.selectByOpenId(openId);
     }
+
+    @Override
+    public int updateSexByUserId(int userId, String sex) {
+        return userMapper.updateSexByUserId(userId, sex);
+    }
 }
