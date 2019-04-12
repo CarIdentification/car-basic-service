@@ -1,18 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.discern.car.dao.TagMapper">
   <resultMap id="BaseResultMap" type="com.discern.car.entity.Tag">
-    <id column="tag_id" jdbcType="INTEGER" property="tagId" />
-    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="hot" jdbcType="INTEGER" property="hot" />
+    <id column="tag_id" jdbcType="INTEGER" property="tagId"/>
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="hot" jdbcType="INTEGER" property="hot"/>
   </resultMap>
   <sql id="Base_Column_List">
     tag_id, brand_name, create_time, hot
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from tag
     where tag_id = #{tagId,jdbcType=INTEGER}
   </select>
@@ -23,12 +22,18 @@
     WHERE user_id = #{userId,jdbcType=INTEGER}
     limit 0,5
   </select>
-    <select id="selectNoHasByUserId" resultMap="BaseResultMap" resultType="java.lang.Integer">
-      select
-      <include refid="Base_Column_List" />
-       from tag where tag.tag_id not in (select tag_id from user_tag where user_id = #{userId,jdbcType=INTEGER});
-    </select>
-  <select id="selectCount" resultType="java.lang.Integer" >
+  <select id="list" resultMap="BaseResultMap">
+    select
+    tag_id, brand_name, create_time, hot
+    FROM tag
+    limit #{page.offset,jdbcType=INTEGER},#{page.limit,jdbcType=INTEGER}
+  </select>
+  <select id="selectNoHasByUserId" resultMap="BaseResultMap" resultType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
+    from tag where tag.tag_id not in (select tag_id from user_tag where user_id = #{userId,jdbcType=INTEGER});
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer">
     select COUNT(*) from tag;
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -75,11 +80,11 @@
       </if>
     </trim>
   </insert>
-    <insert id="insertTagWithUserId" parameterType="java.lang.Integer">
+  <insert id="insertTagWithUserId" parameterType="java.lang.Integer">
       insert into user_tag (tag_id, user_id)
     values (#{tagId}, #{userId})
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.discern.car.entity.Tag">
+  <update id="updateByPrimaryKeySelective" parameterType="com.discern.car.entity.Tag">
     update tag
     <set>
       <if test="brandName != null">

@@ -26,4 +26,6 @@ public interface IssueMapper {
     List<Issue> selectRecommendIssue(Integer userId);
 
     List<Issue> selectByTextSearch(String textSearch);
+
+    List<Issue> list();
 }
