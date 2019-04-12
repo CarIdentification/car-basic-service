@@ -6,6 +6,7 @@ import com.discern.car.common.Result;
 import com.discern.car.entity.Tag;
 import com.discern.car.service.TagService;
 import com.discern.car.util.BeanUtil;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,7 +34,7 @@ public class TagController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public Result delete(Integer id) {
+    public Result<Boolean> delete(Integer id) {
         tagService.deleteByPrimaryKey(id);
         return Result.newSuccess();
     }

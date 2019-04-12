@@ -2,6 +2,7 @@ package com.discern.car.service;
 
 import com.discern.car.common.Page;
 import com.discern.car.common.PageResult;
+import com.discern.car.common.Result;
 import com.discern.car.entity.Tag;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,9 +12,9 @@ import java.util.List;
  * Created by Keben on 2018-05-12.
  */
 public interface TagService {
-    int deleteByPrimaryKey(Integer tagId);
+    Result<Boolean> deleteByPrimaryKey(Integer tagId);
 
-    int insert(Tag record);
+    Result<Integer> insert(Tag record);
 
     int insertSelective(Tag record);
 
