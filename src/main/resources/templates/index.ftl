@@ -10,33 +10,6 @@
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
     <div class="layui-logo">随识车</div>
-    <!-- 头部区域（可配合layui已有的水平导航） -->
-    <ul class="layui-nav layui-layout-left">
-      <li class="layui-nav-item"><a href="">控制台</a></li>
-      <li class="layui-nav-item"><a href="">商品管理</a></li>
-      <li class="layui-nav-item"><a href="">用户</a></li>
-      <li class="layui-nav-item">
-        <a href="javascript:;">其它系统</a>
-        <dl class="layui-nav-child">
-          <dd><a href="">邮件管理</a></dd>
-          <dd><a href="">消息管理</a></dd>
-          <dd><a href="">授权管理</a></dd>
-        </dl>
-      </li>
-    </ul>
-    <ul class="layui-nav layui-layout-right">
-      <li class="layui-nav-item">
-        <a href="javascript:;">
-          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-          贤心
-        </a>
-        <dl class="layui-nav-child">
-          <dd><a href="">基本资料</a></dd>
-          <dd><a href="">安全设置</a></dd>
-        </dl>
-      </li>
-      <li class="layui-nav-item"><a href="">退了</a></li>
-    </ul>
   </div>
 
   <div class="layui-side layui-bg-black">
@@ -46,9 +19,9 @@
         <li class="layui-nav-item layui-nav-itemed">
           <a class="" href="javascript:;">所有商品</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;">列表一</a></dd>
-            <dd><a href="javascript:;">列表二</a></dd>
-            <dd><a href="javascript:;">列表三</a></dd>
+            <dd><a href="/">车库管理</a></dd>
+            <dd><a href="">超链接</a></dd>
+            <dd><a href="">超链接</a></dd>
             <dd><a href="">超链接</a></dd>
           </dl>
         </li>
@@ -60,13 +33,12 @@
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">
       <table class="layui-hide" id="test"></table>
-
     </div>
   </div>
 
   <div class="layui-footer">
     <!-- 底部固定区域 -->
-    © layui.com - 底部固定区域
+    © suishiche.com - c525东东在线coding
   </div>
 </div>
 <script src="https://joeytsai03.github.io/resource/layui/layui.js"></script>
@@ -80,7 +52,7 @@
     var table = layui.table;
     table.render({
       elem: '#test'
-      , url: 'http://localhost:8763/issue/getHotIssue'
+      , url: 'http://localhost:8763/issue/list'
       , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
       , cols: [[
         {field: 'id', width: 80, title: 'ID', sort: true}
