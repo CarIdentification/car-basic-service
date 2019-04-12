@@ -4,24 +4,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 
 public class Result<T> implements Serializable {
-    private int errCode;
-    private String errMsg;
+    private int code;
+    private String msg;
     private T data;
 
-    public int getErrCode() {
-        return errCode;
+    public int getCode() {
+        return code;
     }
 
-    public void setErrCode(int errCode) {
-        this.errCode = errCode;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public String getErrMsg() {
-        return errMsg;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setErrMsg(String errMsg) {
-        this.errMsg = errMsg;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public T getData() {
@@ -36,24 +36,24 @@ public class Result<T> implements Serializable {
     }
 
     public Result(SHErrorCode code) {
-        this.errCode = code.getErrorCode();
-        this.errMsg = code.getErrorMessage();
+        this.code = code.getErrorCode();
+        this.msg = code.getErrorMessage();
     }
 
-    public Result(int errCode, String errMsg) {
-        this.errCode = errCode;
-        this.errMsg = errMsg;
+    public Result(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
     }
 
-    public Result(int errCode, String errMsg, T data) {
-        this.errCode = errCode;
-        this.errMsg = errMsg;
+    public Result(int code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
         this.data = data;
     }
 
     public Result(SHErrorCode code, T data) {
-        this.errCode = code.getErrorCode();
-        this.errMsg = code.getErrorMessage();
+        this.code = code.getErrorCode();
+        this.msg = code.getErrorMessage();
         this.data = data;
     }
 
@@ -75,6 +75,6 @@ public class Result<T> implements Serializable {
 
     @JsonIgnore
     public boolean isSuccess() {
-        return errCode == 0;
+        return code == 0;
     }
 }
