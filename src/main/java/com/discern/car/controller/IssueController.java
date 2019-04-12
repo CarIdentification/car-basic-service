@@ -1,5 +1,6 @@
 package com.discern.car.controller;
 
+import com.discern.car.common.Result;
 import com.discern.car.dto.ResultDto;
 import com.discern.car.entity.Issue;
 import com.discern.car.entity.User;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by a on 2018/5/26.
  */
 @RestController
+@RequestMapping("/issue")
 public class IssueController {
     @Autowired
     private IssueService issueService;
@@ -22,9 +24,9 @@ public class IssueController {
     private LoginUtil loginUtil;
 
     @RequestMapping("/getHotIssue")
-    public List<Issue> getHotIssue() {
+    public Result<List<Issue>> getHotIssue() {
         List<Issue> issues = issueService.selectByHot();
-        return issues;
+        return Result.newSuccess(issues);
     }
 
     @RequestMapping("/getIssue")

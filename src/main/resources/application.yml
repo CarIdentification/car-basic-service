@@ -22,6 +22,13 @@ mybatis:
 
 #开发配置
 spring:
+  thymeleaf:
+    cache=false
+    prefix=classpath:/web/
+    suffix=.html
+    mode=HTML5
+    encoding=UTF-8
+    content-type=text/html
 #  profiles: dev
   profiles:
     active: dev
@@ -88,3 +95,5 @@ spring:
         min-idle: 30
     # 连接超时时间（毫秒）
 #    timeout: 5000
+
+
