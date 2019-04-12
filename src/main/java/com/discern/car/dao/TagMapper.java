@@ -1,5 +1,6 @@
 package com.discern.car.dao;
 
+import com.discern.car.common.Page;
 import com.discern.car.entity.Tag;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,7 +23,7 @@ public interface TagMapper {
 
     List<Tag> selectByUserId(Integer userId);
 
-    List<Tag> list();
+    List<Tag> list(@Param("page") Page page);
 
     int insertTagWithUserId(@Param("userId") Integer userId, @Param("tagId") Integer tagId);
 

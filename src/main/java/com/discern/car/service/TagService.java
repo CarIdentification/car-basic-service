@@ -1,5 +1,7 @@
 package com.discern.car.service;
 
+import com.discern.car.common.Page;
+import com.discern.car.common.PageResult;
 import com.discern.car.entity.Tag;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,7 +24,7 @@ public interface TagService {
     int updateByPrimaryKey(Tag record);
 
     List<Tag> selectByUserId(Integer userId);
-    List<Tag> list();
+    PageResult<Tag> list(Page page);
 
     int insertTagWithUserId(Integer userId,Integer TagId);
 

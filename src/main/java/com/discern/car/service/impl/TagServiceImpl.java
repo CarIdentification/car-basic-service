@@ -1,5 +1,7 @@
 package com.discern.car.service.impl;
 
+import com.discern.car.common.Page;
+import com.discern.car.common.PageResult;
 import com.discern.car.dao.TagMapper;
 import com.discern.car.entity.Tag;
 import com.discern.car.service.TagService;
@@ -52,8 +54,11 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<Tag> list() {
-        return mapper.list();
+    public PageResult<Tag> list(Page page) {
+        List<Tag> tags = mapper.list(page);
+        Integer count = mapper.selectCount();
+        page.setCount(count);
+        return PageResult.newSuccess(page,tags);
     }
 
     @Override
