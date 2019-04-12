@@ -85,7 +85,7 @@
     car.id, car.cover_pic, car.car_brand, car.category_id, car.begin_price,end_price, car.level,
     car.country, car.structure,
     car.displacement, car.seat, car.air_intake, car.energy, car.driving_method, car.transmission,
-    car.production_methods,CONCAT(car_brand.name,car.car_name) AS car_name
+    car.production_methods,car_brand.name AS car_name
   </sql>
   <select id="selectByPrimaryKey" resultMap="CarMap" parameterType="java.lang.Integer" >
     select 
