@@ -13,7 +13,6 @@ import java.util.List;
  */
 @Service("tagService")
 public class TagServiceImpl implements TagService {
-
     @Resource
     TagMapper mapper;
 
@@ -50,6 +49,11 @@ public class TagServiceImpl implements TagService {
     @Override
     public List<Tag> selectByUserId(Integer userId) {
         return mapper.selectByUserId(userId);
+    }
+
+    @Override
+    public List<Tag> list() {
+        return mapper.list();
     }
 
     @Override

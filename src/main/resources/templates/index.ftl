@@ -6,10 +6,10 @@
   <title>随识车</title>
   <link rel="stylesheet" href="https://joeytsai03.github.io/resource/layui/css/layui.css">
 </head>
-<body class="layui-layout-body">
+<body class="layui-layout-body ">
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
-    <div class="layui-logo">随识车</div>
+    <div class="layui-logo" style="font-size:30px; color: #0D5661 " >随识车</div>
   </div>
 
   <div class="layui-side layui-bg-black">

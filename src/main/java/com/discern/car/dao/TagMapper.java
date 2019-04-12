@@ -22,11 +22,15 @@ public interface TagMapper {
 
     List<Tag> selectByUserId(Integer userId);
 
-    int insertTagWithUserId(@Param("userId")Integer userId, @Param("tagId")Integer tagId);
+    List<Tag> list();
+
+    int insertTagWithUserId(@Param("userId") Integer userId, @Param("tagId") Integer tagId);
 
     List<Tag> selectNoHasByUserId(Integer userId);
 
     int selectCount();
 
-    int removeTagWithUserId(@Param("userId")Integer userId, @Param("tagId")Integer tagId);
+    int removeTagWithUserId(@Param("userId") Integer userId, @Param("tagId") Integer tagId);
+
+
 }

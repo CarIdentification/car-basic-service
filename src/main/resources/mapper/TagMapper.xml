@@ -23,6 +23,11 @@
     WHERE user_id = #{userId,jdbcType=INTEGER}
     limit 0,5
   </select>
+  <select id="list" resultMap="BaseResultMap">
+    select
+    tag_id, brand_name, create_time, hot
+    FROM tag
+  </select>
     <select id="selectNoHasByUserId" resultMap="BaseResultMap" resultType="java.lang.Integer">
       select
       <include refid="Base_Column_List" />
