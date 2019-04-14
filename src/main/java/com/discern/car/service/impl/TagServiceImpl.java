@@ -57,7 +57,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public PageResult<Tag> list(Page page) {
-        List<Tag> tags = mapper.list(page);
+        List<Tag> tags = mapper.list((page.getPage()-1)*page.getLimit(),page.getLimit());
         Integer count = mapper.selectCount();
         page.setCount(count);
         return PageResult.newSuccess(page, tags);

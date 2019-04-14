@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomePageController {
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
-        return "redirect:index";
+        return "index.html";
     }
+
     @RequestMapping(value = "/car", method = RequestMethod.GET)
     public String userInfo() {
         return "/usermanage/carList";
     }
-
 }
