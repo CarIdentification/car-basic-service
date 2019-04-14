@@ -1,8 +1,9 @@
 package com.discern.car.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Issue {
+public class Issue implements Serializable {
     private Integer id;
 
     /**

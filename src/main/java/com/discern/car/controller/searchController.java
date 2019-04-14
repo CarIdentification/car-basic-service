@@ -82,7 +82,8 @@ public class searchController implements InitializingBean {
    * 文字搜索
    */
   @RequestMapping("/textSearch")
-  public ResultDto textSearch(String searchContext, String signature) {
+  public ResultDto textSearch(
+          @RequestParam(value = "searchContext", required = false) String searchContext, String signature) {
     System.out.println("/textSearch");
     System.out.println("signature :" + signature);
     //保存搜索记录
