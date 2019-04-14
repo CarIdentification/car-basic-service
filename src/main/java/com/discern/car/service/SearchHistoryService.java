@@ -23,4 +23,6 @@ public interface SearchHistoryService {
     List<SearchHistory> selectByUserId(Integer id);
 
     List<SearchHistory> select(SearchHistory searchHistory);
+
+    void removeTextSearchHistory(Integer userId);
 }

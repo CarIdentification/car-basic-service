@@ -57,4 +57,9 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
     public List<SearchHistory> select(SearchHistory searchHistory) {
         return null;
     }
+
+    @Override
+    public void removeTextSearchHistory(Integer userId) {
+        searchHistoryMapper.removeTextSearchHistory(userId);
+    }
 }

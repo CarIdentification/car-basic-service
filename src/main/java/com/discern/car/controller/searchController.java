@@ -122,6 +122,23 @@ public class searchController implements InitializingBean {
 
   }
 
+    /**
+     * @param signature 登陆状态
+     */
+  @ResponseBody
+  @RequestMapping("/removeTextSearchHistory")
+  public ResultDto removeTextSearchHistory(String signature){
+      //获取用户登陆信息
+      User user = loginUtil.cheakLogin(signature);
+      if (user == null) {
+          return new ResultDto("fail", "需要授予用户权限！");
+      } else {
+          searchHistoryService.removeTextSearchHistory(user.getId());
+          return new ResultDto("success",null);
+      }
+  }
+
+
   /**
    * 高级搜索 高级搜索
    */
