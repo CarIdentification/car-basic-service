@@ -2,6 +2,7 @@ package com.discern.car.controller;
 
 import com.discern.car.common.Page;
 import com.discern.car.common.PageResult;
+import com.discern.car.common.Result;
 import com.discern.car.dto.ResultDto;
 import com.discern.car.entity.Issue;
 import com.discern.car.entity.User;
@@ -51,26 +52,38 @@ public class IssueController {
     }
 
     @RequestMapping("/add")
-    public ResultDto add(Issue issue) {
+    public Result add(Issue issue) {
         issueService.insert(issue);
-        return ResultDto.OK;
+        return Result.newSuccess();
     }
 
-    @RequestMapping("/delete")
-    public ResultDto delete(Integer id) {
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    public Result delete(Integer id) {
         issueService.deleteByPrimaryKey(id);
-        return ResultDto.OK;
+        return Result.newSuccess();
     }
 
-    @RequestMapping("/get")
-    public ResultDto get(Integer id) {
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public Result<Issue> get(Integer id) {
         Issue issue = issueService.selectByPrimaryKey(id);
-        return new ResultDto(ResultDto.OK.getStateInfo(), issue);
+        return Result.newSuccess(issue);
     }
 
     @RequestMapping("/update")
-    public ResultDto update(Issue issue) {
+    public Result update(Issue issue) {
         issueService.updateByPrimaryKeySelective(issue);
-        return ResultDto.OK;
+        return Result.newSuccess();
+    }
+
+    @RequestMapping(value = "/merge", method = RequestMethod.POST)
+    public Result<Issue> merge(Issue issue) {
+        Integer id;
+        if (issue.getId() == null || issue.getId() == 0) {
+            issueService.insert(issue);
+        } else {
+            issueService.updateByPrimaryKeySelective(issue);
+        }
+        id = issue.getId();
+        return Result.newSuccess(issueService.selectByPrimaryKey(id));
     }
 }
