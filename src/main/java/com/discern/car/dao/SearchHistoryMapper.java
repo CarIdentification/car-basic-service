@@ -18,4 +18,8 @@ public interface SearchHistoryMapper {
     int updateByPrimaryKey(SearchHistory record);
 
     List<SearchHistory> selectByUserId(Integer id);
+
+    void removeTextSearchHistory(Integer userId);
+
+    void insertHistory(SearchHistory record);
 }
