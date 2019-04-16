@@ -475,10 +475,10 @@
         </foreach>
       </if>
     </where>
-
+    LIMIT 100
   </select>
   <select id="textSearch" resultMap="TextSearchResultMap">
-    select c.*,CONCAT(b.`name`,c.car_name) as full_car_name from car c LEFT JOIN car_brand b on c.car_brand = b.id where c.car_name like #{searchText,jdbcType=VARCHAR} or b.`name` like #{searchText,jdbcType=VARCHAR};
+    select c.*,b.`name` as full_car_name from car c LEFT JOIN car_brand b on c.car_brand = b.id where c.car_name like #{searchText,jdbcType=VARCHAR} or b.`name` like #{searchText,jdbcType=VARCHAR};
   </select>
     <select id="selectList" resultMap="BaseResultMap">
         select * from car where id;
