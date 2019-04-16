@@ -145,14 +145,14 @@
     FROM issue i LEFT JOIN issue_tag it on i.id = it.issue_id LEFT JOIN user_tag ut on it.tag_id = ut.tag_id where ut.user_id  = #{userId,jdbcType=INTEGER};
   </select>
   <select id="selectByTextSearch" resultMap="BaseResultMap">
-    select * from issue i where  i.title like #{textSearch,jdbcType=VARCHAR} or i.content like #{textSearch,jdbcType=VARCHAR}
+    select <include refid="Base_Column_List" /> from issue i where  i.title like #{textSearch,jdbcType=VARCHAR} or i.content like #{textSearch,jdbcType=VARCHAR}
   </select>
   <select id="selectCount" resultType="java.lang.Integer">
     select COUNT(*) from issue;
   </select>
   <select id="list" resultMap="BaseResultMap">
     select
-    *
+    <include refid="Base_Column_List" />
     FROM issue
     limit #{offset,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
   </select>
