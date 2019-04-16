@@ -18,16 +18,16 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class SearchHistoryServiceTest {
-    @Autowired
-    private SearchHistoryService searchHistoryService;
-
-    @Test
-    public void insert(){
-        SearchHistory record = new SearchHistory();
-        record.setContent("11");
-        record.setId(1000000000);
-        record.setUserId(10000);
-        searchHistoryService.insert(record);
-    }
+//    @Autowired
+//    private SearchHistoryService searchHistoryService;
+//
+//    @Test
+//    public void insert(){
+//        SearchHistory record = new SearchHistory();
+//        record.setContent("11");
+//        record.setId(1000000000);
+//        record.setUserId(10000);
+//        searchHistoryService.insert(record);
+//    }
 
 }
