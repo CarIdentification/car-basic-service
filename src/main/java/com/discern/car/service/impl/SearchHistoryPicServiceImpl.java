@@ -6,6 +6,7 @@ import com.discern.car.service.SearchHistoryPicService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by Keben on 2019-01-04.
@@ -33,6 +34,11 @@ public class SearchHistoryPicServiceImpl implements SearchHistoryPicService {
     @Override
     public SearchHistoryPic selectByPrimaryKey(Integer id) {
         return searchHistoryPicMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<SearchHistoryPic> selectByUid(Integer uid) {
+        return searchHistoryPicMapper.selectByUid(uid);
     }
 
     @Override
