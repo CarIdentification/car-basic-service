@@ -62,4 +62,9 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
     public void removeTextSearchHistory(Integer userId) {
         searchHistoryMapper.removeTextSearchHistory(userId);
     }
+
+    @Override
+    public void insertHistory(SearchHistory record) {
+        searchHistoryMapper.insertHistory(record);
+    }
 }

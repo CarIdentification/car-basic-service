@@ -32,11 +32,11 @@
     delete from issue
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.discern.car.entity.Issue" >
-    insert into issue (id, author, create_time, 
+  <insert id="insert"  useGeneratedKeys="true" keyProperty="id"  parameterType="com.discern.car.entity.Issue" >
+    insert into issue ( author, create_time,
       title, topic_pic, view_count, 
       content)
-    values (#{id,jdbcType=INTEGER}, #{author,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{author,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
       #{title,jdbcType=VARCHAR}, #{topicPic,jdbcType=VARCHAR}, #{viewCount,jdbcType=INTEGER}, 
       #{content,jdbcType=LONGVARCHAR})
   </insert>

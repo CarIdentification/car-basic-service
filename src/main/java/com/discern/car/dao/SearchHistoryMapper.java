@@ -20,4 +20,6 @@ public interface SearchHistoryMapper {
     List<SearchHistory> selectByUserId(Integer id);
 
     void removeTextSearchHistory(Integer userId);
+
+    void insertHistory(SearchHistory record);
 }

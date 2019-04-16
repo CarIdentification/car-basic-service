@@ -95,7 +95,7 @@ public class searchController implements InitializingBean {
     //添加搜索记录
     searchHistory.setUserId(user.getId());
     searchHistory.setContent(searchContext);
-    searchHistoryService.insertSelective(searchHistory);
+    searchHistoryService.insertHistory(searchHistory);
     //获取搜索结果
     List<Car> list = carService.textSearch(searchContext);
     Map<String, Object> map = new HashMap<>();
