@@ -68,4 +68,9 @@ public class IssueServiceImpl implements IssueService{
         page.setCount(count);
         return PageResult.newSuccess(page, issues);
     }
+
+    @Override
+    public int updateViewCountByPrimaryKey(Integer primaryKey) {
+        return issueMapper.updateViewCountByPrimaryKey(primaryKey);
+    }
 }

@@ -6,6 +6,7 @@ import com.discern.car.dto.ResultDto;
 import com.discern.car.entity.Issue;
 import com.discern.car.entity.User;
 import com.discern.car.service.IssueService;
+import com.discern.car.util.BeanUtil;
 import com.discern.car.util.LoginUtil;
 import java.util.List;
 import javax.annotation.Resource;
@@ -40,6 +41,7 @@ public class IssueController {
     @RequestMapping("/getIssue")
     public Issue getIssue(String id) {
         Issue issue = issueService.selectByPrimaryKey(Integer.parseInt(id));
+        issueService.updateViewCountByPrimaryKey(issue.getId());
         return issue;
     }
 
