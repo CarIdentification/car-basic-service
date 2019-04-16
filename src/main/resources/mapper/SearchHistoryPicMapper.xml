@@ -101,4 +101,7 @@
       pic3 = #{pic3,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByUid" resultMap="BaseResultMap">
+    select * from search_history_pic WHERE user_id = #{uid,jdbcType=INTEGER}
+  </select>
 </mapper>
