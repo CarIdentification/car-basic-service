@@ -34,10 +34,10 @@
   </delete>
   <insert id="insert"  useGeneratedKeys="true" keyProperty="id"  parameterType="com.discern.car.entity.Issue" >
     insert into issue ( author, create_time,
-      title, topic_pic, view_count, 
+      title, topic_pic, view_count, introduce,
       content)
-    values (#{author,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
-      #{title,jdbcType=VARCHAR}, #{topicPic,jdbcType=VARCHAR}, #{viewCount,jdbcType=INTEGER}, 
+    values (#{author,jdbcType=VARCHAR}, now(),
+      #{title,jdbcType=VARCHAR}, #{topicPic,jdbcType=VARCHAR}, 0,#{introduce,jdbcType=VARCHAR},
       #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.discern.car.entity.Issue" >
@@ -110,6 +110,9 @@
       <if test="content != null" >
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
+      <if test="introduce != null" >
+        introduce = #{introduce,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -155,7 +158,7 @@
   <select id="list" resultMap="BaseResultMap">
     select
     *
-    FROM issue
+    FROM issue order by create_time desc
     limit #{offset,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
   </select>
 </mapper>

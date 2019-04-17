@@ -22,9 +22,8 @@
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
       <ul class="layui-nav layui-nav-tree" lay-filter="test">
         <li class="layui-nav-item layui-nav-itemed">
-          <a class="" href="javascript:;">所有商品</a>
           <dl class="layui-nav-child">
-            <dd><a href="/">文章管理</a></dd>
+            <dd><a href="http://localhost:8763/">文章管理</a></dd>
             <dd><a href="">超链接</a></dd>
             <dd><a href="">超链接</a></dd>
             <dd><a href="">超链接</a></dd>
@@ -37,6 +36,12 @@
   <div class="layui-body">
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">
+      <!-- 工具集 -->
+      <div class="my-btn-box">
+        <span class="fl">
+            <a class="layui-btn btn-add btn-default" id="btn-add">添加</a>
+        </span>
+      </div>
 
       <table class="layui-hide" id="test" lay-filter="test"></table>
       <script type="text/html" id="barDemo">
@@ -67,17 +72,18 @@
       url: 'http://localhost:8763/issue/list',
       toolbar: '#toolbarDemo',
       title: '文章',
-      cols: [[{type: 'checkbox', fixed: 'left'}, {
-        field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true
-      }, {field: 'topicPic', title: '图片', width: 120, edit: 'text'}, {
-        field: 'author', title: '文章作者', width: 150, edit: 'text'
-      }, {field: 'title', title: '标题', width: 80, edit: 'text', sort: true}, {
-        field: 'introduce', title: '介绍', width: 100
-      }, {field: 'viewCount', title: '浏览数'}, {
-        field: 'content', title: '内容', width: 80, sort: true
-      }, {field: 'createTime', title: '创建时间', width: 120}, {
-        fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150
-      }]],
+      cols: [[// {type: 'checkbox', fixed: 'left'},
+        {
+          field: 'id', title: 'ID', width: 60, fixed: 'left', unresize: true, sort: true
+        }, {field: 'topicPic', title: '图片', width: 120, edit: 'text'}, {
+          field: 'author', title: '文章作者', width: 120, edit: 'text'
+        }, {field: 'title', title: '标题', width: 120, edit: 'text', sort: true}, {
+          field: 'introduce', title: '介绍', width: 140
+        }, {field: 'viewCount', title: '浏览数', width: 80}, {
+          field: 'content', title: '内容', width: 180, sort: true
+        }, {field: 'createTime', title: '创建时间', width: 140}, {
+          fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150
+        }]],
       page: true
     });
 
@@ -107,37 +113,35 @@
       if (obj.event === 'del') {
         layer.confirm('真的删除行么', function (index) {
           obj.del();
-          deleteData(obj,data);
+          deleteData(obj, data);
           layer.close(index);
         });
       } else if (obj.event === 'edit') {
         setForm(obj, data)
         layer.open({
-          type: 1, title: "修改采集设备信息", area: ['420px', '330px'], content: $("#popUpdateTest")
+          type: 1, title: "数据修改", area: ['840px', '660px'], content: $("#popUpdateTest")
         });
-
 
       }
       //监听提交
       form.on('submit(demo1)', function (massage) {
         $.ajax({
-          url: 'http://localhost:8763/issue/merge',
-          type: 'POST',
-          data: {
+          url: 'http://localhost:8763/issue/merge', type: 'POST', data: {
             id: massage.field.id,
             title: massage.field.title,
             author: massage.field.author,
-          },
-          success: function (msg) {
+            introduce: massage.field.introduce,
+            content: massage.field.content,
+
+          }, success: function (msg) {
             var returnCode = msg.code;//取得返回数据（Sting类型的字符串）的信息进行取值判断
-            layer.alert(JSON.stringify(returnCode), {
-              title: '最终的提交信息'
-            })
             if (returnCode == 0) {
               obj.update({
                 id: msg.data.id,
                 author: msg.data.author,
-                title: msg.data.title
+                title: msg.data.title,
+                introduce: massage.field.introduce,
+                content: massage.field.content
               });//修改成功修改表格数据不进行跳转
               layer.closeAll();
               layer.msg("修改成功", {icon: 1});
@@ -145,12 +149,10 @@
               layer.msg("修改失败", {icon: 5});
             }
           }
-        })
+        });
         return false;
       });
     });
-
-
 
     function setForm(obj, data) {
       //表单初始赋值
@@ -158,16 +160,16 @@
         "id": data.id // "name": "value"
         , "title": data.title //复选框选中状态
         , "author": data.author //开关状态
+        , "introduce": data.introduce //开关状态
+        , 'content': data.content
       })
     }
+
     function deleteData(obj, data) {
       $.ajax({
-        url: 'http://localhost:8763/issue/delete',
-        type: 'POST',
-        data: {
+        url: 'http://localhost:8763/issue/delete', type: 'POST', data: {
           id: data.id
-        },
-        success: function (msg) {
+        }, success: function (msg) {
           var returnCode = msg.code;//取得返回数据（Sting类型的字符串）的信息进行取值判断
           if (returnCode == 0) {
             layer.msg("删除成功", {icon: 1});
@@ -178,41 +180,89 @@
       })
     }
 
+    //监听提交
+    form.on('submit(demo1)', function (massage) {
+      $.ajax({
+        url: 'http://localhost:8763/issue/merge', type: 'POST', data: {
+          id: massage.field.id,
+          title: massage.field.title,
+          author: massage.field.author,
+          introduce: massage.field.introduce,
+          content: massage.field.content,
+        }, success: function (msg) {
+          var returnCode = msg.code;//取得返回数据（Sting类型的字符串）的信息进行取值判断
+          if (returnCode == 0) {
+            layer.closeAll();
+            layer.msg("新增成功", {icon: 1});
+            layer.closeAll();
+            parent.location.reload()
+          } else {
+            layer.msg("新增失败", {icon: 5});
+          }
+        }
+      })
+      return false;
+    });
+    //添加采集设备
+    $('#btn-add').on('click', function () {
+      $('#btn-reset').click()
+      layer.open({
+        type: 1, title: "数据增加", area: ['840px', '660px'], content: $("#popUpdateTest")
+      });
+    });
   });
 
 
 </script>
 <div class="layui-row" id="popUpdateTest" style="display:none;">
-
-  <form class="layui-form" action="" lay-filter="example">
-    <div class="layui-form-item">
-      <label class="layui-form-label">单行输入框</label>
-      <div class="layui-input-block">
-        <input type="text" name="id" lay-verify="id" autocomplete="off" placeholder="请输入id"
-               class="layui-input">
+  <div class="layui-col-md10">
+    <form class="layui-form" action="" lay-filter="example" style="margin-top:20px">
+      <div class="layui-form-item">
+        <label class="layui-form-label">id</label>
+        <div class="layui-input-block">
+          <input type="text" name="id" lay-verify="id" autocomplete="off" placeholder="请输入id"
+                 class="layui-input" readonly="readonly" style="background:#CCCCCC">
+        </div>
       </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">单行输入框</label>
-      <div class="layui-input-block">
-        <input type="text" name="author" lay-verify="author" autocomplete="off" placeholder="请输入作者"
-               class="layui-input">
+      <div class="layui-form-item">
+        <label class="layui-form-label">作者</label>
+        <div class="layui-input-block">
+          <input type="text" name="author" lay-verify="author" autocomplete="off"
+                 placeholder="请输入作者"
+                 class="layui-input">
+        </div>
       </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">单行输入框</label>
-      <div class="layui-input-block">
-        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题"
-               class="layui-input">
+      <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+          <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                 class="layui-input">
+        </div>
       </div>
-    </div>
-    <div class="layui-form-item">
-      <div class="layui-input-block">
-        <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      <div class="layui-form-item">
+        <label class="layui-form-label">介绍</label>
+        <div class="layui-input-block">
+          <input type="text" name="introduce" lay-verify="introduce" autocomplete="off"
+                 placeholder="请输入介绍"
+                 class="layui-input">
+        </div>
       </div>
-    </div>
-  </form>
+      <div class="layui-form-item">
+        <label class="layui-form-label">内容</label>
+        <div class="layui-input-block">
+          <input type="text" name="content" lay-verify="content" autocomplete="off"
+                 placeholder="请输入内容"
+                 class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+          <button type="reset" id="btn-reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 </body>
 </html>
