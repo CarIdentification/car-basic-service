@@ -32,4 +32,6 @@ public interface IssueService {
     List<Issue> selectByTextSearch(String textSearch);
 
     PageResult<Issue> list(@Param("page") Page page);
+
+    int updateViewCountByPrimaryKey(Integer primaryKey);
 }

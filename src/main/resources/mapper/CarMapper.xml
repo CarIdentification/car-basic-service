@@ -21,6 +21,25 @@
     <result column="production_methods" property="productionMethods" jdbcType="INTEGER" />
   </resultMap>
 
+  <resultMap id="TextSearchResultMap" type="com.discern.car.entity.Car" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cover_pic" property="coverPic" jdbcType="VARCHAR" />
+    <result column="full_car_name" property="carName" jdbcType="VARCHAR" />
+    <result column="car_brand" property="carBrand" jdbcType="INTEGER" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="begin_price" property="beginPrice" jdbcType="REAL" />
+    <result column="end_price" property="endPrice" jdbcType="REAL" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="country" property="country" jdbcType="INTEGER" />
+    <result column="structure" property="structure" jdbcType="INTEGER" />
+    <result column="displacement" property="displacement" jdbcType="REAL" />
+    <result column="seat" property="seat" jdbcType="INTEGER" />
+    <result column="air_intake" property="airIntake" jdbcType="INTEGER" />
+    <result column="energy" property="energy" jdbcType="INTEGER" />
+    <result column="driving_method" property="drivingMethod" jdbcType="INTEGER" />
+    <result column="transmission" property="transmission" jdbcType="INTEGER" />
+    <result column="production_methods" property="productionMethods" jdbcType="INTEGER" />
+  </resultMap>
 
   <resultMap id="ResultMapWithBLOBs" type="com.discern.car.entity.Car" extends="BaseResultMap" >
     <result column="detail" property="detail" jdbcType="LONGVARCHAR" />
@@ -456,10 +475,10 @@
         </foreach>
       </if>
     </where>
-
+    LIMIT 100
   </select>
-  <select id="textSearch" resultMap="BaseResultMap">
-    select c.* from car c LEFT JOIN car_brand b on c.car_brand = b.id where c.car_name like #{searchText,jdbcType=VARCHAR} or b.`name` like #{searchText,jdbcType=VARCHAR};
+  <select id="textSearch" resultMap="TextSearchResultMap">
+    select c.*,b.`name` as full_car_name from car c LEFT JOIN car_brand b on c.car_brand = b.id where c.car_name like #{searchText,jdbcType=VARCHAR} or b.`name` like #{searchText,jdbcType=VARCHAR};
   </select>
     <select id="selectList" resultMap="BaseResultMap">
         select * from car where id;

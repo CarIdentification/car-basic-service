@@ -32,4 +32,6 @@ public interface IssueMapper {
     List<Issue> list(@Param("offset") Integer offset,@Param("limit")Integer limit);
 
     Integer selectCount();
+
+    Integer updateViewCountByPrimaryKey(@Param("id") Integer primaryKey);
 }

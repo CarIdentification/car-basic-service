@@ -241,14 +241,17 @@ public class UserController {
     @RequestMapping("/getOwnCar")
     public ResultDto getOwnCar(@RequestParam(name = "userId") int userId) {
         List<Integer> carIds = userMapper.getOwnCar(userId);
-        List<CarDto> carInfos = carMapper.selectByPrimaryKeys(carIds);
         ArrayList<OwnCarDto> data = new ArrayList<>();
-        for (CarDto carInfo : carInfos) {
-            OwnCarDto info = new OwnCarDto();
-            info.setCarName(carInfo.getCarName());
-            info.setCoverPic(carInfo.getCoverPic());
-            info.setId(carInfo.getId());
-            data.add(info);
+        if(carIds.size()!=0){
+            List<CarDto> carInfos = carMapper.selectByPrimaryKeys(carIds);
+
+            for (CarDto carInfo : carInfos) {
+                OwnCarDto info = new OwnCarDto();
+                info.setCarName(carInfo.getCarName());
+                info.setCoverPic(carInfo.getCoverPic());
+                info.setId(carInfo.getId());
+                data.add(info);
+            }
         }
         return new ResultDto("success", data);
     }

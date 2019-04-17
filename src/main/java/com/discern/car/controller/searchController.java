@@ -293,7 +293,6 @@ public class searchController implements InitializingBean {
     List<SaleShopDto> saleShopDtos = sellShopInfoService
         .selectAroundSellShopByLocation(latitude, longitude);
     return new ResultDto("success", saleShopDtos);
-
   }
 
   /**
