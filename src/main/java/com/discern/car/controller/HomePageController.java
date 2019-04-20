@@ -30,6 +30,11 @@ public class HomePageController {
         return "user.html";
     }
 
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String add() {
+        return "add.html";
+    }
+
 
     @RequestMapping(value = "/car", method = RequestMethod.GET)
     public String userInfo() {
