@@ -50,4 +50,12 @@ public class UserServiceImpl implements UserService {
     public User selectByOpenId(String openId) {
         return userMapper.selectByOpenId(openId);
     }
+
+    @Override
+    public PageResult<User> list(Page page) {
+        List<User> users = userMapper.list((page.getPage()-1)*page.getLimit(),page.getLimit());
+        Integer count = userMapper.selectCount();
+        page.setCount(count);
+        return PageResult.newSuccess(page, users);
+    }
 }

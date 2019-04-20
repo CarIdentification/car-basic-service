@@ -19,4 +19,7 @@ public interface UserService{
     int updateByPrimaryKey(User record);
 
     User selectByOpenId(String openId);
+
+    @Override
+    public PageResult<User> list(Page page);
 }
