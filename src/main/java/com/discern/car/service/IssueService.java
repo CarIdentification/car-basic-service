@@ -2,9 +2,12 @@ package com.discern.car.service;
 
 import com.discern.car.common.Page;
 import com.discern.car.common.PageResult;
+import com.discern.car.dto.IssueDto;
 import com.discern.car.entity.Issue;
 
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -31,7 +34,7 @@ public interface IssueService {
 
     List<Issue> selectByTextSearch(String textSearch);
 
-    PageResult<Issue> list(@Param("page") Page page);
+    PageResult<IssueDto> list(@Param("page") Page page);
 
     int updateViewCountByPrimaryKey(Integer primaryKey);
 }

@@ -3,6 +3,8 @@ package com.discern.car.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.discern.car.common.Page;
+import com.discern.car.common.PageResult;
 import com.discern.car.dao.SalesmanMapper;
 import com.discern.car.dao.SellShopInfoMapper;
 import com.discern.car.dto.SaleShopDto;
@@ -84,5 +86,13 @@ public class SellShopInfoServiceImpl implements SellShopInfoService {
             shop.setSalesMan(salesmen);
         }
         return shops;
+    }
+
+    @Override
+    public PageResult<SellShopInfo> list(Page page) {
+        List<SellShopInfo> sellShopInfos = sellShopInfoMapper.list((page.getPage()-1)*page.getLimit(),page.getLimit());
+        Integer count = sellShopInfoMapper.selectCount();
+        page.setCount(count);
+        return PageResult.newSuccess(page, sellShopInfos);
     }
 }

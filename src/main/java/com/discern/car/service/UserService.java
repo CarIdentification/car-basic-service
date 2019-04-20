@@ -1,5 +1,7 @@
 package com.discern.car.service;
 
+import com.discern.car.common.Page;
+import com.discern.car.common.PageResult;
 import com.discern.car.entity.User;
 
 /**
@@ -19,4 +21,6 @@ public interface UserService{
     int updateByPrimaryKey(User record);
 
     User selectByOpenId(String openId);
+
+    public PageResult<User> list(Page page);
 }

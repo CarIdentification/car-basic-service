@@ -1,7 +1,12 @@
 package com.discern.car.dao;
 
+import com.discern.car.dto.IssueDto;
+import com.discern.car.entity.SellShopInfo;
 import com.discern.car.entity.ServiceShopInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface ServiceShopInfoMapper {

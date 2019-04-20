@@ -1,5 +1,7 @@
 package com.discern.car.controller;
 
+import com.discern.car.common.Page;
+import com.discern.car.common.PageResult;
 import com.discern.car.config.RedisService;
 import com.discern.car.dao.CarMapper;
 import com.discern.car.dao.UserMapper;
@@ -259,5 +261,12 @@ public class UserController {
     @RequestMapping("/haveCar")
     public ResultDto haveCar(@RequestParam(name = "userId")int userId, @RequestParam(name = "carId") int carId){
         return new ResultDto("success",userMapper.haveCar(carId,userId));
+    }
+
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public PageResult<User> list(Page page) {
+        PageResult<User> result = userService.list(page);
+        return result;
     }
 }
