@@ -13,10 +13,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/")
 public class HomePageController {
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "index.html";
     }
+
+
+    @RequestMapping(value = "/article", method = RequestMethod.GET)
+    public String article() {
+        return "article.html";
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public String user() {
+        return "user.html";
+    }
+
 
     @RequestMapping(value = "/car", method = RequestMethod.GET)
     public String userInfo() {
