@@ -85,4 +85,12 @@ public class SellShopInfoServiceImpl implements SellShopInfoService {
         }
         return shops;
     }
+
+    @Override
+    public PageResult<SellShopInfo> list(Page page) {
+        List<SellShopInfo> sellShopInfos = sellShopInfoMapper.list((page.getPage()-1)*page.getLimit(),page.getLimit());
+        Integer count = sellShopInfoMapper.selectCount();
+        page.setCount(count);
+        return PageResult.newSuccess(page, sellShopInfos);
+    }
 }
