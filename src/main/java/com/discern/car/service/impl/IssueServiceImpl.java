@@ -3,6 +3,7 @@ package com.discern.car.service.impl;
 import com.discern.car.common.Page;
 import com.discern.car.common.PageResult;
 import com.discern.car.dao.IssueMapper;
+import com.discern.car.dto.IssueDto;
 import com.discern.car.entity.Issue;
 import com.discern.car.service.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by a on 2018/5/17.
@@ -62,8 +64,8 @@ public class IssueServiceImpl implements IssueService{
     }
 
     @Override
-    public PageResult<Issue> list(Page page) {
-        List<Issue> issues = issueMapper.list((page.getPage()-1)*page.getLimit(),page.getLimit());
+    public PageResult<IssueDto> list(Page page) {
+        List<IssueDto> issues = issueMapper.list((page.getPage()-1)*page.getLimit(),page.getLimit());
         Integer count = issueMapper.selectCount();
         page.setCount(count);
         return PageResult.newSuccess(page, issues);

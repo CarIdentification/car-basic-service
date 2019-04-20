@@ -10,7 +10,23 @@
     <result column="view_count" property="viewCount" jdbcType="INTEGER" />
 
   </resultMap>
+
+  <resultMap id="TagResultMap" type="com.discern.car.dto.IssueDto" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="topic_pic" property="topicPic" jdbcType="VARCHAR" />
+    <result column="view_count" property="viewCount" jdbcType="INTEGER" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+
+  </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.discern.car.entity.Issue" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="introduce" property="introduce" jdbcType="LONGVARCHAR"/>
+  </resultMap>
+
+  <resultMap id="ResultMapWithBLOBsTag" type="com.discern.car.dto.IssueDto" extends="TagResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
     <result column="introduce" property="introduce" jdbcType="LONGVARCHAR"/>
   </resultMap>
@@ -28,6 +44,17 @@
     from issue
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByPrimaryKeyWithTag" resultMap="ResultMapWithBLOBsTag" parameterType="java.lang.Integer" >
+    select i.*,t.brand_name from issue_tag it LEFT JOIN tag t on it.tag_id = t.tag_id RIGHT JOIN issue i on it.issue_id = i.id
+    where i.id = #{id,jdbcType=INTEGER};
+  </select>
+
+  <delete id="deleteIssueTag" parameterType="java.lang.Integer" >
+    delete from issue_tag
+    where issue_id = #{id,jdbcType=INTEGER}
+  </delete>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from issue
     where id = #{id,jdbcType=INTEGER}
@@ -151,10 +178,8 @@
   <select id="selectCount" resultType="java.lang.Integer">
     select COUNT(*) from issue;
   </select>
-  <select id="list" resultMap="BaseResultMap">
-    select
-    *
-    FROM issue order by create_time desc
+  <select id="list" resultMap="TagResultMap">
+    select i.*,t.brand_name from issue_tag it LEFT JOIN tag t on it.tag_id = t.tag_id RIGHT JOIN issue i on it.issue_id = i.id
     limit #{offset,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
   </select>
 
@@ -162,5 +187,16 @@
     update issue
     set `view_count` = `view_count` + 1
     where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <insert id="insertIssueTag">
+    insert into issue_tag(tag_id,issue_id) values (#{tagId,jdbcType=INTEGER},#{issueId,jdbcType=INTEGER})
+  </insert>
+
+  <update id="updateIssueTag">
+    update issue_tag
+    set `tag_id` = #{tagId,jdbcType=INTEGER}
+    where issue_id = #{issueId,jdbcType=INTEGER}
   </update>
 </mapper>

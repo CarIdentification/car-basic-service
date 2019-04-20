@@ -3,6 +3,8 @@ package com.discern.car.controller;
 import com.discern.car.common.Page;
 import com.discern.car.common.PageResult;
 import com.discern.car.common.Result;
+import com.discern.car.dao.IssueMapper;
+import com.discern.car.dto.IssueDto;
 import com.discern.car.dto.ResultDto;
 import com.discern.car.entity.Issue;
 import com.discern.car.entity.User;
@@ -10,6 +12,7 @@ import com.discern.car.service.IssueService;
 import com.discern.car.util.BeanUtil;
 import com.discern.car.util.LoginUtil;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +29,8 @@ public class IssueController {
     private IssueService issueService;
     @Resource
     private LoginUtil loginUtil;
+    @Autowired
+    private IssueMapper issueMapper;
 
     @RequestMapping("/getHotIssue")
     public List<Issue> getHotIssue() {
@@ -34,8 +39,8 @@ public class IssueController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public PageResult<Issue> list(Page page) {
-        PageResult<Issue> result = issueService.list(page);
+    public PageResult<IssueDto> list(Page page) {
+        PageResult<IssueDto> result = issueService.list(page);
         return result;
     }
 
@@ -62,6 +67,7 @@ public class IssueController {
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public Result delete(Integer id) {
         issueService.deleteByPrimaryKey(id);
+        issueMapper.deleteIssueTag(id);
         return Result.newSuccess();
     }
 
@@ -78,14 +84,20 @@ public class IssueController {
     }
 
     @RequestMapping(value = "/merge", method = RequestMethod.POST)
-    public Result<Issue> merge(Issue issue) {
+    public Result<IssueDto> merge(Issue issue,Integer tagId) {
         Integer id;
         if (issue.getId() == null || issue.getId() == 0) {
-            issueService.insert(issue);
+            id = issueService.insert(issue);
+            if (tagId!=0){
+                issueMapper.insertIssueTag(id,tagId);
+            }
         } else {
             issueService.updateByPrimaryKeySelective(issue);
+            if (tagId!=0){
+                issueMapper.updateIssueTag(issue.getId(),tagId);
+            }
         }
         id = issue.getId();
-        return Result.newSuccess(issueService.selectByPrimaryKey(id));
+        return Result.newSuccess(issueMapper.selectByPrimaryKeyWithTag(id));
     }
 }
