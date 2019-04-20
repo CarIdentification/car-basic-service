@@ -82,10 +82,12 @@
     var element = layui.element;
 
   });
-  layui.use(['table', 'form', 'layer'], function () {
+  layui.use(['table', 'form', 'layer','layedit'], function () {
     var table = layui.table;
     var form = layui.form;
     var layer = layui.layer;
+    var layedit = layui.layedit;
+    var index = layedit.build("content");
     var $ = layui.jquery;
     table.render({
       elem: '#test',
@@ -158,9 +160,10 @@
           url: 'http://localhost:8763/issue/merge', type: 'POST', data: {
             id: massage.field.id,
             title: massage.field.title,
+            topicPic: massage.field.topicPic,
             author: massage.field.author,
             introduce: massage.field.introduce,
-            content: massage.field.content,
+            content: layedit.getContent(index)
 
           }, success: function (msg) {
             var returnCode = msg.code;//取得返回数据（Sting类型的字符串）的信息进行取值判断
@@ -188,6 +191,7 @@
       form.val('example', {
         "id": data.id // "name": "value"
         , "title": data.title //复选框选中状态
+        ,"topicPic":data.topicPic
         , "author": data.author //开关状态
         , "introduce": data.introduce //开关状态
         , 'content': data.content
@@ -208,30 +212,6 @@
         }
       })
     }
-
-    //监听提交
-    form.on('submit(demo1)', function (massage) {
-      $.ajax({
-        url: 'http://localhost:8763/issue/merge', type: 'POST', data: {
-          id: massage.field.id,
-          title: massage.field.title,
-          author: massage.field.author,
-          introduce: massage.field.introduce,
-          content: massage.field.content,
-        }, success: function (msg) {
-          var returnCode = msg.code;//取得返回数据（Sting类型的字符串）的信息进行取值判断
-          if (returnCode == 0) {
-            layer.closeAll();
-            layer.msg("新增成功", {icon: 1});
-            layer.closeAll();
-            parent.location.reload()
-          } else {
-            layer.msg("新增失败", {icon: 5});
-          }
-        }
-      })
-      return false;
-    });
     //添加采集设备
     $('#btn-add').on('click', function () {
         window.location="http://localhost:8763/add"
@@ -266,6 +246,19 @@
         </div>
       </div>
       <div class="layui-form-item">
+        <label class="layui-form-label">图片</label>
+        <div class="layui-input-block">
+          <input
+              type="text"
+              name="topicPic"
+              lay-verify="topicPic"
+              autocomplete="off"
+              placeholder="请输入图片地址"
+              class="layui-input"
+          />
+        </div>
+      </div>
+      <div class="layui-form-item">
         <label class="layui-form-label">介绍</label>
         <div class="layui-input-block">
           <input type="text" name="introduce" lay-verify="introduce" autocomplete="off"
@@ -276,7 +269,8 @@
       <div class="layui-form-item">
         <label class="layui-form-label">内容</label>
         <div class="layui-input-block">
-          <input type="text" name="content" lay-verify="content" autocomplete="off"
+          <input type="textarea" name="content" id="content" lay-verify="content"
+                 autocomplete="off"
                  placeholder="请输入内容"
                  class="layui-input">
         </div>
