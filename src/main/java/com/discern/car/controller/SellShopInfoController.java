@@ -3,7 +3,10 @@ package com.discern.car.controller;
 import com.discern.car.common.Page;
 import com.discern.car.common.PageResult;
 import com.discern.car.common.Result;
+import com.discern.car.dto.SaleShopDto;
+import com.discern.car.entity.SellShopInfo;
 import com.discern.car.entity.Tag;
+import com.discern.car.service.SellShopInfoService;
 import com.discern.car.service.TagService;
 import com.discern.car.util.BeanUtil;
 import com.sun.org.apache.xpath.internal.operations.Bool;
@@ -33,14 +36,14 @@ public class SellShopInfoController {
         return Result.newSuccess();
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public PageResult<SellShopInfo> list(Page page) {
         PageResult<SellShopInfo> result = sellShopInfoService.list(page);
         return result;
     }
 
     @RequestMapping(value = "/merge", method = RequestMethod.POST)
-    public Result<SellShopInfo> merge(SellShopInfo sellShopInfo) {
+    public Result<SaleShopDto> merge(SellShopInfo sellShopInfo) {
         Integer id;
         if (sellShopInfo.getId() == null || sellShopInfo.getId() == 0) {
             sellShopInfoService.insertSelective(sellShopInfo);

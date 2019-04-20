@@ -1,7 +1,10 @@
 package com.discern.car.service;
 
+import com.discern.car.common.Page;
+import com.discern.car.common.PageResult;
 import com.discern.car.dto.SaleShopDto;
 import com.discern.car.entity.SellShopInfo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

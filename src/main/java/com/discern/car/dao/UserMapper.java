@@ -34,7 +34,7 @@ public interface UserMapper{
     // 某辆车是否在车库里
     int haveCar(@Param("carId")int carId, @Param("userId")int userId);
 
-    List<User> selectPagination(@Param("limit")int limit, @Param("offset")int offset)
+    List<User> selectPagination(@Param("limit")int limit, @Param("offset")int offset);
 
     int selectCount();
 }

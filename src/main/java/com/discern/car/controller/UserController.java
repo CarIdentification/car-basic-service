@@ -1,5 +1,7 @@
 package com.discern.car.controller;
 
+import com.discern.car.common.Page;
+import com.discern.car.common.PageResult;
 import com.discern.car.config.RedisService;
 import com.discern.car.dao.CarMapper;
 import com.discern.car.dao.UserMapper;

@@ -1,12 +1,15 @@
 package com.discern.car.service.impl;
 
 
+import com.discern.car.common.Page;
+import com.discern.car.common.PageResult;
 import com.discern.car.dao.UserMapper;
 import com.discern.car.entity.User;
 import com.discern.car.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by Keben on 2018-05-04.
@@ -53,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageResult<User> list(Page page) {
-        List<User> users = userMapper.list((page.getPage()-1)*page.getLimit(),page.getLimit());
+        List<User> users = userMapper.selectPagination((page.getPage()-1)*page.getLimit(),page.getLimit());
         Integer count = userMapper.selectCount();
         page.setCount(count);
         return PageResult.newSuccess(page, users);

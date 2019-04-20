@@ -23,4 +23,7 @@ public interface SellShopInfoMapper {
 
     List<SaleShopDto> selectAroundSellShopByLocation(@Param("latitude") double latitude,@Param("longitude") double longitude);
 
+    Integer selectCount();
+
+    List<SellShopInfo> list(@Param("offset") Integer offset, @Param("limit")Integer limit);
 }
