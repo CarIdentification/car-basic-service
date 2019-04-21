@@ -6,45 +6,6 @@
   <title>add</title>
   <link rel="stylesheet" href="https://joeytsai03.github.io/resource/layui/css/layui.css" media="all" />
   <script src="https://joeytsai03.github.io/resource/layui/layui.js"></script>
-  <script>
-      layui.use(["layer", "form", "layedit"], function () {
-          var form = layui.form;
-          var layer = layui.layer;
-          var $ = layui.jquery;
-          var layedit = layui.layedit;
-          var index = layedit.build("content");
-
-          //监听提交
-          form.on("submit(go)", function (massage) {
-              $.ajax({
-                  url: "http://localhost:8763/issue/merge",
-                  type: "POST",
-                  data: {
-                      id: massage.field.id,
-                      title: massage.field.title,
-                      author: massage.field.author,
-                      introduce: massage.field.introduce,
-                      topicPic: massage.field.topicPic,
-                      content: layedit.getContent(index),
-                      tagId: message.field.like
-                  },
-                  success: function (msg) {
-                      var returnCode = msg.code; //取得返回数据（Sting类型的字符串）的信息进行取值判断
-                      if (returnCode == 0) {
-                          layer.msg("新增成功", { icon: 1 });
-
-                      } else {
-                          layer.msg("新增失败", { icon: 5 });
-
-                      }
-                  }
-
-              });
-              alert("到这里了");
-              return false;
-          });
-      });
-  </script>
 </head>
 
 <body class="layui-layout-body ">
@@ -73,10 +34,10 @@
       <ul class="layui-nav layui-nav-tree" lay-filter="test">
         <li class="layui-nav-item layui-nav-itemed">
           <dl class="layui-nav-child">
-            <dd class="layui-this"><a href="http://localhost:8763/article">文章管理</a></dd>
+            <dd><a href="http://localhost:8763/article">文章管理</a></dd>
+            <dd><a href="http://localhost:8763/article">经销商管理</a></dd>
             <dd><a href="http://localhost:8763/article">用户管理</a></dd>
             <dd><a href="http://localhost:8763/article">车型管理</a></dd>
-            <dd ><a href="http://localhost:8763/article">经销商管理</a></dd>
           </dl>
         </li>
       </ul>
@@ -89,27 +50,27 @@
       </div>
     </div>
     <div class="layui-row">
-      <div class="layui-col-md7  layui-col-md-offset2"  >
+      <div class="layui-col-md7  layui-col-md-offset2">
         <form class="layui-form" action="" lay-filter="example" style="margin-top:20px">
           <div class="layui-form-item">
             <label class="layui-form-label">id</label>
             <div class="layui-input-block">
-              <input type="text" name="id" lay-verify="id" autocomplete="off" placeholder="请输入id"
+              <input id type="text" name="id" lay-verify="id" autocomplete="off" placeholder="请输入id"
                      class="layui-input" readonly="readonly" style="background:#CCCCCC" />
             </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">作者</label>
             <div class="layui-input-block">
-              <input type="text" name="author" lay-verify="author" autocomplete="off" placeholder="请输入作者"
-                     class="layui-input" />
+              <input type="text" name="author" lay-verify="author" autocomplete="off"
+                     placeholder="请输入作者" class="layui-input" />
             </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">标题</label>
             <div class="layui-input-block">
-              <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题"
-                     class="layui-input" />
+              <input type="text" name="title" lay-verify="title" autocomplete="off"
+                     placeholder="请输入标题" class="layui-input" />
             </div>
           </div>
           <div class="layui-form-item">
@@ -164,6 +125,39 @@
     © suishiche.com - c525东东在线coding
   </div>
 </div>
+<script>
+    layui.use(["layer", "form", "layedit"], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        var layedit = layui.layedit;
+        var index = layedit.build("content");
+        var $ = layui.jquery;
+        form.on('submit(go)', function (message) {
+            $.ajax({
+                url: 'http://localhost:8763/issue/merge', type: 'POST', data: {
+                    id: message.field.id,
+                    title: message.field.title,
+                    author: message.field.author,
+                    introduce: message.field.introduce,
+                    topicPic: message.field.topicPic,
+                    content: layedit.getContent(index),
+                    tagId: message.field.like
+                }, success: function (msg) {
+                    var returnCode = msg.code;//取得返回数据（Sting类型的字符串）的信息进行取值判断
+                    if (returnCode == 0) {
+
+                        layer.msg("新增成功", { icon: 1 });
+
+                    } else {
+                        layer.msg("修改失败", { icon: 5 });
+                    }
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
 </body>
 
 </html>
