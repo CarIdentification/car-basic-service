@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+  />
+  <title>随识车</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 90%;
+      background-image: url(http://pic1.win4000.com/wallpaper/d/58744c8aa2a63.jpg);
+      background-size: cover;
+    }
+  </style>
+  <link rel="stylesheet" href="https://joeytsai03.github.io/resource/layui/css/layui.css"
+        media="all">
+</head>
+<body>
+<div class="layui-container">
+  <div
+      class="layui-row"
+      style="margin-top:100px;margin-bottom:100px;text-align: center"
+  >
+    <div class="layui-col-lg12">
+      <div class="grid-demo">
+        <h1>随识车后台管理系统</h1>
+      </div>
+    </div>
+  </div>
+  <div class="layui-form layui-layout-center" >
+    <div
+        class="layui-row"
+        style="margin-top:20px;margin-bottom:30px;text-align: center"
+    >
+      <div class="layui-col-xs12">
+        <div class="layui-input-inline ">
+          <div class="layui-col-xs3"><h2>账号:</h2></div>
+          <div class="layui-col-xs9">
+            <input
+                type="text"
+                name="account"
+                required
+                lay-verify="required"
+                placeholder="请输入账号"
+                autocomplete="off"
+                class="layui-input"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+        class="layui-row"
+        style="margin-top:30px;margin-bottom:30px;text-align: center"
+    >
+      <div class="layui-col-xs12">
+        <div class="layui-input-inline ">
+          <div class="layui-col-xs3"><h2>密码:</h2></div>
+          <div class="layui-col-xs9">
+            <input
+                type='password'
+                name="password"
+                required
+                lay-verify="required"
+                placeholder="请输入密码"
+                autocomplete="off"
+                class="layui-input"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+        class="layui-row"
+        style="margin-top:30px;margin-bottom:30px;text-align: center"
+    >
+      <div class="layui-col-xs12">
+        <div class="layui-input-inline login-btn">
+          <button
+              type="submit"
+              class="layui-btn"
+              onclick="window.location='http://localhost:8763/article'"
+          >
+            登录
+          </button >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://joeytsai03.github.io/resource/layui/layui.js"></script>
+<script type="text/javascript">
+</script>
+</body>
+</html>

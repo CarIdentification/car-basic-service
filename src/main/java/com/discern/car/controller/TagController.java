@@ -51,7 +51,7 @@ public class TagController {
         return Result.newSuccess();
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public PageResult<Tag> list(Page page) {
         PageResult<Tag> result = tagService.list(page);
         return result;

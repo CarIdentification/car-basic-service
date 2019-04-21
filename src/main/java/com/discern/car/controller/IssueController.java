@@ -84,17 +84,17 @@ public class IssueController {
     }
 
     @RequestMapping(value = "/merge", method = RequestMethod.POST)
-    public Result<IssueDto> merge(Issue issue,Integer tagId) {
+    public Result<IssueDto> merge(Issue issue,String tagId) {
         Integer id;
         if (issue.getId() == null || issue.getId() == 0) {
             id = issueService.insert(issue);
-            if (tagId!=0){
-                issueMapper.insertIssueTag(id,tagId);
+            if (Integer.parseInt(tagId)!=0){
+                issueMapper.insertIssueTag(id,Integer.parseInt(tagId));
             }
         } else {
             issueService.updateByPrimaryKeySelective(issue);
-            if (tagId!=0){
-                issueMapper.updateIssueTag(issue.getId(),tagId);
+            if (Integer.parseInt(tagId)!=0){
+                issueMapper.updateIssueTag(issue.getId(),Integer.parseInt(tagId));
             }
         }
         id = issue.getId();
