@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>经销商管理</title>
+    <link rel="stylesheet" href="https://joeytsai03.github.io/resource/layui/css/layui.css" media="all">
+    <script src="https://joeytsai03.github.io/resource/layui/layui.js">
+
+    </script>
+
+</head>
+
+<body class="layui-layout-body ">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo" style="font-size:30px; color: #FFFFFF ">随识车</div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://b-ssl.duitang.com/uploads/item/201510/16/20151016091005_38xBm.jpeg" class="layui-nav-img">
+                    吃了没啊
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="http://localhost:8763">退出登录</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <dl class="layui-nav-child">
+                        <dd><a href="http://localhost:8763/article">文章管理</a></dd>
+                        <dd class="layui-this"><a href="http://localhost:8763/shop">经销商管理</a></dd>
+                        <dd><a href="http://localhost:8763/article">用户管理</a></dd>
+                        <dd><a href="http://localhost:8763/article">车型管理</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <!-- 工具集 -->
+            <div class="my-btn-box">
+          <span class="fl">
+            <a class="layui-btn btn-add btn-default" id="btn-add">新增经销商</a>
+          </span>
+            </div>
+
+            <table class="layui-hide" id="test" lay-filter="test"></table>
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+        </div>
+    </div>
+
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © suishiche.com - c525东东在线coding
+    </div>
+</div>
+
+<script src="https://joeytsai03.github.io/resource/layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+    layui.use(['table', 'form', 'layer'], function () {
+        var table = layui.table;
+        var form = layui.form;
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        table.render({
+            elem: '#test',
+            url: 'http://localhost:8763/sellShopInfo/list',
+            toolbar: '#toolbarDemo',
+            title: '经销商',
+            height: 'full-200',
+            page: {
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                , limit: 20
+                , groups: 5 //只显示 1 个连续页码
+                , first: true //不显示首页
+                , last: true //不显示尾页
+
+            }
+            , cols: [[// {type: 'checkbox', fixed: 'left'},
+                {
+                    field: 'id', title: 'ID', fixed: 'left', unresize: true, sort: true, width: 80
+                },
+                {
+                    field: 'latitute', title: '经度', edit: 'text', width: 100
+                },
+                {
+                    field: 'longitude', title: '纬度', edit: 'text', width: 100
+                },
+                {
+                    field: 'shopName', title: '商店名字', edit: 'text', width: 160
+                },
+                {
+                    field: 'brand', title: '售卖品牌', edit: 'text', width: 100
+                },
+                {
+                    field: 'type', title: '店铺类型', edit: 'text', width: 80
+                },
+                {
+                    field: 'tel', title: '联系电话', edit: 'text', width: 140
+                },
+                {
+                    field: 'shopPic', title: '店铺图片', edit: 'text'
+                },
+                {
+                    fixed: 'right', title: '操作', toolbar: '#barDemo', width: 140
+                }]],
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：' + data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选' : '未全选');
+                    break;
+            }
+            ;
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            //console.log(obj)
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (article) {
+                    obj.del();
+                    deleteData(obj, data);
+                    layer.close(article);
+                });
+            } else if (obj.event === 'edit') {
+                setForm(obj, data)
+                layer.open({
+                    type: 1, title: "数据修改", area: ['840px', '660px'], content: $("#popUpdateTest")
+                });
+
+            }
+            //监听提交
+            form.on('submit(demo1)', function (massage) {
+                $.ajax({
+                    url: 'http://localhost:8763/sellShopInfo/merge', type: 'POST', data: {
+                        id: massage.field.id // "name": "value"
+                        , latitute: massage.field.latitude
+                        , longitute: massage.field.longitude
+                        , shopName: massage.field.shopName
+                        , brand: massage.field.brand
+                        , type: massage.field.type
+                        , tel: massage.field.tel
+                        , shopPic: massage.field.shopPic
+                        , brandId: 1
+                    }, success: function (msg) {
+                        var returnCode = msg.code;//取得返回数据（Sting类型的字符串）的信息进行取值判断
+                        if (returnCode == 0) {
+                            obj.update({
+                                id: msg.data.id,
+                                author: msg.data.author,
+                                title: msg.data.title,
+                                introduce: massage.field.introduce,
+                                content: massage.field.content
+                            });//修改成功修改表格数据不进行跳转
+                            layer.closeAll();
+                            layer.msg("修改成功", { icon: 1 });
+                        } else {
+                            layer.msg("修改失败", { icon: 5 });
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+
+        function setForm(obj, data) {
+            //表单初始赋值
+            form.val('example', {
+                "id": data.id // "name": "value"
+                , "latitude": data.latitute
+                , "longitude": data.longitude
+                , "shopName": data.shopName
+                , "brand": data.brand
+                , "type": data.type
+                , "tel": data.tel
+                , "shopPic": data.shopPic
+            })
+        }
+
+        function deleteData(obj, data) {
+            $.ajax({
+                url: 'http://localhost:8763/sellShopInfo/delete', type: 'POST', data: {
+                    id: data.id
+                }, success: function (msg) {
+                    var returnCode = msg.code;//取得返回数据（Sting类型的字符串）的信息进行取值判断
+                    if (returnCode == 0) {
+                        layer.msg("删除成功", { icon: 1 });
+                    } else {
+                        layer.msg("删除失败", { icon: 5 });
+                    }
+                }
+            })
+        }
+
+        //监听提交
+        form.on('submit(demo1)', function (massage) {
+            $.ajax({
+                url: 'http://localhost:8763/sellShopInfo/merge', type: 'POST', data: {
+                    id: massage.field.id // "name": "value"
+                    , latitute: massage.field.latitude
+                    , longitute: massage.field.longitude
+                    , shopName: massage.field.shopName
+                    , brand: massage.field.brand
+                    , type: massage.field.type
+                    , tel: massage.field.tel
+                    , shopPic: massage.field.shopPic
+                    , brandId: 1
+                }, success: function (msg) {
+                    var returnCode = msg.code;//取得返回数据（Sting类型的字符串）的信息进行取值判断
+                    if (returnCode == 0) {
+                        layer.closeAll();
+                        layer.msg("新增成功", { icon: 1 });
+                        layer.closeAll();
+                        parent.location.reload()
+                    } else {
+                        layer.msg("新增失败", { icon: 5 });
+                    }
+                }
+            })
+            return false;
+        });
+        //添加采集设备
+        $('#btn-add').on('click', function () {
+            $('#btn-reset').click()
+            layer.open({
+                type: 1, title: "数据增加", area: ['840px', '660px'], content: $("#popUpdateTest")
+            });
+        });
+    });
+
+
+</script>
+<div class="layui-row" id="popUpdateTest" style="display:none;">
+    <div class="layui-col-md10">
+        <form class="layui-form" action="" lay-filter="example" style="margin-top:20px">
+            <div class="layui-form-item">
+                <label class="layui-form-label">id</label>
+                <div class="layui-input-block">
+                    <input type="text" name="id" lay-verify="id" autocomplete="off" placeholder="请输入id" class="layui-input"
+                           readonly="readonly" style="background:#CCCCCC">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">经度</label>
+                <div class="layui-input-block">
+                    <input type="text" name="latitude" lay-verify="latitude" autocomplete="off" placeholder="请输入经度"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">纬度</label>
+                <div class="layui-input-block">
+                    <input type="text" name="longitude" lay-verify="longitude" autocomplete="off" placeholder="请输入纬度"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">商店名字</label>
+                <div class="layui-input-block">
+                    <input type="text" name="shopName" lay-verify="shopName" autocomplete="off" placeholder="请输入商店名字"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">售卖品牌</label>
+                <div class="layui-input-block">
+                    <input type="text" name="brand" lay-verify="brand" autocomplete="off" placeholder="请输入售卖平台"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">店铺类型</label>
+                <div class="layui-input-block">
+                    <input type="text" name="type" lay-verify="type" autocomplete="off" placeholder="请输入店铺类型"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">联系电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="tel" lay-verify="tel" autocomplete="off" placeholder="请输入联系电话" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">店铺图片</label>
+                <div class="layui-input-block">
+                    <input type="text" name="shopPic" lay-verify="shopPic" autocomplete="off" placeholder="请输入图片地址"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    <button type="reset" id="btn-reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+</html>

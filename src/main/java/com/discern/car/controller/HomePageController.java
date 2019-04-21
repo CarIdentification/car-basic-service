@@ -25,9 +25,9 @@ public class HomePageController {
         return "article.html";
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public String user() {
-        return "user.html";
+    @RequestMapping(value = "/shop", method = RequestMethod.GET)
+    public String shop() {
+        return "shop.html";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
