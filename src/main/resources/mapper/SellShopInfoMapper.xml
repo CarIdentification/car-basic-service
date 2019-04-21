@@ -191,7 +191,7 @@
       SELECT count(*)
       FROM sell_shop_info
     </select>
-    <select id="list" resultType="com.discern.car.entity.SellShopInfo">
+    <select id="list" resultMap="shopInfoDto">
         select * FROM sell_shop_info LIMIT #{limit,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
     </select>
 

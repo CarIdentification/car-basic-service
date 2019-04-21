@@ -25,5 +25,5 @@ public interface SellShopInfoMapper {
 
     Integer selectCount();
 
-    List<SellShopInfo> list(@Param("offset") Integer offset, @Param("limit")Integer limit);
+    List<SaleShopDto> list(@Param("offset") Integer offset, @Param("limit")Integer limit);
 }

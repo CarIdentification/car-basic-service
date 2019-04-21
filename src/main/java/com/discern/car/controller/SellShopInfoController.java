@@ -37,8 +37,8 @@ public class SellShopInfoController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public PageResult<SellShopInfo> list(Page page) {
-        PageResult<SellShopInfo> result = sellShopInfoService.list(page);
+    public PageResult<SaleShopDto> list(Page page) {
+        PageResult<SaleShopDto> result = sellShopInfoService.list(page);
         return result;
     }
 

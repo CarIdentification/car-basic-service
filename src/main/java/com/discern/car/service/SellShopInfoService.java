@@ -29,5 +29,5 @@ public interface SellShopInfoService {
 
     List<SaleShopDto> selectAroundSellShopByLocation(double latitude, double longitude);
 
-    PageResult<SellShopInfo> list(@Param("page") Page page);
+    PageResult<SaleShopDto> list(@Param("page") Page page);
 }
