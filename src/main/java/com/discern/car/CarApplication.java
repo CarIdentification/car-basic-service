@@ -25,5 +25,3 @@ public class CarApplication extends SpringBootServletInitializer {
 		SpringApplication.run(CarApplication.class, args);
 	}
 }
-
-

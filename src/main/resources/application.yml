@@ -83,7 +83,9 @@ spring:
         max-idle: 60
    # 连接池中的最小空闲连接
         min-idle: 30
+  thymeleaf:
+    prefix: classpath:/public/
+    enabled: false
     # 连接超时时间（毫秒）
 #    timeout: 5000
-
 
