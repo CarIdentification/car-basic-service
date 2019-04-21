@@ -45,7 +45,7 @@
       shop_name, brand, type, 
       tel)
     values (#{id,jdbcType=INTEGER}, #{latitute,jdbcType=DECIMAL}, #{locationDetail,jdbcType=VARCHAR}, 
-      #{brandId,jdbcType=INTEGER}, #{longitute,jdbcType=DECIMAL}, #{shopPic,jdbcType=VARCHAR}, 
+      #{brandId,jdbcType=INTEGER}, #{longitute,jdbcType=DECIMAL}, #{shopPic,jdbcType=VARCHAR},
       #{shopName,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{tel,jdbcType=VARCHAR})
   </insert>
@@ -65,7 +65,7 @@
                 brand_id,
             </if>
             <if test="longitute != null">
-                longitute,
+                longitude,
             </if>
             <if test="shopPic != null">
                 shop_pic,
