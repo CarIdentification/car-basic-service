@@ -49,7 +49,7 @@
       #{shopName,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{tel,jdbcType=VARCHAR})
   </insert>
-    <insert id="insertSelective" parameterType="com.discern.car.entity.SellShopInfo">
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.discern.car.entity.SellShopInfo">
         insert into sell_shop_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
